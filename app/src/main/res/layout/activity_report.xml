@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewTitleReport"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:lineSpacingExtra="8sp"
+                android:padding="25sp"
+                android:text="@string/buttonReport"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lineSpacingExtra="2sp"
+                android:padding="25sp"
+                android:paddingBottom="15sp"
+                android:text="@string/textReport"
+                android:textSize="18sp" />
+
+            <!--  Nombre Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp">
+
+                <EditText
+                    android:id="@+id/input_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre"
+                    android:inputType="textPersonName" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Apellidos Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp">
+
+                <EditText
+                    android:id="@+id/input_apellidos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Apellidos"
+                    android:inputType="textPersonName" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--  Email Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp">
+
+                <EditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Teléfono Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp">
+
+                <EditText
+                    android:id="@+id/input_telefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Teléfono"
+                    android:inputType="number" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Provincia (Spinner) Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp">
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/textProvincia" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Cliente Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp">
+
+                <EditText
+                    android:id="@+id/input_cliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Cliente"
+                    android:inputType="textPersonName" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonEscogeImagen"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonEscogeImagen" />
+
+                <Button
+                    android:id="@+id/buttonEscogeImagen2"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonEscogeImagen"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/buttonBorrarImagen2"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonBorrarImagen"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/buttonEscogeImagen3"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonEscogeImagen"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/buttonBorrarImagen3"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonBorrarImagen"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/buttonEscogeImagen4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonEscogeImagen"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/buttonBorrarImagen4"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonBorrarImagen"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/buttonSubirImagen"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonSubirImagen" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Comentarios Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/input_comentarios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|left"
+                    android:hint="Comentarios"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:scrollHorizontally="false" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Checkbox Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp">
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/textCheckBox" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Button enviar -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/buttonEnviar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonReport" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

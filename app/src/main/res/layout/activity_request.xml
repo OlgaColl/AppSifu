@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:baselineAligned="false">
+
+            <TextView
+                android:id="@+id/textViewTitleReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingExtra="8sp"
+                android:padding="25sp"
+                android:text="@string/buttonRequest"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lineSpacingExtra="2sp"
+                android:padding="25sp"
+                android:paddingBottom="15sp"
+                android:text="@string/textRequest"
+                android:textSize="18sp" />
+
+            <!--  Nombre Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
+
+                <EditText
+                    android:id="@+id/input_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre"
+                    android:inputType="textPersonName" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Apellidos Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
+
+                <EditText
+                    android:id="@+id/input_apellidos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Apellidos"
+                    android:inputType="textPersonName" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--  Email Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
+
+                <EditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Teléfono Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
+
+                <EditText
+                    android:id="@+id/input_telefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Teléfono"
+                    android:inputType="number" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Provincia (Spinner) Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/textProvincia" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Comentarios Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
+
+                <EditText
+                    android:id="@+id/input_comentarios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|left"
+                    android:hint="Comentarios"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:scrollHorizontally="false" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Checkbox Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/textCheckBox"
+                    android:onClick="onCheckboxClicked"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Button enviar -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
+
+                <Button
+                    android:id="@+id/buttonSendRequest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buttonRequest" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

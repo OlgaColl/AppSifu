@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Sifu</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_report">Report</string>
+    <string name="title_request">Request</string>
+    <string name="title_info">Info</string>
+
+    <!-- Main Activity -->
+    <string name="textSifu">Sifu</string>
+    <string name="textMain">Bienvenido a la APP de Grupo SIFU a través de la cual nos podrás reportar tus incidencias y hacer un seguimiento de las mismas.\nToca el botón reportar incidencia y cumplimenta todos los datos para que podamos atenderte lo antes posible.</string>
+    <string name="buttonReport">REPORTAR INCIDENCIA</string>
+    <string name="buttonRequest">SOLICITUD DE INFORMACIÓN</string>
+
+    <!-- Report Activity -->
+    <string name="titleReport">REPORTAR INCIDENCIA</string>
+    <string name="textReport">Si has detectado cualquier incidencia en el servicio que te prestamos, rogamos nos hagas llegar tus comentarios a través del siguiente formulario. Un gestor especializado se pondrá en contacto contigo a la mayor brevedad.</string>
+    <string name="textCheckBox">Al enviar, aceptas que tus datos sean incorporados a la base de datos de Grupo SIFU. Más información.</string>
+    <string name="textProvincia">Provincia</string>
+    <string name="textImagenes">Subir imágenes</string>
+    <string name="buttonEscogeImagen">Escoge una imagen +</string>
+    <string name="buttonSubirImagen">Subir otra imagen</string>
+    <string name="buttonBorrarImagen">Borrar imagen</string>
+    <string name="buttonSend">Enviar</string>
+
+    <!-- Request Activity -->
+    <string name="titleRequest">SOLICITUD DE INFORMACIÓN</string>
+    <string name="textRequest">Si deseas recibir información sobre un servicio, solicitar presupuesto o conocer más sobre nuestra empresa, puedes hacernos llegar tus comentarios a través del siguiente formulario.</string>
+
+    <!-- Config Activity -->
+    <string name="titleConfig">CONFIGURACIÓN</string>
+    <string name="textConfig">¿Activar notificationes?</string>
+
+    <!-- Menú XML -->
+    <string name="menuInfo"></string>
+</resources>
