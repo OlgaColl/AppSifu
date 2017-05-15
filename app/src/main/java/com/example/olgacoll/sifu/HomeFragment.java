@@ -23,7 +23,7 @@ public class HomeFragment extends Fragment {
 
     public static final String TAG = "HomeFragment";
 
-    public HomeFragment(){
+    public HomeFragment() {
 
     }
 
@@ -40,17 +40,17 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void initComponents(View view){
-        textViewInfo = (TextView)view.findViewById(R.id.textViewMain);
-        buttonReport = (Button)view.findViewById(R.id.buttonReport);
-        buttonRequest = (Button)view.findViewById(R.id.buttonRequest);
+    private void initComponents(View view) {
+        textViewInfo = (TextView) view.findViewById(R.id.textViewMain);
+        buttonReport = (Button) view.findViewById(R.id.buttonReport);
+        buttonRequest = (Button) view.findViewById(R.id.buttonRequest);
     }
 
-    private void onPrepareListener(){
+    private void onPrepareListener() {
         listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch(v.getId()){
+                switch (v.getId()) {
                     case R.id.buttonReport:
                         //initReport();
                         break;
@@ -89,9 +89,9 @@ public class HomeFragment extends Fragment {
 
         //Paso 4: Confirmar el cambio
         transaction.commit();*/
-        //Intent intent = new Intent(this, InfoActivity.class);
-        //startActivity(intent);
-        //setContentView(R.layout.activity_info);
+    //Intent intent = new Intent(this, InfoActivity.class);
+    //startActivity(intent);
+    //setContentView(R.layout.activity_info);
     //}
 
     /*private void initConfig(){

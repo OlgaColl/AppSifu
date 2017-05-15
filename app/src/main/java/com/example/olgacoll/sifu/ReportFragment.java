@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+
 import android.widget.Toast;
+
+import com.example.olgacoll.sifu.model.Incidencia;
+import com.example.olgacoll.sifu.remote.APIService;
+import com.example.olgacoll.sifu.remote.ApiUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by olgacoll on 11/5/17.
@@ -21,187 +32,172 @@ import android.widget.Toast;
 
 public class ReportFragment extends Fragment {
 
- EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextCliente, editTextComentarios;
- Spinner spinner;
- String dadesSpinner[];
- String provincia;
- Bundle bundle;
- int indexButton;
- Button buttonSubirImagen, buttonEnviar;
- Button buttonEscogeImagen, buttonEscogeImagen2, buttonEscogeImagen3, buttonEscogeImagen4;
- Button buttonBorrarImagen2, buttonBorrarImagen3, buttonBorrarImagen4;
- View.OnClickListener listener;
- AdapterView.OnItemSelectedListener listenerSpinner;
+    private static final String TAG = ReportFragment.class.getSimpleName();
+    private APIService apiService;
+    EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextCliente, editTextComentarios;
+    Spinner spinner;
+    String dadesSpinner[];
+    String provincia;
+    Bundle bundle;
+    int indexButton;
+    Button buttonSubirImagen, buttonEnviar;
+    Button buttonEscogeImagen, buttonEscogeImagen2, buttonEscogeImagen3, buttonEscogeImagen4;
+    Button buttonBorrarImagen2, buttonBorrarImagen3, buttonBorrarImagen4;
+    View.OnClickListener listener;
+    AdapterView.OnItemSelectedListener listenerSpinner;
 
- @Nullable
- @Override
- public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-  View view = inflater.inflate(R.layout.activity_report, container, false);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-  initComponents(view);
-  onPrepareListener();
-  //setupToolbar();
-  controlSpinner(view);
+        View view = inflater.inflate(R.layout.activity_report, container, false);
+        apiService = ApiUtils.getAPIService();
+        initComponents(view);
+        onPrepareListener();
+        //setupToolbar();
+        controlSpinner(view);
 
-  buttonSubirImagen.setOnClickListener(listener);
-  buttonEscogeImagen.setOnClickListener(listener);
-  buttonEscogeImagen2.setOnClickListener(listener);
-  buttonEscogeImagen3.setOnClickListener(listener);
-  buttonEscogeImagen4.setOnClickListener(listener);
-  buttonBorrarImagen2.setOnClickListener(listener);
-  buttonBorrarImagen3.setOnClickListener(listener);
-  buttonBorrarImagen4.setOnClickListener(listener);
-  buttonEnviar.setOnClickListener(listener);
+        buttonSubirImagen.setOnClickListener(listener);
+        buttonEscogeImagen.setOnClickListener(listener);
+        buttonEscogeImagen2.setOnClickListener(listener);
+        buttonEscogeImagen3.setOnClickListener(listener);
+        buttonEscogeImagen4.setOnClickListener(listener);
+        buttonBorrarImagen2.setOnClickListener(listener);
+        buttonBorrarImagen3.setOnClickListener(listener);
+        buttonBorrarImagen4.setOnClickListener(listener);
+        buttonEnviar.setOnClickListener(listener);
 
-  return view;
- }
-
- public void initComponents(View view) {
-  editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
-  editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
-  editTextEmail = (EditText) view.findViewById(R.id.input_email);
-  editTextTelefono = (EditText) view.findViewById(R.id.input_telefono);
-  editTextCliente = (EditText) view.findViewById(R.id.input_cliente);
-  editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
-  buttonSubirImagen = (Button) view.findViewById(R.id.buttonSubirImagen);
-  buttonEscogeImagen = (Button) view.findViewById(R.id.buttonEscogeImagen);
-  buttonEscogeImagen2 = (Button) view.findViewById(R.id.buttonEscogeImagen2);
-  buttonEscogeImagen3 = (Button) view.findViewById(R.id.buttonEscogeImagen3);
-  buttonEscogeImagen4 = (Button) view.findViewById(R.id.buttonEscogeImagen4);
-  buttonBorrarImagen2 = (Button) view.findViewById(R.id.buttonBorrarImagen2);
-  buttonBorrarImagen3 = (Button) view.findViewById(R.id.buttonBorrarImagen3);
-  buttonBorrarImagen4 = (Button) view.findViewById(R.id.buttonBorrarImagen4);
-  buttonEnviar = (Button) view.findViewById(R.id.buttonEnviar);
-  indexButton = 1; //Con este índice, controlaremos las veces que hayan dado clic en Subir Imagen.
- }
-
- public void onPrepareListener() {
-  listener = new View.OnClickListener() {
-   @Override
-   public void onClick(View v) {
-    switch (v.getId()) {
-     case R.id.buttonEnviar:
-      initSend();
-      break;
-     case R.id.buttonSubirImagen:
-      if (indexButton <= 4) indexButton++; //control para que nunca pase de 4.
-      initSubirImagen(indexButton);
-      break;
+        return view;
     }
-   }
-  };
- }
 
- /*private void initHome(){
-  Intent intent = new Intent(this, MainActivity.class);
-  startActivity(intent);
- }
+    public void initComponents(View view) {
+        editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
+        editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
+        editTextEmail = (EditText) view.findViewById(R.id.input_email);
+        editTextTelefono = (EditText) view.findViewById(R.id.input_telefono);
+        editTextCliente = (EditText) view.findViewById(R.id.input_cliente);
+        editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
+        buttonSubirImagen = (Button) view.findViewById(R.id.buttonSubirImagen);
+        buttonEscogeImagen = (Button) view.findViewById(R.id.buttonEscogeImagen);
+        buttonEscogeImagen2 = (Button) view.findViewById(R.id.buttonEscogeImagen2);
+        buttonEscogeImagen3 = (Button) view.findViewById(R.id.buttonEscogeImagen3);
+        buttonEscogeImagen4 = (Button) view.findViewById(R.id.buttonEscogeImagen4);
+        buttonBorrarImagen2 = (Button) view.findViewById(R.id.buttonBorrarImagen2);
+        buttonBorrarImagen3 = (Button) view.findViewById(R.id.buttonBorrarImagen3);
+        buttonBorrarImagen4 = (Button) view.findViewById(R.id.buttonBorrarImagen4);
+        buttonEnviar = (Button) view.findViewById(R.id.buttonEnviar);
+        indexButton = 1; //Con este índice, controlaremos las veces que hayan dado clic en Subir Imagen.
+    }
 
- private void initReport(){
-  Intent intent = new Intent(this, ReportActivity.class);
-  startActivity(intent);
- }
-
- private void initRequest(){
-  Intent intent = new Intent(this, RequestActivity.class);
-  startActivity(intent);
- }
-
- private void initInfo(){
-  Intent intent = new Intent(this, InfoActivity.class);
-  startActivity(intent);
- }*/
-
- public void controlSpinner(View view){
-  spinner = (Spinner)view.findViewById(R.id.spinner);
-  dadesSpinner =  new String[]{"Barcelona", "Madrid", "Valencia"};
-  ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, dadesSpinner);
-  spinner.setAdapter(adaptador);
-  prepareItemListener();
-  spinner.setOnItemSelectedListener(listenerSpinner);
- }
-
- public void prepareItemListener() {
-  listenerSpinner =
-          new AdapterView.OnItemSelectedListener() {
-           @Override
-           public void onItemSelected(
-                   AdapterView<?> parent,
-                   View view,
-                   int position,
-                   long id) {
-            switch (dadesSpinner[position]) {
-             case "Barcelona":
-              provincia = "Barcelona";
-              showMessage();
-              break;
-             case "Madrid":
-              provincia = "Madrid";
-              showMessage();
-              break;
-             case "Valencia":
-              provincia = "Valencia";
-              showMessage();
-              break;
+    public void onPrepareListener() {
+        listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.buttonEnviar:
+                        initSend();
+                        break;
+                    case R.id.buttonSubirImagen:
+                        if (indexButton <= 4) {
+                            indexButton++; //control para que nunca pase de 4.
+                        }
+                        initSubirImagen(indexButton);
+                        break;
+                }
             }
-           }
-           @Override
-           public void onNothingSelected(AdapterView<?> parent) {
+        };
+    }
 
-           }
-          };
- }
+    public void controlSpinner(View view) {
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+        dadesSpinner = new String[]{"Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real", "Córdoba",
+                                    "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "León", "Lérida", "Lugo", "Madrid", "Málaga", "Murcia",
+                                    "Navarra", "Orense", "Palencia", "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Segovia", "Sevilla", "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
+                                    "Valencia", "Vizcaya", "Zamora", "Zaragona"};
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, dadesSpinner);
+        spinner.setAdapter(adaptador);
+        prepareItemListener();
+        spinner.setOnItemSelectedListener(listenerSpinner);
+    }
 
- private void showMessage() {
-  Toast.makeText(getActivity(), "Provincia seleccionada: " + provincia, Toast.LENGTH_SHORT).show();
- }
+    public void prepareItemListener() {
+        listenerSpinner = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                provincia = dadesSpinner[position];
+            }
 
- /*private void setBundle(){
- bundle = this.getIntent().getExtras();
- bundle.remove("nombreReport");
- bundle.putString("nombreReport", String.valueOf(editTextNombre.getText()));
- bundle.remove("apellidosReport");
- bundle.putString("apellidosReport", String.valueOf(editTextApellidos.getText()));
- bundle.remove("emailReport");
- bundle.putString("emailReport", String.valueOf(editTextEmail.getText()));
- bundle.remove("telefonoReport");
- bundle.putString("telefonoReport", String.valueOf(editTextTelefono.getText()));
- bundle.remove("provinciaReport");
- bundle.putString("provinciaReport", String.valueOf(provincia));
- bundle.remove("clienteReport");
- bundle.putString("clienteReport", String.valueOf(editTextCliente.getText()));
- bundle.remove("comentariosReport");
- bundle.putString("comentariosReport", String.valueOf(editTextComentarios.getText()));
- }*/
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
- public void initSend(){
-    //setBundle();
-    Toast.makeText(getActivity(), "OK incidencia", Toast.LENGTH_SHORT).show();
-    //Intent intent = new Intent(this, MainActivity.class);
-    //intent.putExtras(bundle);
-    //startActivity(intent);
- }
+            }
+        };
+    }
 
- private void initSubirImagen(int indexButton){
-      switch(indexButton){
-           case 2:
-            buttonEscogeImagen2.setVisibility(View.VISIBLE);
-            buttonBorrarImagen2.setVisibility(View.VISIBLE);
-            break;
-           case 3:
-            buttonEscogeImagen3.setVisibility(View.VISIBLE);
-            buttonBorrarImagen3.setVisibility(View.VISIBLE);
-           case 4:
-            buttonEscogeImagen4.setVisibility(View.VISIBLE);
-            buttonBorrarImagen4.setVisibility(View.VISIBLE);
-            break;
-          }
- }
+    private void showMessage(String str) {
+        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+    }
 
- /*private void initConfig(){
-  Intent intent = new Intent(this, ConfigActivity.class);
-  startActivity(intent);
- }
-}*/
+    public void initSend() {
+        /*String name = editTextNombre.getText().toString();
+        String last_name = editTextApellidos.getText().toString();
+        String company = "company";
+        String description = editTextComentarios.getText().toString();
+        String email = editTextEmail.getText().toString();
+        String phone = editTextTelefono.getText().toString();
+        String site = "gruposifu";
+        String client = editTextCliente.getText().toString();*/
+        System.out.println("Entra");
+        String name = "Olga";
+        String last_name = "Coll Pérez";
+        String company = "company";
+        String description = "description";
+        String email = "olga@gmail.com";
+        String phone = "685472156";
+        String site = "gruposifu";
+        String client = "yo";
+
+        apiService.sendIncidencia(name, last_name, company, description, email, phone, site, client).enqueue(new Callback<Incidencia>() {
+            @Override
+            public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
+                if(response.isSuccessful()){
+                    showResponse(response.body().toString());
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Incidencia> call, Throwable t) {
+                showErrorMessage();
+                Log.e(TAG, "Unable to submit post to API.");
+            }
+        });
+    }
+
+    public void showResponse(String response) {
+        if(!response.equals("")) Log.e("Show response", response);
+    }
+
+    public void showErrorMessage() {
+        Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+    }
+
+    private void initSubirImagen(int indexButton) {
+        switch (indexButton) {
+            case 2:
+                buttonEscogeImagen2.setVisibility(View.VISIBLE);
+                buttonBorrarImagen2.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                buttonEscogeImagen3.setVisibility(View.VISIBLE);
+                buttonBorrarImagen3.setVisibility(View.VISIBLE);
+            case 4:
+                buttonEscogeImagen4.setVisibility(View.VISIBLE);
+                buttonBorrarImagen4.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+
 }

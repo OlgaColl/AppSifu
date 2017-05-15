@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.olgacoll.sifu.remote.APIService;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-           transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
             transaction.replace(R.id.container, container);
             //Para que al pulsar back vuelva atrás el Fragment y no la Activity
@@ -55,20 +57,17 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mTextMessage = (TextView) findViewById(R.id.message);
         initFragment();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-    public void initFragment(){
+    private void initFragment() {
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
         Fragment container = new HomeFragment();
@@ -78,5 +77,4 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
 }

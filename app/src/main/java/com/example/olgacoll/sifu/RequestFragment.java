@@ -30,7 +30,7 @@ public class RequestFragment extends Fragment {
     Spinner spinner;
     String dadesSpinner[];
     String provinciaSeleccionada;
-    boolean isCheck; //controla si la checkbox ha sido marcada
+    boolean checked; //controla si la checkbox ha sido marcada
     Bundle bundle;
     Button buttonSendRequest;
     View.OnClickListener listener;
@@ -46,17 +46,16 @@ public class RequestFragment extends Fragment {
         controlSpinner(view);
 
         buttonSendRequest.setOnClickListener(listener);
-
         return view;
     }
-    public void initComponents(View view){
+
+    public void initComponents(View view) {
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
-        editTextApellidos = (EditText)view.findViewById(R.id.input_apellidos);
-        editTextEmail = (EditText)view.findViewById(R.id.input_email);
-        editTextTelefono = (EditText)view.findViewById(R.id.input_telefono);
-        editTextComentarios = (EditText)view.findViewById(R.id.input_comentarios);
-        buttonSendRequest = (Button)view.findViewById(R.id.buttonSendRequest);
-        isCheck = false;
+        editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
+        editTextEmail = (EditText) view.findViewById(R.id.input_email);
+        editTextTelefono = (EditText) view.findViewById(R.id.input_telefono);
+        editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
+        buttonSendRequest = (Button) view.findViewById(R.id.buttonSendRequest);
     }
 
     public void onPrepareListener() {
@@ -72,9 +71,9 @@ public class RequestFragment extends Fragment {
         };
     }
 
-    public void controlSpinner(View view){
-        spinner = (Spinner)view.findViewById(R.id.spinner);
-        dadesSpinner =  new String[]{"Barcelona", "Madrid", "Valencia"};
+    public void controlSpinner(View view) {
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+        dadesSpinner = new String[]{"Barcelona", "Madrid", "Valencia"};
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, dadesSpinner);
         spinner.setAdapter(adaptador);
         prepareItemListener();
@@ -105,6 +104,7 @@ public class RequestFragment extends Fragment {
                                 break;
                         }
                     }
+
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
@@ -114,22 +114,6 @@ public class RequestFragment extends Fragment {
 
     private void showMessage(String str) {
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-    }
-
-    //Acción que comprueba si
-    public void onCheckboxClicked(View view) {
-        // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
-        // Check which checkbox was clicked
-        switch(view.getId()) {
-            case R.id.checkBox:
-                if (checked){
-                    isCheck = true;
-                }else{
-                    isCheck = false;
-                }
-                break;
-        }
     }
 
     /*private void setBundle(){
@@ -149,7 +133,7 @@ public class RequestFragment extends Fragment {
     }*/
 
     //Creación del objeto Solicitud, comprobando campos vacios
-    private Solicitud setRequest(){
+    private Solicitud setRequest() {
         Solicitud s = null;
         //si está bien validado, crearemos el objeto SOlicitud, si no, devolverá nulo
         //if(validate()){
@@ -206,19 +190,31 @@ public class RequestFragment extends Fragment {
         return valid;
     }
 
-    public void initSend(){
+    public void initSend() {
         //Comprobamos que el checkbox haya sido seleccionado, si no es así avisaremos al usuario
-        if(!isCheck){
+        boolean isCheck = true; //falta controlarlo!!
+        if (!isCheck) {
             showMessage("Acepta los términos para poder completar la solicitud.");
-        }else{
-            //Creamos el objeto Solicitud, en el caso de que haya habido algun problema, devuelve null y no se realizará la solicitud.
-            if(!validate()){
+        } else {
+            //Creamos el objeto Solicitud, en el caso de que haya habido algun problema, devuelve null y no se realizará la solicitud.1
+            if (!validate()) {
                 showMessage(Boolean.toString(validate()));
-            }else{
+            } else {
                 Solicitud solicitud = setRequest();
-                if(setRequest() != null){
+                if (setRequest() != null) {
                     showMessage(solicitud.toString());
-                }else{
+
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("message/rfc822");
+                    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"ocoll@deideasmarketing.com"});
+                    i.putExtra(Intent.EXTRA_SUBJECT, solicitud.getNombre());
+                    i.putExtra(Intent.EXTRA_TEXT   , solicitud.getComentarios());
+                    try {
+                        startActivity(Intent.createChooser(i, "Send mail..."));
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
                     showMessage("Ha habido un error al enviar la solicitud.");
                 }
             }

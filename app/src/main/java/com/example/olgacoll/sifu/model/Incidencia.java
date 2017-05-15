@@ -2,6 +2,9 @@ package com.example.olgacoll.sifu.model;
 
 import android.widget.ImageView;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -10,44 +13,76 @@ import java.util.List;
 
 public class Incidencia {
 
-    private String nombre;
-    private String apellidos;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("last_name")
+    @Expose
+    private String last_name;
+    @SerializedName("company")
+    @Expose
+    private String company;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("email")
+    @Expose
     private String email;
-    private String telefono;
-    private List<String> provincia;
-    private String cliente;
-    private List<ImageView> imagen;
-    private String comentarios;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
+    @SerializedName("site")
+    @Expose
+    private String site;
+    @SerializedName("client")
+    @Expose
+    private String client;
 
     public Incidencia(){
 
     }
 
-    public Incidencia(String nombre, String apellidos, String email, String telefono, List<String> provincia, String cliente, List<ImageView> imagen, String comentarios) {
-        this.nombre = nombre;
-        this.apellidos = apellidos;
+    public Incidencia(String name, String last_name, String company, String description, String email, String phone, String site, String client) {
+        this.name = name;
+        this.last_name = last_name;
+        this.company = company;
+        this.description = description;
         this.email = email;
-        this.telefono = telefono;
-        this.provincia = provincia;
-        this.cliente = cliente;
-        this.imagen = imagen;
-        this.comentarios = comentarios;
+        this.phone = phone;
+        this.site = site;
+        this.client = client;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getEmail() {
@@ -58,58 +93,41 @@ public class Incidencia {
         this.email = email;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public List<String> getProvincia() {
-        return provincia;
+    public String getSite() {
+        return site;
     }
 
-    public void setProvincia(List<String> provincia) {
-        this.provincia = provincia;
+    public void setSite(String site) {
+        this.site = site;
     }
 
-    public String getCliente() {
-        return cliente;
+    public String getClient() {
+        return client;
     }
 
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
-
-    public List<ImageView> getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(List<ImageView> imagen) {
-        this.imagen = imagen;
-    }
-
-    public String getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(String comentarios) {
-        this.comentarios = comentarios;
+    public void setClient(String client) {
+        this.client = client;
     }
 
     @Override
     public String toString() {
         return "Incidencia{" +
-                "nombre='" + nombre + '\'' +
-                ", apellidos='" + apellidos + '\'' +
+                "name='" + name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", company='" + company + '\'' +
+                ", description='" + description + '\'' +
                 ", email='" + email + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", provincia=" + provincia +
-                ", cliente='" + cliente + '\'' +
-                ", imagen=" + imagen +
-                ", comentarios='" + comentarios + '\'' +
+                ", phone='" + phone + '\'' +
+                ", site='" + site + '\'' +
+                ", client='" + client + '\'' +
                 '}';
     }
 }
-
