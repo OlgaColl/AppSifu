@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import com.example.olgacoll.sifu.remote.APIService;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +65,26 @@ public class MainActivity extends AppCompatActivity {
         initFragment();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+
+    //Go to config fragment
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_config:
+                Toast.makeText(this, "Menu Item 1 selected", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 
     private void initFragment() {

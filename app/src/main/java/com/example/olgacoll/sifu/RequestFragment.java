@@ -116,22 +116,6 @@ public class RequestFragment extends Fragment {
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
     }
 
-    /*private void setBundle(){
-        bundle = this.getIntent().getExtras();
-        bundle.remove("nombreRequest");
-        bundle.putString("nombreRequest", String.valueOf(editTextNombre.getText()));
-        bundle.remove("apellidosRequest");
-        bundle.putString("apellidosRequest", String.valueOf(editTextApellidos.getText()));
-        bundle.remove("emailRequest");
-        bundle.putString("emailRequest", String.valueOf(editTextEmail.getText()));
-        bundle.remove("telefonoRequest");
-        bundle.putString("telefonoRequest", String.valueOf(editTextTelefono.getText()));
-        bundle.remove("provinciaRequest");
-        bundle.putString("provinciaRequest", String.valueOf(provinciaSeleccionada));
-        bundle.remove("comentariosRequest");
-        bundle.putString("comentariosRequest", String.valueOf(editTextComentarios.getText()));
-    }*/
-
     //Creación del objeto Solicitud, comprobando campos vacios
     private Solicitud setRequest() {
         Solicitud s = null;
@@ -190,8 +174,8 @@ public class RequestFragment extends Fragment {
         return valid;
     }
 
+    //http://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application
     public void initSend() {
-        //Comprobamos que el checkbox haya sido seleccionado, si no es así avisaremos al usuario
         boolean isCheck = true; //falta controlarlo!!
         if (!isCheck) {
             showMessage("Acepta los términos para poder completar la solicitud.");
@@ -219,10 +203,5 @@ public class RequestFragment extends Fragment {
                 }
             }
         }
-
-        //setBundle();
-        //Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtras(bundle);
-        //startActivity(intent);
     }
 }
