@@ -44,13 +44,13 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
                 android:paddingLeft="25sp"
-                android:paddingRight="25sp">
+                android:paddingRight="25sp"
+                android:hint="Nombre">
 
                 <EditText
                     android:id="@+id/input_nombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre"
                     android:inputType="textPersonName" />
 
             </android.support.design.widget.TextInputLayout>
@@ -62,13 +62,13 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
                 android:paddingLeft="25sp"
-                android:paddingRight="25sp">
+                android:paddingRight="25sp"
+                android:hint="Apellidos">
 
                 <EditText
                     android:id="@+id/input_apellidos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Apellidos"
                     android:inputType="textPersonName" />
             </android.support.design.widget.TextInputLayout>
 
@@ -79,13 +79,13 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
                 android:paddingLeft="25sp"
-                android:paddingRight="25sp">
+                android:paddingRight="25sp"
+                android:hint="Email">
 
                 <EditText
                     android:id="@+id/input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
                     android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
@@ -96,13 +96,13 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
                 android:paddingLeft="25sp"
-                android:paddingRight="25sp">
+                android:paddingRight="25sp"
+                android:hint="Teléfono">
 
                 <EditText
                     android:id="@+id/input_telefono"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Teléfono"
                     android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
@@ -130,14 +130,14 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:paddingLeft="25sp"
-                android:paddingRight="25sp">
+                android:paddingRight="25sp"
+                android:hint="Comentarios">
 
                 <EditText
                     android:id="@+id/input_comentarios"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top|left"
-                    android:hint="Comentarios"
                     android:inputType="textMultiLine"
                     android:lines="3"
                     android:scrollHorizontally="false" />
@@ -156,8 +156,7 @@
                     android:id="@+id/checkBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/textCheckBox"
-                    android:onClick="onCheckboxClicked"/>
+                    android:text="@string/textCheckBox"/>
             </android.support.design.widget.TextInputLayout>
 
             <!-- Button enviar -->

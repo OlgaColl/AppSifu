@@ -164,6 +164,7 @@ public class ReportFragment extends Fragment {
                 if(response.isSuccessful()){
                     showResponse(response.body().toString());
                     Log.i(TAG, "post submitted to API." + response.body().toString());
+                    System.out.println(response.body().getName());
                 }
             }
 
