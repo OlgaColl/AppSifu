@@ -3,6 +3,5 @@
         android:id="@+id/action_config"
         android:title="@string/titleConfig"
         android:icon="@drawable/ic_action_config"
-        android:orderInCategory="100"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="always"/>
 </menu>

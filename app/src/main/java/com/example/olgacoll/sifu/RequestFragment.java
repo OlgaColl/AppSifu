@@ -73,44 +73,15 @@ public class RequestFragment extends Fragment {
 
     public void controlSpinner(View view) {
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        dadesSpinner = new String[]{"Barcelona", "Madrid", "Valencia"};
+        dadesSpinner = new String[]{"Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real", "Córdoba",
+                "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "León", "Lérida", "Lugo", "Madrid", "Málaga", "Murcia",
+                "Navarra", "Orense", "Palencia", "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Segovia", "Sevilla", "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
+                "Valencia", "Vizcaya", "Zamora", "Zaragona"};
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, dadesSpinner);
         spinner.setAdapter(adaptador);
-        prepareItemListener();
         spinner.setOnItemSelectedListener(listenerSpinner);
     }
 
-    public void prepareItemListener() {
-        listenerSpinner =
-                new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(
-                            AdapterView<?> parent,
-                            View view,
-                            int position,
-                            long id) {
-                        switch (dadesSpinner[position]) {
-                            case "Barcelona":
-                                provinciaSeleccionada = "Barcelona";
-                                //showMessage(provinciaSeleccionada);
-                                break;
-                            case "Madrid":
-                                provinciaSeleccionada = "Madrid";
-                                //showMessage(provinciaSeleccionada);
-                                break;
-                            case "Valencia":
-                                provinciaSeleccionada = "Valencia";
-                                //showMessage(provinciaSeleccionada);
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                };
-    }
 
     private void showMessage(String str) {
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();

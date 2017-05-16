@@ -18,8 +18,6 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Drawable drawableConfig;
-    private View.OnClickListener listener;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_report:
                     //mTextMessage.setText(R.string.title_notifications);
-                    container = new ReportFragment();
+                    container = new InfoFragment();
                     break;
                 case R.id.navigation_request:
                     //mTextMessage.setText(R.string.title_notifications);
@@ -50,10 +48,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
             transaction.replace(R.id.container, container);
-            //Para que al pulsar back vuelva atrás el Fragment y no la Activity
-            transaction.addToBackStack(null);
+            transaction.addToBackStack(null); //Para que al pulsar back vuelva atrás el Fragment y no la Activity
             transaction.commit();
             return true;
         }

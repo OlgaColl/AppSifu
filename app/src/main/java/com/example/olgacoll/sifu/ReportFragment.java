@@ -187,6 +187,7 @@ public class ReportFragment extends Fragment {
     private void initSubirImagen(int indexButton) {
         switch (indexButton) {
             case 2:
+
                 buttonEscogeImagen2.setVisibility(View.VISIBLE);
                 buttonBorrarImagen2.setVisibility(View.VISIBLE);
                 break;
