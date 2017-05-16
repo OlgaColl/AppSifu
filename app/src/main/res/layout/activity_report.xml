@@ -50,6 +50,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp"
                 android:hint="Nombre">
 
                 <EditText
@@ -66,6 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp"
                 android:hint="Apellidos">
 
                 <EditText
@@ -81,6 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp"
                 android:hint="Email">
 
                 <EditText
@@ -96,6 +102,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp"
                 android:hint="Teléfono">
 
                 <EditText
@@ -110,14 +118,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp">
+                android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
 
                 <Spinner
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/textProvincia" />
+                    android:prompt="@string/textProvincia"/>
             </android.support.design.widget.TextInputLayout>
 
             <!-- Cliente Label -->
@@ -126,6 +136,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp"
                 android:hint="Cliente">
 
                 <EditText
@@ -138,7 +150,9 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
 
                 <Button
                     android:id="@+id/buttonEscogeImagen"
@@ -193,7 +207,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
 
                 <Button
                     android:id="@+id/buttonSubirImagen"
@@ -208,6 +224,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp"
                 android:hint="Comentarios">
                 <EditText
                     android:id="@+id/input_comentarios"
@@ -224,7 +242,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp">
+                android:layout_marginTop="6dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
 
                 <CheckBox
                     android:id="@+id/checkBox"
@@ -238,7 +258,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
 
                 <Button
                     android:id="@+id/buttonEnviar"

@@ -4,17 +4,17 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp" android:enabled="true" app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_home_black_24dp" app:showAsAction="ifRoom"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_report"
-        android:icon="@drawable/ic_action_report" android:enabled="true" app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_report" app:showAsAction="ifRoom"
         android:title="@string/title_report" />
 
     <item
         android:id="@+id/navigation_request"
-        android:icon="@drawable/ic_action_request" android:enabled="true" app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_request" app:showAsAction="ifRoom"
         android:title="@string/title_request" />
 
     <!--item

@@ -1,7 +1,13 @@
 package com.example.olgacoll.sifu;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,6 +28,11 @@ import com.example.olgacoll.sifu.model.Incidencia;
 import com.example.olgacoll.sifu.remote.APIService;
 import com.example.olgacoll.sifu.remote.ApiUtils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,19 +44,21 @@ import retrofit2.Response;
 public class ReportFragment extends Fragment {
 
     private static final String TAG = ReportFragment.class.getSimpleName();
+
     private APIService apiService;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextCliente, editTextComentarios;
     Spinner spinner;
     String dadesSpinner[];
     String provincia;
     Bundle bundle;
+    List<Boolean> checkButtons = new ArrayList();
     int indexButton;
     Button buttonSubirImagen, buttonEnviar;
     Button buttonEscogeImagen, buttonEscogeImagen2, buttonEscogeImagen3, buttonEscogeImagen4;
     Button buttonBorrarImagen2, buttonBorrarImagen3, buttonBorrarImagen4;
     View.OnClickListener listener;
     AdapterView.OnItemSelectedListener listenerSpinner;
-
+    private static final int SELECT_FILE = 1;
 
     @Nullable
     @Override
@@ -87,6 +100,9 @@ public class ReportFragment extends Fragment {
         buttonBorrarImagen3 = (Button) view.findViewById(R.id.buttonBorrarImagen3);
         buttonBorrarImagen4 = (Button) view.findViewById(R.id.buttonBorrarImagen4);
         buttonEnviar = (Button) view.findViewById(R.id.buttonEnviar);
+        checkButtons.add(false);
+        checkButtons.add(false);
+        checkButtons.add(false);
         indexButton = 1; //Con este índice, controlaremos las veces que hayan dado clic en Subir Imagen.
     }
 
@@ -99,12 +115,36 @@ public class ReportFragment extends Fragment {
                         initSend();
                         break;
                     case R.id.buttonSubirImagen:
-                        if (indexButton <= 4) {
-                            indexButton++; //control para que nunca pase de 4.
+                        //if (indexButton <= 4) indexButton++;
+                        //initSubirImagen(indexButton);
+
+                        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        break;
+                    case R.id.buttonBorrarImagen2:
+                      if(buttonEscogeImagen2.getVisibility() == View.VISIBLE){
+                          buttonEscogeImagen2.setVisibility(View.GONE);
+                          buttonBorrarImagen2.setVisibility(View.GONE);
+                      }
+                      break;
+                    case R.id.buttonBorrarImagen3:
+                        if(buttonEscogeImagen3.getVisibility() == View.VISIBLE){
+                            buttonEscogeImagen3.setVisibility(View.GONE);
+                            buttonBorrarImagen3.setVisibility(View.GONE);
                         }
-                        initSubirImagen(indexButton);
+                        break;
+                    case R.id.buttonBorrarImagen4:
+                        if(buttonEscogeImagen4.getVisibility() == View.VISIBLE){
+                            buttonEscogeImagen4.setVisibility(View.GONE);
+                            buttonBorrarImagen4.setVisibility(View.GONE);
+                        }
                         break;
                 }
+
+                /*if (myView.getVisibility() == View.VISIBLE) {
+                    // Its visible
+                } else {
+                    // Either gone or invisible
+                }*/
             }
         };
     }
@@ -116,6 +156,7 @@ public class ReportFragment extends Fragment {
                                     "Navarra", "Orense", "Palencia", "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Segovia", "Sevilla", "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
                                     "Valencia", "Vizcaya", "Zamora", "Zaragona"};
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, dadesSpinner);
+        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adaptador);
         prepareItemListener();
         spinner.setOnItemSelectedListener(listenerSpinner);
@@ -187,7 +228,6 @@ public class ReportFragment extends Fragment {
     private void initSubirImagen(int indexButton) {
         switch (indexButton) {
             case 2:
-
                 buttonEscogeImagen2.setVisibility(View.VISIBLE);
                 buttonBorrarImagen2.setVisibility(View.VISIBLE);
                 break;
@@ -200,6 +240,9 @@ public class ReportFragment extends Fragment {
                 break;
         }
     }
+    private static final int PHOTO_REQUEST_CAMERA = 0;//camera
+    private static final int PHOTO_REQUEST_GALLERY = 1;//gallery
+    private static final int PHOTO_REQUEST_CUT = 2;//image crop
 
 
 }

@@ -11,9 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_report:
                     //mTextMessage.setText(R.string.title_notifications);
-                    container = new InfoFragment();
+                    container = new ReportFragment();
                     break;
                 case R.id.navigation_request:
                     //mTextMessage.setText(R.string.title_notifications);
@@ -53,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
             return true;
         }
-
     };
 
     @Override
