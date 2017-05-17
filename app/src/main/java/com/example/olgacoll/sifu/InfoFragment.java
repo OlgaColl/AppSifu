@@ -31,4 +31,20 @@ public class InfoFragment extends Fragment {
 
         return view;
     }
+
+    public void onResume(){
+        super.onResume();
+        // Set title bar
+        ((MainActivity) getActivity()).setActionBarCenterTitle("Información");
+    }
 }
+
+
+/**
+ *
+ * getSupportFragmentManager().beginTransaction()
+ .add(detailFragment, "detail")
+ // Add this transaction to the back stack
+ .addToBackStack()
+ .commit();
+ * */

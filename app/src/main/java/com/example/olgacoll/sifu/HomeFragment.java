@@ -1,5 +1,6 @@
 package com.example.olgacoll.sifu;
 
+import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -65,5 +66,11 @@ public class HomeFragment extends Fragment {
                 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
             }
         };
+    }
+
+    public void onResume(){
+        super.onResume();
+        // Set center title bar
+        ((MainActivity) getActivity()).setActionBarCenterTitle("Home");
     }
 }

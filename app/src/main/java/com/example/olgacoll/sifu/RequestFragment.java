@@ -175,4 +175,10 @@ public class RequestFragment extends Fragment {
             }
         }
     }
+
+    public void onResume(){
+        super.onResume();
+        // Set title bar
+        ((MainActivity) getActivity()).setActionBarCenterTitle("Solicitud de información");
+    }
 }

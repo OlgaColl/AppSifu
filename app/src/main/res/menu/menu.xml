@@ -1,7 +1,8 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_config"
-        android:title="@string/titleConfig"
         android:icon="@drawable/ic_action_config"
-        android:showAsAction="always"/>
+        android:title="@string/titleConfig"
+        app:showAsAction="ifRoom"/>
 </menu>

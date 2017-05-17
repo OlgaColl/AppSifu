@@ -1,5 +1,6 @@
 package com.example.olgacoll.sifu;
 
+import android.app.ActionBar;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
@@ -7,13 +8,19 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
+
+    TextView titleActionBar;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -56,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initFragment();
+        titleActionBar = (TextView)findViewById(R.id.textViewTitleActionBar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
@@ -76,18 +83,27 @@ public class MainActivity extends AppCompatActivity {
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
         Fragment container = new Fragment();
+
         switch (item.getItemId()) {
+
+            //PER BACK BUTTON
+            /*case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                break;*/
             case R.id.action_config:
-                Toast.makeText(this, "Menu Item 1 selected", Toast.LENGTH_SHORT).show();
                 container = new ConfigFragment();
                 break;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
         }
 
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         transaction.replace(R.id.container, container);
-        //Para que al pulsar back vuelva atrás el Fragment y no la Activity
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(null); //Para que al pulsar back vuelva atrás el Fragment y no la Activity
         transaction.commit();
         return true;
     }
@@ -102,4 +118,15 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    //Para cambiar el titulo del actionBar, centrar titulo, icono?
+    public void setActionBarCenterTitle(String title) {
+        getSupportActionBar().setTitle(title);
+
+        /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.abs_layout);
+        titleActionBar.setText(title);*/
+    }
+
+
 }

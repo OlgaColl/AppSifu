@@ -36,4 +36,10 @@ public class ConfigFragment extends Fragment{
         });
         return view;
     }
+
+    public void onResume(){
+        super.onResume();
+        // Set title bar
+        ((MainActivity) getActivity()).setActionBarCenterTitle("Configuración");
+    }
 }

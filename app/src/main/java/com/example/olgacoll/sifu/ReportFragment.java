@@ -86,6 +86,8 @@ public class ReportFragment extends Fragment {
         return view;
     }
 
+
+
     public void initComponents(View view) {
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
         editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
@@ -152,6 +154,7 @@ public class ReportFragment extends Fragment {
     }
 
     public void controlSpinner(View view) {
+
         spinner = (Spinner) view.findViewById(R.id.spinner);
         dadesSpinner = new String[]{"Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real", "Córdoba",
                                     "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "León", "Lérida", "Lugo", "Madrid", "Málaga", "Murcia",
@@ -242,5 +245,10 @@ public class ReportFragment extends Fragment {
     private static final int PHOTO_REQUEST_GALLERY = 1;//gallery
     private static final int PHOTO_REQUEST_CUT = 2;//image crop
 
+    public void onResume(){
+        super.onResume();
+        // Set title bar
+        ((MainActivity) getActivity()).setActionBarCenterTitle("Reportar incidencia");
+    }
 
 }
