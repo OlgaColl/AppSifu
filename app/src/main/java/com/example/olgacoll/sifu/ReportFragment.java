@@ -201,32 +201,22 @@ public class ReportFragment extends Fragment {
         String client = "yo";
         String email = "olga@gmail.com";
 
-        apiService.sendIncidencia(name, last_name, phone, site, description, client, email).enqueue(new Callback<String>() {
-
+        apiService.sendIncidencia(name, last_name, phone, site, description, client, email).enqueue(new Callback<Incidencia>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
 
-                int statusCode = response.code();
-                System.out.println("Status code " + statusCode);
                 if(response.isSuccessful()){
-                    showResponse(response.body().toString());
-
-
-                    Log.i(TAG, "post submitted to API." + response.body().toString());
-
+                    System.out.println("Status code " + response.code());
+                    Log.i(TAG, "post submitted to API.");
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Incidencia> call, Throwable t) {
                 showErrorMessage();
                 Log.e(TAG, "Unable to submit post to API.");
             }
         });
-    }
-
-    public void showResponse(String response) {
-        if(!response.equals("")) Log.e("Show response", response);
     }
 
     public void showErrorMessage() {

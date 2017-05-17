@@ -19,10 +19,10 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
-    @POST("/incidencia")
+    @POST("incidencia")
     @FormUrlEncoded
     @Headers("Content-Type: application/x-www-form-urlencoded")
-    Call<String> sendIncidencia(@Field("name") String name,
+    Call<Incidencia> sendIncidencia(@Field("name") String name,
                                 @Field("last_name") String last_name,
                                 @Field("phone") String phone,
                                 @Field("site") String site,
