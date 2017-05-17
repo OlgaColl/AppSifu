@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.olgacoll.sifu.model.Incidencia;
 import com.example.olgacoll.sifu.remote.APIService;
 import com.example.olgacoll.sifu.remote.ApiUtils;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class ReportFragment extends Fragment {
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextCliente, editTextComentarios;
     Spinner spinner;
     String dadesSpinner[];
+    Incidencia[] listIncidencias;
     String provincia;
     Bundle bundle;
     List<Boolean> checkButtons = new ArrayList();
@@ -190,27 +192,33 @@ public class ReportFragment extends Fragment {
         String site = "gruposifu";
         String client = editTextCliente.getText().toString();*/
         System.out.println("Entra");
-        String name = "Olga";
-        String last_name = "Coll Pérez";
-        String company = "company";
-        String description = "description";
-        String email = "olga@gmail.com";
+
+        String name = "Nombre";
+        String last_name = "Apellidos";
         String phone = "685472156";
         String site = "gruposifu";
+        String description = "description";
         String client = "yo";
+        String email = "olga@gmail.com";
 
-        apiService.sendIncidencia(name, last_name, company, description, email, phone, site, client).enqueue(new Callback<Incidencia>() {
+        apiService.sendIncidencia(name, last_name, phone, site, description, client, email).enqueue(new Callback<String>() {
+
             @Override
-            public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                int statusCode = response.code();
+                System.out.println("Status code " + statusCode);
                 if(response.isSuccessful()){
                     showResponse(response.body().toString());
+
+
                     Log.i(TAG, "post submitted to API." + response.body().toString());
-                    System.out.println(response.body().getName());
+
                 }
             }
 
             @Override
-            public void onFailure(Call<Incidencia> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 showErrorMessage();
                 Log.e(TAG, "Unable to submit post to API.");
             }

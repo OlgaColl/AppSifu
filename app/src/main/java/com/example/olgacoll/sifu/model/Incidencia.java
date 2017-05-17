@@ -42,6 +42,16 @@ public class Incidencia {
 
     }
 
+    public Incidencia(String name, String last_name, String phone, String site, String description, String client, String email) {
+        this.name = name;
+        this.last_name = last_name;
+        this.description = description;
+        this.email = email;
+        this.phone = phone;
+        this.site = site;
+        this.client = client;
+    }
+
     public Incidencia(String name, String last_name, String company, String description, String email, String phone, String site, String client) {
         this.name = name;
         this.last_name = last_name;
@@ -122,12 +132,11 @@ public class Incidencia {
         return "Incidencia{" +
                 "name='" + name + '\'' +
                 ", last_name='" + last_name + '\'' +
-                ", company='" + company + '\'' +
-                ", description='" + description + '\'' +
-                ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", site='" + site + '\'' +
+                ", description='" + description + '\'' +
                 ", client='" + client + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

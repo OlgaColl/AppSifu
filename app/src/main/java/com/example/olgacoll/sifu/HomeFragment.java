@@ -39,7 +39,6 @@ public class HomeFragment extends Fragment {
         buttonReport.setOnClickListener(listener);
         buttonRequest.setOnClickListener(listener);
         return view;
-
     }
 
     private void initComponents(View view) {
