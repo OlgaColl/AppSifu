@@ -153,6 +153,15 @@ public class ReportFragment extends Fragment {
                     case R.id.buttonEscogeImagen:
                         escogerImagen();
                         break;
+                    case R.id.buttonEscogeImagen2:
+                        escogerImagen();
+                        break;
+                    case R.id.buttonEscogeImagen3:
+                        escogerImagen();
+                        break;
+                    case R.id.buttonEscogeImagen4:
+                        escogerImagen();
+                        break;
                 }
             }
         };
@@ -211,7 +220,7 @@ public class ReportFragment extends Fragment {
         String client = "yo";
         String email = "olga@gmail.com";*/
 
-        apiService.sendIncidencia(name, last_name, phone, site, description, client, email).enqueue(new Callback<Incidencia>() {
+        /*apiService.sendIncidencia(name, last_name, phone, site, description, client, email).enqueue(new Callback<Incidencia>() {
             @Override
             public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
 
@@ -226,7 +235,7 @@ public class ReportFragment extends Fragment {
                 showErrorMessage();
                 Log.e(TAG, "Unable to submit post to API.");
             }
-        });
+        });*/
     }
 
     public void showErrorMessage() {
@@ -240,7 +249,7 @@ public class ReportFragment extends Fragment {
 
         System.out.println(checkButtons.size());
 
-        while(!flag || i < checkButtons.size()){
+        while(!flag && i < checkButtons.size()){
 
             System.out.println("Indice while " + i + " booleano: " + checkButtons.get(i));
             if(checkButtons.get(i).equals(false)){
@@ -275,7 +284,7 @@ public class ReportFragment extends Fragment {
 
     private void escogerImagen(){
         String title = "Open Photo";
-        CharSequence[] itemlist ={"Take a Photo", "Pick from Gallery", "Open from File"};
+        CharSequence[] itemlist ={"Take a Photo", "Pick from Gallery"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setIcon(R.drawable.ic_home_black_24dp);
         builder.setTitle(title);
@@ -285,12 +294,13 @@ public class ReportFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:// Take Photo
+                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(takePicture, 0);
                         break;
                     case 1:// Choose Existing Photo
                         // Do Pick Photo task here
-                        break;
-                    case 2:// Choose Existing File
-                        // Do Pick file here
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(pickPhoto , 1);//one can be replaced with any action code
                         break;
                     default:
                         break;
