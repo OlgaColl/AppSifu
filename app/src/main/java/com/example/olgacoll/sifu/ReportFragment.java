@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +12,7 @@ import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +55,7 @@ public class ReportFragment extends Fragment {
     Incidencia[] listIncidencias;
     String provincia;
     Bundle bundle;
-    List<Boolean> checkButtons = new ArrayList();
+    List<Boolean> checkButtons;
     int indexButton;
     Button buttonSubirImagen, buttonEnviar;
     Button buttonEscogeImagen, buttonEscogeImagen2, buttonEscogeImagen3, buttonEscogeImagen4;
@@ -61,6 +63,7 @@ public class ReportFragment extends Fragment {
     View.OnClickListener listener;
     AdapterView.OnItemSelectedListener listenerSpinner;
     private static final int SELECT_FILE = 1;
+    int i = 0;
 
     @Nullable
     @Override
@@ -72,6 +75,10 @@ public class ReportFragment extends Fragment {
         onPrepareListener();
         //setupToolbar();
         controlSpinner(view);
+
+        System.out.println(" Indice 0: " + checkButtons.get(0));
+        System.out.println(" Indice 1: " + checkButtons.get(1));
+        System.out.println(" Indice 2: " + checkButtons.get(2));
 
         buttonSubirImagen.setOnClickListener(listener);
         buttonEscogeImagen.setOnClickListener(listener);
@@ -85,8 +92,6 @@ public class ReportFragment extends Fragment {
 
         return view;
     }
-
-
 
     public void initComponents(View view) {
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
@@ -104,9 +109,12 @@ public class ReportFragment extends Fragment {
         buttonBorrarImagen3 = (Button) view.findViewById(R.id.buttonBorrarImagen3);
         buttonBorrarImagen4 = (Button) view.findViewById(R.id.buttonBorrarImagen4);
         buttonEnviar = (Button) view.findViewById(R.id.buttonEnviar);
+
+        checkButtons = new ArrayList<Boolean>();
         checkButtons.add(false);
         checkButtons.add(false);
         checkButtons.add(false);
+
         indexButton = 1; //Con este índice, controlaremos las veces que hayan dado clic en Subir Imagen.
     }
 
@@ -119,36 +127,33 @@ public class ReportFragment extends Fragment {
                         initSend();
                         break;
                     case R.id.buttonSubirImagen:
-                        //if (indexButton <= 4) indexButton++;
-                        //initSubirImagen(indexButton);
-
-                        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        initSubirImagen();
                         break;
                     case R.id.buttonBorrarImagen2:
-                      if(buttonEscogeImagen2.getVisibility() == View.VISIBLE){
-                          buttonEscogeImagen2.setVisibility(View.GONE);
-                          buttonBorrarImagen2.setVisibility(View.GONE);
-                      }
-                      break;
+                          if(buttonEscogeImagen2.getVisibility() == View.VISIBLE){
+                              buttonEscogeImagen2.setVisibility(View.GONE);
+                              buttonBorrarImagen2.setVisibility(View.GONE);
+                              checkButtons.set(0, false);
+                          }
+                          break;
                     case R.id.buttonBorrarImagen3:
                         if(buttonEscogeImagen3.getVisibility() == View.VISIBLE){
                             buttonEscogeImagen3.setVisibility(View.GONE);
                             buttonBorrarImagen3.setVisibility(View.GONE);
+                            checkButtons.set(1, false);
                         }
                         break;
                     case R.id.buttonBorrarImagen4:
                         if(buttonEscogeImagen4.getVisibility() == View.VISIBLE){
                             buttonEscogeImagen4.setVisibility(View.GONE);
                             buttonBorrarImagen4.setVisibility(View.GONE);
+                            checkButtons.set(2, false);
                         }
                         break;
+                    case R.id.buttonEscogeImagen:
+                        escogerImagen();
+                        break;
                 }
-
-                /*if (myView.getVisibility() == View.VISIBLE) {
-                    // Its visible
-                } else {
-                    // Either gone or invisible
-                }*/
             }
         };
     }
@@ -160,6 +165,7 @@ public class ReportFragment extends Fragment {
                                     "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "León", "Lérida", "Lugo", "Madrid", "Málaga", "Murcia",
                                     "Navarra", "Orense", "Palencia", "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Segovia", "Sevilla", "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
                                     "Valencia", "Vizcaya", "Zamora", "Zaragona"};
+
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, dadesSpinner);
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adaptador);
@@ -186,23 +192,24 @@ public class ReportFragment extends Fragment {
     }
 
     public void initSend() {
-        /*String name = editTextNombre.getText().toString();
+        String name = editTextNombre.getText().toString();
         String last_name = editTextApellidos.getText().toString();
-        String company = "company";
-        String description = editTextComentarios.getText().toString();
-        String email = editTextEmail.getText().toString();
         String phone = editTextTelefono.getText().toString();
         String site = "gruposifu";
-        String client = editTextCliente.getText().toString();*/
+        String description = editTextComentarios.getText().toString();
+        String company = "company";
+        String client = editTextCliente.getText().toString();
+        String email = editTextEmail.getText().toString();
+
         System.out.println("Entra");
 
-        String name = "Nombre";
+        /*String name = "Nombre";
         String last_name = "Apellidos";
         String phone = "685472156";
         String site = "gruposifu";
         String description = "description";
         String client = "yo";
-        String email = "olga@gmail.com";
+        String email = "olga@gmail.com";*/
 
         apiService.sendIncidencia(name, last_name, phone, site, description, client, email).enqueue(new Callback<Incidencia>() {
             @Override
@@ -226,29 +233,79 @@ public class ReportFragment extends Fragment {
         Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
     }
 
-    private void initSubirImagen(int indexButton) {
-        switch (indexButton) {
-            case 2:
-                buttonEscogeImagen2.setVisibility(View.VISIBLE);
-                buttonBorrarImagen2.setVisibility(View.VISIBLE);
-                break;
-            case 3:
-                buttonEscogeImagen3.setVisibility(View.VISIBLE);
-                buttonBorrarImagen3.setVisibility(View.VISIBLE);
-            case 4:
-                buttonEscogeImagen4.setVisibility(View.VISIBLE);
-                buttonBorrarImagen4.setVisibility(View.VISIBLE);
-                break;
+    private void initSubirImagen() {
+
+        int i = 0;
+        boolean flag = false;
+
+        System.out.println(checkButtons.size());
+
+        while(!flag || i < checkButtons.size()){
+
+            System.out.println("Indice while " + i + " booleano: " + checkButtons.get(i));
+            if(checkButtons.get(i).equals(false)){
+
+                switch(i){
+                    case 0:
+                        buttonEscogeImagen2.setVisibility(View.VISIBLE);
+                        buttonBorrarImagen2.setVisibility(View.VISIBLE);
+                        checkButtons.set(0, true);
+                        break;
+                    case 1:
+                        buttonEscogeImagen3.setVisibility(View.VISIBLE);
+                        buttonBorrarImagen3.setVisibility(View.VISIBLE);
+                        checkButtons.set(1, true);
+                        break;
+                    case 2:
+                        buttonEscogeImagen4.setVisibility(View.VISIBLE);
+                        buttonBorrarImagen4.setVisibility(View.VISIBLE);
+                        checkButtons.set(2, true);
+                        break;
+                }
+
+                flag = true;
+            }
+
+            i++;
         }
     }
     private static final int PHOTO_REQUEST_CAMERA = 0;//camera
     private static final int PHOTO_REQUEST_GALLERY = 1;//gallery
     private static final int PHOTO_REQUEST_CUT = 2;//image crop
 
+    private void escogerImagen(){
+        String title = "Open Photo";
+        CharSequence[] itemlist ={"Take a Photo", "Pick from Gallery", "Open from File"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setIcon(R.drawable.ic_home_black_24dp);
+        builder.setTitle(title);
+        builder.setItems(itemlist, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:// Take Photo
+                        break;
+                    case 1:// Choose Existing Photo
+                        // Do Pick Photo task here
+                        break;
+                    case 2:// Choose Existing File
+                        // Do Pick file here
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.setCancelable(true);
+        alert.show();
+    }
+
+
     public void onResume(){
         super.onResume();
         // Set title bar
         ((MainActivity) getActivity()).setActionBarCenterTitle("Reportar incidencia");
     }
-
 }

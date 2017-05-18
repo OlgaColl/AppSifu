@@ -1,6 +1,7 @@
 package com.example.olgacoll.sifu;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
@@ -10,9 +11,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +68,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragment();
-        titleActionBar = (TextView)findViewById(R.id.textViewTitleActionBar);
+
+        //abs_layout!!
+        //LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //View vi = inflater.inflate(R.layout.abs_layout, null);
+        //titleActionBar = (TextView)findViewById(R.id.textViewTitleActionBar);
+        //titleActionBar = (TextView) vi.findViewById(R.id.textViewTitleActionBar);
+        //log.xml is your file. TextView tv = (TextView)vi.findViewById(R.id.text1);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
@@ -86,10 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
 
-            //PER BACK BUTTON
-            /*case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                break;*/
             case R.id.action_config:
                 container = new ConfigFragment();
                 break;
@@ -101,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
         transaction.replace(R.id.container, container);
         transaction.addToBackStack(null); //Para que al pulsar back vuelva atrás el Fragment y no la Activity
         transaction.commit();
@@ -119,14 +125,14 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    //Para cambiar el titulo del actionBar, centrar titulo, icono?
+    //Para cambiar el titulo del actionBar, falta centrar titulo, icono?
     public void setActionBarCenterTitle(String title) {
         getSupportActionBar().setTitle(title);
+        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //getSupportActionBar().setCustomView(R.layout.abs_layout);
 
-        /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.abs_layout);
-        titleActionBar.setText(title);*/
+        //LinearLayout linearLayout = (LinearLayout) getResources().getLayout(R.layout.abs_layout);
+        //titleActionBar = (TextView) linearLayout.findViewById(R.id.textViewTitleActionBar);
+        //titleActionBar.setText(title);
     }
-
-
 }

@@ -38,13 +38,3 @@ public class InfoFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarCenterTitle("Información");
     }
 }
-
-
-/**
- *
- * getSupportFragmentManager().beginTransaction()
- .add(detailFragment, "detail")
- // Add this transaction to the back stack
- .addToBackStack()
- .commit();
- * */
