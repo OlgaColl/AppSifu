@@ -23,10 +23,12 @@ public interface APIService {
     @FormUrlEncoded
     @Headers("Content-Type: application/x-www-form-urlencoded")
     Call<Incidencia> sendIncidencia(@Field("name") String name,
-                                @Field("last_name") String last_name,
-                                @Field("phone") String phone,
-                                @Field("site") String site,
-                                @Field("description") String description,
-                                @Field("client") String client,
-                                @Field("email") String email);
+                                    @Field("last_name") String last_name,
+                                    @Field("phone") String phone,
+                                    @Field("site") String site,
+                                    @Field("description") String description,
+                                    @Field("client") String client,
+                                    @Field("email") String email);
+
+    //falta ID dispositivo
 }

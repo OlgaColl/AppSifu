@@ -2,11 +2,8 @@ package com.example.olgacoll.sifu;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +13,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.olgacoll.sifu.model.Solicitud;
-
-/**
- * Created by olgacoll on 11/5/17.
- */
 
 public class RequestFragment extends Fragment {
 
-    private EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
+    public static final String TAG ="RequestFragment";
+    String nombre, apellidos, email, telefono, provincia, comentarios;
+    EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
     Spinner spinner;
     String dadesSpinner[];
-    String provinciaSeleccionada;
-    boolean checked; //controla si la checkbox ha sido marcada
-    Bundle bundle;
+    CheckBox checkbox;
     Button buttonSendRequest;
     View.OnClickListener listener;
     AdapterView.OnItemSelectedListener listenerSpinner;
@@ -41,11 +32,9 @@ public class RequestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_request, container, false);
-
         initComponents(view);
         onPrepareListener();
         controlSpinner(view);
-
         buttonSendRequest.setOnClickListener(listener);
         return view;
     }
@@ -56,6 +45,7 @@ public class RequestFragment extends Fragment {
         editTextEmail = (EditText) view.findViewById(R.id.input_email);
         editTextTelefono = (EditText) view.findViewById(R.id.input_telefono);
         editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
+        checkbox = (CheckBox)view.findViewById(R.id.checkBox);
         buttonSendRequest = (Button) view.findViewById(R.id.buttonSendRequest);
     }
 
@@ -83,98 +73,101 @@ public class RequestFragment extends Fragment {
         spinner.setOnItemSelectedListener(listenerSpinner);
     }
 
-
-    private void showMessage(String str) {
-        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-    }
-
-    //Creación del objeto Solicitud, comprobando campos vacios
-    private Solicitud setRequest() {
-        Solicitud s = null;
-        //si está bien validado, crearemos el objeto SOlicitud, si no, devolverá nulo
-        //if(validate()){
-        String nombre = editTextNombre.getText().toString();
-        String apellidos = editTextApellidos.getText().toString();
-        String email = editTextEmail.getText().toString();
-        String telefono = editTextTelefono.getText().toString();
-        String provincia = provinciaSeleccionada;
-        String comentarios = editTextComentarios.getText().toString();
-        s = new Solicitud(nombre, apellidos, email, telefono, provincia, comentarios);
-        //}
-        return s;
-    }
-
-    //validamos todos los campos comprobando que estén rellenados
     public boolean validate() {
         boolean valid = true;
-        String nombre = editTextNombre.getText().toString();
-        String apellidos = editTextApellidos.getText().toString();
-        String email = editTextEmail.getText().toString();
-        String telefono = editTextTelefono.getText().toString();
 
-        //Provincia y comentarios no necesitaran validación alguna.
-        //String provincia = provinciaSeleccionada;
-        //String comentarios = editTextComentarios.getText().toString();
+        nombre = editTextNombre.getText().toString();
+        apellidos = editTextApellidos.getText().toString();
+        email = editTextEmail.getText().toString();
+        telefono = editTextTelefono.getText().toString();
+        provincia = spinner.getSelectedItem().toString();
+        comentarios = editTextComentarios.getText().toString();
 
-        if (nombre.isEmpty() || nombre.length() < 3) {
-            editTextNombre.setError("at least 3 characters");
+        if (nombre.isEmpty() || nombre.length() < 1) {
+            editTextNombre.setError("Nombre demasiado corto");
             valid = false;
         } else {
             editTextNombre.setError(null);
         }
 
         if (apellidos.isEmpty() || apellidos.length() < 3) {
-            editTextApellidos.setError("at least 3 characters");
+            editTextApellidos.setError("Apellidos incorrectos");
             valid = false;
         } else {
             editTextApellidos.setError(null);
         }
 
-        if (email.isEmpty() || email.length() < 3 || !email.contains("@")) {
-            editTextEmail.setError("El email no es correcto.");
+        if (email.isEmpty() || email.length() < 5 || !email.contains("@")) {
+            editTextEmail.setError("Mail incorrecto");
             valid = false;
         } else {
             editTextEmail.setError(null);
         }
 
         if (telefono.isEmpty() || telefono.length() < 9) {
-            editTextTelefono.setError("Teléfono incorrecto.");
+            editTextTelefono.setError("Teléfono incorrecto");
             valid = false;
         } else {
             editTextEmail.setError(null);
         }
+
+        if (comentarios.isEmpty()){
+            editTextComentarios.setError("Escriba un comentario para completar su solicitud");
+            valid = false;
+        } else {
+            editTextComentarios.setError(null);
+        }
+
         return valid;
     }
 
-    //http://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application
     public void initSend() {
-        boolean isCheck = true; //falta controlarlo!!
-        if (!isCheck) {
-            showMessage("Acepta los términos para poder completar la solicitud.");
+        if (!validate()) {
+            sendMailFailed();
         } else {
-            //Creamos el objeto Solicitud, en el caso de que haya habido algun problema, devuelve null y no se realizará la solicitud.1
-            if (!validate()) {
-                showMessage(Boolean.toString(validate()));
-            } else {
-                Solicitud solicitud = setRequest();
-                if (setRequest() != null) {
-                    showMessage(solicitud.toString());
+            sendMailSuccess();
+        }
+    }
 
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setType("message/rfc822");
-                    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"ocoll@deideasmarketing.com"});
-                    i.putExtra(Intent.EXTRA_SUBJECT, solicitud.getNombre());
-                    i.putExtra(Intent.EXTRA_TEXT   , solicitud.getComentarios());
-                    try {
-                        startActivity(Intent.createChooser(i, "Send mail..."));
-                    } catch (android.content.ActivityNotFoundException ex) {
-                        Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    showMessage("Ha habido un error al enviar la solicitud.");
-                }
+    public void sendMailFailed(){
+        //showMessage("Error enviando el email");
+    }
+
+    public void sendMailSuccess(){
+        if(!checkbox.isChecked()){
+            showMessage("Acepta los términos y condiciones para poder completar la solicitud");
+        }else{
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("message/rfc822");
+            i.putExtra(Intent.EXTRA_EMAIL, new String[]{"ocoll@deideasmarketing.com"});
+            i.putExtra(Intent.EXTRA_SUBJECT, nombre + "" + apellidos);
+            i.putExtra(Intent.EXTRA_TEXT, comentarios);
+            i.putExtra(Intent.EXTRA_TEXT, "Nombre: " + nombre + "\nApellidos: " + apellidos + "\nEmail: " + email + "\nProvincia: " + provincia + "\nTelefono: " + telefono + "\nComentarios: " + comentarios);
+            try {
+                startActivity(Intent.createChooser(i, "Enviando mail..."));
+                showMessage("Solicitud enviada");
+                cleanFields();
+            } catch (android.content.ActivityNotFoundException ex) {
+                showMessage("No hay ninguna aplicación de correo instalada");
             }
         }
+    }
+
+    public void cleanFields(){
+        editTextNombre.setText("");
+        editTextApellidos.setText("");
+        editTextEmail.setText("");
+        editTextTelefono.setText("");
+        spinner.setSelection(0);
+        editTextComentarios.setText("");
+        if(checkbox.isChecked()){
+            checkbox.setChecked(false);
+            checkbox.setSelected(false);
+        }
+    }
+
+    private void showMessage(String str) {
+        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
     }
 
     public void onResume(){
