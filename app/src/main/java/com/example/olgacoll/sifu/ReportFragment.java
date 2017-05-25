@@ -4,10 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,7 @@ import com.example.olgacoll.sifu.model.Incidencia;
 import com.example.olgacoll.sifu.remote.APIService;
 import com.example.olgacoll.sifu.remote.ApiUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +36,8 @@ public class ReportFragment extends Fragment {
     public static final String TAG ="ReportFragment";
     private APIService apiService;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
-    String nombre, apellidos, email, telefono, cliente, comentarios, uuid;
+    String nombre, apellidos, email, telefono, cliente, site, comentarios, uuid;
+    File image_01, image_02, image_03, image_04;
     Spinner spinner;
     String dadesSpinner[];
     String provincia;
@@ -94,7 +95,7 @@ public class ReportFragment extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.buttonEnviar:
-                        //initSendReport();
+                        initSendReport();
                         break;
                     case R.id.buttonSubirImagen:
                         initSubirImagen();
@@ -146,7 +147,6 @@ public class ReportFragment extends Fragment {
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, dadesSpinner);
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adaptador);
-        prepareItemListener();
         spinner.setOnItemSelectedListener(listenerSpinner);
     }
 
@@ -160,20 +160,6 @@ public class ReportFragment extends Fragment {
         buttonBorrarImagen3.setOnClickListener(listener);
         buttonBorrarImagen4.setOnClickListener(listener);
         buttonEnviar.setOnClickListener(listener);
-    }
-
-    public void prepareItemListener() {
-        listenerSpinner = new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                provincia = dadesSpinner[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        };
     }
 
     public boolean validate() {
@@ -240,19 +226,29 @@ public class ReportFragment extends Fragment {
         if(!checkbox.isChecked()) {
             showMessage("Acepta los términos y condiciones para poder completar la incidencia");
         }else {
-            apiService.sendIncidencia(nombre, apellidos, telefono, provincia, comentarios, cliente, email).enqueue(new Callback<Incidencia>() {
+            apiService.sendIncidencia(nombre, apellidos, provincia, comentarios, email, telefono, site, cliente, uuid).enqueue(new Callback<String>() {
                 @Override
-                public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
-                    if(response.code() == 200) showMessage("Incidencia enviada");
+                public void onResponse(Call<String> call, Response<String> response) {
+                    showMessage("Incidencia enviada");
+                    showCallAlert();
                     Log.i(TAG, "post submitted to API.");
                 }
 
                 @Override
-                public void onFailure(Call<Incidencia> call, Throwable t) {
+                public void onFailure(Call<String> call, Throwable t) {
                     Log.e(TAG, "Unable to submit post to API.");
                 }
             });
         }
+    }
+
+    private void showCallAlert(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setIcon(R.drawable.ic_stat_name);
+        alert.setTitle("Aviso");
+        alert.setMessage("Si la incidencia es muy urgente, llame al siguiente numero de teléfono: ");
+        alert.setPositiveButton("OK",null);
+        alert.show();
     }
 
     private void initSubirImagen() {
@@ -264,7 +260,7 @@ public class ReportFragment extends Fragment {
 
         while(!flag && i < checkButtons.size()){
 
-            System.out.println("Indice while " + i + " booleano: " + checkButtons.get(i));
+            //System.out.println("Index while " + i + " boolean: " + checkButtons.get(i));
             if(checkButtons.get(i).equals(false)){
 
                 switch(i){
@@ -296,8 +292,8 @@ public class ReportFragment extends Fragment {
     private static final int PHOTO_REQUEST_CUT = 2;//image crop
 
     private void escogerImagen(){
-        String title = "Open Photo";
-        CharSequence[] itemlist ={"Take a Photo", "Pick from Gallery"};
+        String title = "Escoger una imagen";
+        CharSequence[] itemlist ={"Cámara", "Elegir foto de galería"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setIcon(R.drawable.ic_home_black_24dp);
         builder.setTitle(title);
@@ -307,8 +303,8 @@ public class ReportFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:// Take Photo
-                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(takePicture, 0);
+                        //Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        //startActivityForResult(takePicture, 0);
                         break;
                     case 1:// Choose Existing Photo
                         // Do Pick Photo task here
@@ -325,6 +321,7 @@ public class ReportFragment extends Fragment {
         alert.show();
     }
 
+
     private void showMessage(String str) {
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
     }
@@ -334,4 +331,6 @@ public class ReportFragment extends Fragment {
         // Set title bar
         ((MainActivity) getActivity()).setActionBarCenterTitle("Reportar incidencia");
     }
+
+
 }

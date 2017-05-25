@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.olgacoll.sifu.remote.APIService;
+import com.example.olgacoll.sifu.remote.ApiUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class RequestFragment extends Fragment {
 
     public static final String TAG ="RequestFragment";
-    String nombre, apellidos, email, telefono, provincia, comentarios;
+    private APIService apiService;
+    String nombre, apellidos, email, telefono, provincia, mensaje;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
     Spinner spinner;
     String dadesSpinner[];
@@ -40,6 +49,7 @@ public class RequestFragment extends Fragment {
     }
 
     public void initComponents(View view) {
+        apiService = ApiUtils.getAPIService();
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
         editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
         editTextEmail = (EditText) view.findViewById(R.id.input_email);
@@ -81,7 +91,7 @@ public class RequestFragment extends Fragment {
         email = editTextEmail.getText().toString();
         telefono = editTextTelefono.getText().toString();
         provincia = spinner.getSelectedItem().toString();
-        comentarios = editTextComentarios.getText().toString();
+        mensaje = editTextComentarios.getText().toString();
 
         if (nombre.isEmpty() || nombre.length() < 1) {
             editTextNombre.setError("Nombre demasiado corto");
@@ -104,20 +114,19 @@ public class RequestFragment extends Fragment {
             editTextEmail.setError(null);
         }
 
-        if (telefono.isEmpty() || telefono.length() < 9) {
+        /*if (telefono.isEmpty() || telefono.length() < 9) {
             editTextTelefono.setError("Teléfono incorrecto");
             valid = false;
         } else {
             editTextEmail.setError(null);
-        }
+        }*/
 
-        if (comentarios.isEmpty()){
+        /*if (comentarios.isEmpty()){
             editTextComentarios.setError("Escriba un comentario para completar su solicitud");
             valid = false;
         } else {
             editTextComentarios.setError(null);
-        }
-
+        }*/
         return valid;
     }
 
@@ -137,19 +146,36 @@ public class RequestFragment extends Fragment {
         if(!checkbox.isChecked()){
             showMessage("Acepta los términos y condiciones para poder completar la solicitud");
         }else{
-            Intent i = new Intent(Intent.ACTION_SEND);
-            i.setType("message/rfc822");
-            i.putExtra(Intent.EXTRA_EMAIL, new String[]{"ocoll@deideasmarketing.com"});
-            i.putExtra(Intent.EXTRA_SUBJECT, nombre + "" + apellidos);
-            i.putExtra(Intent.EXTRA_TEXT, comentarios);
-            i.putExtra(Intent.EXTRA_TEXT, "Nombre: " + nombre + "\nApellidos: " + apellidos + "\nEmail: " + email + "\nProvincia: " + provincia + "\nTelefono: " + telefono + "\nComentarios: " + comentarios);
-            try {
-                startActivity(Intent.createChooser(i, "Enviando mail..."));
-                showMessage("Solicitud enviada");
-                cleanFields();
-            } catch (android.content.ActivityNotFoundException ex) {
-                showMessage("No hay ninguna aplicación de correo instalada");
-            }
+            apiService.sendMail(nombre, apellidos, email, telefono, provincia, mensaje).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    showMessage("Solicitud enviada");
+                    Log.i(TAG, "post submitted to API.");
+                    createMail();
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Log.e(TAG, "Unable to submit post to API.");
+                }
+            });
+
+        }
+    }
+
+    public void createMail(){
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL, new String[]{"ocoll@deideasmarketing.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, nombre + "" + apellidos);
+        i.putExtra(Intent.EXTRA_TEXT, mensaje);
+        i.putExtra(Intent.EXTRA_TEXT, "Nombre: " + nombre + "\nApellidos: " + apellidos + "\nEmail: " + email + "\nProvincia: " + provincia + "\nTelefono: " + telefono + "\nComentarios: " + mensaje);
+        try {
+            startActivity(Intent.createChooser(i, "Enviando mail..."));
+            showMessage("Solicitud enviada");
+            cleanFields();
+        } catch (android.content.ActivityNotFoundException ex) {
+            showMessage("No hay ninguna aplicación de correo instalada");
         }
     }
 
