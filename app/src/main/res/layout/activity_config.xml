@@ -10,22 +10,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--TextView
-            android:id="@+id/textViewTitleConfig"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:lineSpacingExtra="8sp"
-            android:padding="25sp"
-            android:text="@string/titleConfig"
-            android:textSize="18sp" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="20dip"
-            android:background="#c0c0c0" /-->
-
         <TextView
             android:id="@+id/textViewReport"
             android:layout_width="match_parent"

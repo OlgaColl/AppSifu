@@ -27,6 +27,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -226,16 +228,17 @@ public class ReportFragment extends Fragment {
         if(!checkbox.isChecked()) {
             showMessage("Acepta los términos y condiciones para poder completar la incidencia");
         }else {
-            apiService.sendIncidencia(nombre, apellidos, provincia, comentarios, email, telefono, site, cliente, uuid).enqueue(new Callback<String>() {
+            apiService.sendIncidencia(nombre, apellidos, provincia, comentarios, email, telefono, site, cliente, uuid).enqueue(new Callback<Incidencia>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
+                public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
                     showMessage("Incidencia enviada");
                     showCallAlert();
                     Log.i(TAG, "post submitted to API.");
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<Incidencia> call, Throwable t) {
+                    System.out.println(t.getCause() + t.getMessage());
                     Log.e(TAG, "Unable to submit post to API.");
                 }
             });
