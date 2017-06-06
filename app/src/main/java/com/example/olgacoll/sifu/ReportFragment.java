@@ -1,12 +1,21 @@
 package com.example.olgacoll.sifu;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.print.PrintHelper;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +32,11 @@ import com.example.olgacoll.sifu.model.Incidencia;
 import com.example.olgacoll.sifu.remote.APIService;
 import com.example.olgacoll.sifu.remote.ApiUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +45,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ReportFragment extends Fragment {
 
@@ -52,6 +67,8 @@ public class ReportFragment extends Fragment {
     View.OnClickListener listener;
     AdapterView.OnItemSelectedListener listenerSpinner;
     private static final int SELECT_FILE = 1;
+    private int PICK_IMAGE_REQUEST = 1;
+    Context applicationContext = MainActivity.getContextOfApplication();
     int i = 0;
 
     @Nullable
@@ -106,6 +123,7 @@ public class ReportFragment extends Fragment {
                           if(buttonEscogeImagen2.getVisibility() == View.VISIBLE){
                               buttonEscogeImagen2.setVisibility(View.GONE);
                               buttonBorrarImagen2.setVisibility(View.GONE);
+                              image_02 = new File("image02");
                               checkButtons.set(0, false);
                           }
                           break;
@@ -113,6 +131,7 @@ public class ReportFragment extends Fragment {
                         if(buttonEscogeImagen3.getVisibility() == View.VISIBLE){
                             buttonEscogeImagen3.setVisibility(View.GONE);
                             buttonBorrarImagen3.setVisibility(View.GONE);
+                            image_03 = new File("image03");
                             checkButtons.set(1, false);
                         }
                         break;
@@ -120,6 +139,7 @@ public class ReportFragment extends Fragment {
                         if(buttonEscogeImagen4.getVisibility() == View.VISIBLE){
                             buttonEscogeImagen4.setVisibility(View.GONE);
                             buttonBorrarImagen4.setVisibility(View.GONE);
+                            image_04 = new File("image04");
                             checkButtons.set(2, false);
                         }
                         break;
@@ -166,7 +186,6 @@ public class ReportFragment extends Fragment {
 
     public boolean validate() {
         boolean valid = true;
-
         nombre = editTextNombre.getText().toString();
         apellidos = editTextApellidos.getText().toString();
         email = editTextEmail.getText().toString();
@@ -263,9 +282,7 @@ public class ReportFragment extends Fragment {
 
         while(!flag && i < checkButtons.size()){
 
-            //System.out.println("Index while " + i + " boolean: " + checkButtons.get(i));
             if(checkButtons.get(i).equals(false)){
-
                 switch(i){
                     case 0:
                         buttonEscogeImagen2.setVisibility(View.VISIBLE);
@@ -311,8 +328,14 @@ public class ReportFragment extends Fragment {
                         break;
                     case 1:// Choose Existing Photo
                         // Do Pick Photo task here
-                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(pickPhoto , 1);//one can be replaced with any action code
+                        Intent intent = new Intent();
+                        // Show only images, no videos or anything else
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        // Always show the chooser (if there are multiple options available)
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                        //Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        //startActivityForResult(galleryIntent , 0);//one can be replaced with any action code
                         break;
                     default:
                         break;
@@ -324,9 +347,71 @@ public class ReportFragment extends Fragment {
         alert.show();
     }
 
-
     private void showMessage(String str) {
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), uri);
+
+                persistImage(bitmap, "image_01");
+                //String myBase64Image = encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG, 100);
+                //System.out.println(myBase64Image);
+                // Log.d(TAG, String.valueOf(bitmap));
+
+                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                //imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void persistImage(Bitmap bitmap, String name) {
+        File filesDir = getActivity().getApplicationContext().getFilesDir();
+        File imageFile = new File(filesDir, name + ".jpg");
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            System.out.println(os.toString() + os);
+            os.flush();
+            os.close();
+
+            apiService.sendFiles(imageFile, imageFile, imageFile, imageFile).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    System.out.println("SEND FILES: " + response.body());
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    System.out.println("Cause " + t.getCause() + " Message: " + t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            System.out.println("Error, exception: " + e.getMessage());
+        }
+    }
+
+    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
+        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
+        image.compress(compressFormat, quality, byteArrayOS);
+        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
+    }
+
+    public static Bitmap decodeBase64(String input){
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
     public void onResume(){
@@ -334,6 +419,4 @@ public class ReportFragment extends Fragment {
         // Set title bar
         ((MainActivity) getActivity()).setActionBarCenterTitle("Reportar incidencia");
     }
-
-
 }

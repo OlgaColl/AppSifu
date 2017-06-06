@@ -125,14 +125,18 @@
                     android:id="@+id/buttonEscogeImagen"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/buttonEscogeImagen" />
+                    android:text="@string/buttonEscogeImagen"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/colorWhite"/>
 
                 <Button
                     android:id="@+id/buttonEscogeImagen2"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:text="@string/buttonEscogeImagen"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/colorWhite"/>
 
                 <Button
                     android:id="@+id/buttonBorrarImagen2"
@@ -146,7 +150,9 @@
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:text="@string/buttonEscogeImagen"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/colorWhite"/>
 
                 <Button
                     android:id="@+id/buttonBorrarImagen3"
@@ -160,7 +166,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/buttonEscogeImagen"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/colorWhite"/>
 
                 <Button
                     android:id="@+id/buttonBorrarImagen4"

@@ -1,5 +1,6 @@
 package com.example.olgacoll.sifu;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Context contextOfApplication;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -52,11 +54,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        contextOfApplication = getApplicationContext();
         initFragment();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    //From Retrofit files
+    public static Context getContextOfApplication(){
+        return contextOfApplication;
+    }
     //Go to ConfigFragment
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    //Cambia título Action Bar, falta centrarlo
+    //Change title depends to fragment active
     public void setActionBarCenterTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
