@@ -49,7 +49,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.olgacoll.sifu.remote.RetrofitClient.retrofit;
 
 public class ReportFragment extends Fragment {
 
@@ -264,7 +263,17 @@ public class ReportFragment extends Fragment {
             RequestBody client = RequestBody.create(MediaType.parse("text/plain"), cliente);
             RequestBody device_id = RequestBody.create(MediaType.parse("text/plain"), uuid);
 
-            apiService.sendIncidence(image1, name, last_name, company, description, mail, phone, client, device_id);
+            apiService.sendIncidence(image1, name, last_name, company, description, mail, phone, client, device_id).enqueue(new Callback<Incidencia>() {
+                @Override
+                public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
+                    System.out.println(response.body().toString());
+                }
+
+                @Override
+                public void onFailure(Call<Incidencia> call, Throwable t) {
+                    System.out.println(t.getCause() + t.getMessage());
+                }
+            });
         }
     }
 
@@ -391,17 +400,17 @@ public class ReportFragment extends Fragment {
             os.flush();
             os.close();
 
-            apiService.sendFiles(imageFile, imageFile, imageFile, imageFile).enqueue(new Callback<String>() {
+            /*apiService.sendFiles(imageFile, imageFile, imageFile, imageFile).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    System.out.println("SEND FILES: " + response.body());
+                    //System.out.println("SEND FILES: " + response.body());
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
                     System.out.println("Cause " + t.getCause() + " Message: " + t.getMessage());
                 }
-            });
+            });*/
         } catch (Exception e) {
             System.out.println("Error, exception: " + e.getMessage());
         }
@@ -422,5 +431,6 @@ public class ReportFragment extends Fragment {
         super.onResume();
         // Set title bar
         ((MainActivity) getActivity()).setActionBarCenterTitle("Reportar incidencia");
+        ((MainActivity) getActivity()).getNavigationVisible(true);
     }
 }

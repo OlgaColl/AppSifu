@@ -10,10 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
     public static Context contextOfApplication;
+    BottomNavigationView navigation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -26,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
             Fragment container = new Fragment();
 
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    container = new HomeFragment();
+                case R.id.navigation_info:
+                    container = new InfoFragment();
                     break;
                 case R.id.navigation_report:
                     container = new ReportFragment();
@@ -35,10 +37,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_request:
                     container = new RequestFragment();
                     break;
-                /*case R.id.navigation_info:
-                    //mTextMessage.setText(R.string.title_dashboard);
-                    container = new InfoFragment();
-                    break;*/
             }
 
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -56,8 +54,17 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         contextOfApplication = getApplicationContext();
         initFragment();
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    public void getNavigationVisible(boolean flag){
+        if(flag){
+            navigation.setVisibility(View.VISIBLE);
+        }else{
+            navigation.setVisibility(View.INVISIBLE);
+        }
     }
 
     //From Retrofit files
