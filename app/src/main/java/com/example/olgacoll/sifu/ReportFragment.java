@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.provider.Settings.Secure;
@@ -45,8 +46,10 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.olgacoll.sifu.remote.RetrofitClient.retrofit;
 
 public class ReportFragment extends Fragment {
 
@@ -247,20 +250,21 @@ public class ReportFragment extends Fragment {
         if(!checkbox.isChecked()) {
             showMessage("Acepta los términos y condiciones para poder completar la incidencia");
         }else {
-            apiService.sendIncidencia(nombre, apellidos, provincia, comentarios, email, telefono, site, cliente, uuid).enqueue(new Callback<Incidencia>() {
-                @Override
-                public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
-                    showMessage("Incidencia enviada");
-                    showCallAlert();
-                    Log.i(TAG, "post submitted to API.");
-                }
 
-                @Override
-                public void onFailure(Call<Incidencia> call, Throwable t) {
-                    System.out.println(t.getCause() + t.getMessage());
-                    Log.e(TAG, "Unable to submit post to API.");
-                }
-            });
+            File filesDir = getActivity().getApplicationContext().getFilesDir();
+            File imageFile = new File(filesDir, "image1" + ".jpg");
+
+            RequestBody image1 = RequestBody.create(MediaType.parse("image/*"), imageFile);
+            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), nombre);
+            RequestBody last_name = RequestBody.create(MediaType.parse("text/plain"), apellidos);
+            RequestBody company = RequestBody.create(MediaType.parse("text/plain"), provincia);
+            RequestBody description = RequestBody.create(MediaType.parse("text/plain"), comentarios);
+            RequestBody mail = RequestBody.create(MediaType.parse("text/plain"), email);
+            RequestBody phone = RequestBody.create(MediaType.parse("text/plain"), telefono);
+            RequestBody client = RequestBody.create(MediaType.parse("text/plain"), cliente);
+            RequestBody device_id = RequestBody.create(MediaType.parse("text/plain"), uuid);
+
+            apiService.sendIncidence(image1, name, last_name, company, description, mail, phone, client, device_id);
         }
     }
 

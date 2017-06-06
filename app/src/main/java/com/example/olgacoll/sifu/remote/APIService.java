@@ -12,6 +12,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -19,17 +20,18 @@ import retrofit2.http.Part;
 
 public interface APIService {
 
-    @FormUrlEncoded
+    @Multipart
     @POST("incidencia")
-    Call<Incidencia> sendIncidencia(@Field("name") String name,
-                                @Field("last_name") String last_name,
-                                @Field("company") String company,
-                                @Field("description") String description,
-                                @Field("email") String email,
-                                @Field("phone") String phone,
-                                @Field("site") String site,
-                                @Field("client") String client,
-                                @Field("device_id") String uuid);
+    Call<Incidencia> sendIncidence (
+                                    @Part("file\"; filename=\"pp.png\" ") RequestBody file,
+                                    @Part("name") RequestBody name,
+                                    @Part("last_name") RequestBody last_name,
+                                    @Part("company") RequestBody company,
+                                    @Part("description") RequestBody description,
+                                    @Part("email") RequestBody email,
+                                    @Part("phone") RequestBody phone,
+                                    @Part("client") RequestBody client,
+                                    @Part("device_id") RequestBody device_id);
 
     @FormUrlEncoded
     @POST("send_mail")
