@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*mToolBar = (Toolbar) findViewById(R.id.toolbarLayout);
+        mToolBar.setTitle("Toolbar");
+        mToolBar.setNavigationIcon(R.drawable.ic_back_shadow);
+        setSupportActionBar(mToolBar);*/
+        //getActionBar().setDisplayHomeAsUpEnabled(false)
         contextOfApplication = getApplicationContext();
         initFragment();
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
             navigation.setVisibility(View.INVISIBLE);
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(flag);
     }
 
     //From Retrofit files
@@ -87,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_config:
                 container = new ConfigFragment();
+                break;
+            case android.R.id.home:
+                container = new HomeFragment();
                 break;
             default:
                 // If we got here, the user's action was not recognized.
@@ -114,19 +123,6 @@ public class MainActivity extends AppCompatActivity {
     //Change title depends to fragment active
     public void setActionBarCenterTitle(String title) {
         getSupportActionBar().setTitle(title);
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        int count = getFragmentManager().getBackStackEntryCount();
-
-        if (count == 0) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            getFragmentManager().popBackStack();
-        }
 
     }
 }

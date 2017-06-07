@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -291,8 +292,6 @@ public class ReportFragment extends Fragment {
         int i = 0;
         boolean flag = false;
 
-        System.out.println(checkButtons.size());
-
         while(!flag && i < checkButtons.size()){
 
             if(checkButtons.get(i).equals(false)){
@@ -336,17 +335,24 @@ public class ReportFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:// Take Photo
-                        //Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //startActivityForResult(takePicture, 0);
-                        break;
+                        /*if (getApplicationContext().getPackageManager().hasSystemFeature(
+                                PackageManager.FEATURE_CAMERA)) {*/
+                            // Open default camera
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, image_01);
+
+                            // start the image capture Intent
+                            startActivityForResult(intent, 100);
+
+                            break;
                     case 1:// Choose Existing Photo
                         // Do Pick Photo task here
-                        Intent intent = new Intent();
+                        Intent intent2 = new Intent();
                         // Show only images, no videos or anything else
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        intent2.setType("image/*");
+                        intent2.setAction(Intent.ACTION_GET_CONTENT);
                         // Always show the chooser (if there are multiple options available)
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                        startActivityForResult(Intent.createChooser(intent2, "Select Picture"), PICK_IMAGE_REQUEST);
                         //Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         //startActivityForResult(galleryIntent , 0);//one can be replaced with any action code
                         break;
@@ -383,7 +389,8 @@ public class ReportFragment extends Fragment {
                 //ImageView imageView = (ImageView) findViewById(R.id.imageView);
                 //imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Message: " + e.getMessage());
+                //e.printStackTrace();
             }
         }
     }

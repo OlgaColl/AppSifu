@@ -38,4 +38,5 @@
 
     <!-- Menú XML -->
     <string name="menuInfo"></string>
+    <string name="titleBack"></string>
 </resources>
