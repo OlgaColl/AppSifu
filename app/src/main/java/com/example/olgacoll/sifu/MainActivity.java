@@ -1,5 +1,6 @@
 package com.example.olgacoll.sifu;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
@@ -55,29 +56,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //getSizes();
-
-        /*mToolBar = (Toolbar) findViewById(R.id.toolbarLayout);
-        mToolBar.setTitle("Toolbar");
-        mToolBar.setNavigationIcon(R.drawable.ic_back_shadow);
-        setSupportActionBar(mToolBar);*/
-        //getActionBar().setDisplayHomeAsUpEnabled(false)
-
         contextOfApplication = getApplicationContext();
         initFragment();
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
-
-    //Peta, mirar que pasa
-    private void getSizes(){
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int width = metrics.widthPixels; // ancho absoluto en pixels
-        int height = metrics.heightPixels; // alto absoluto en pixels
-
-        LinearLayout containerLayout = (LinearLayout)findViewById(R.id.container);
     }
 
     public void getNavigationVisible(boolean flag){

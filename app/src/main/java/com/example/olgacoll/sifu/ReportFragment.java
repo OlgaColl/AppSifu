@@ -54,6 +54,8 @@ import static android.app.Activity.RESULT_OK;
 public class ReportFragment extends Fragment {
 
     public static final String TAG ="ReportFragment";
+    private static final int TAKE_PICTURE = 1;
+    private Uri imageUri;
     private APIService apiService;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
     String nombre, apellidos, email, telefono, cliente, site, comentarios, uuid;
@@ -69,7 +71,6 @@ public class ReportFragment extends Fragment {
     Button buttonBorrarImagen2, buttonBorrarImagen3, buttonBorrarImagen4;
     View.OnClickListener listener;
     AdapterView.OnItemSelectedListener listenerSpinner;
-    private static final int SELECT_FILE = 1;
     private int PICK_IMAGE_REQUEST = 1;
     Context applicationContext = MainActivity.getContextOfApplication();
     int i = 0;
@@ -335,16 +336,13 @@ public class ReportFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:// Take Photo
-                        /*if (getApplicationContext().getPackageManager().hasSystemFeature(
-                                PackageManager.FEATURE_CAMERA)) {*/
-                            // Open default camera
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, image_01);
-
-                            // start the image capture Intent
-                            startActivityForResult(intent, 100);
-
-                            break;
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        File photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                                Uri.fromFile(photo));
+                        imageUri = Uri.fromFile(photo);
+                        startActivityForResult(intent, TAKE_PICTURE);
+                        break;
                     case 1:// Choose Existing Photo
                         // Do Pick Photo task here
                         Intent intent2 = new Intent();
@@ -373,7 +371,7 @@ public class ReportFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
