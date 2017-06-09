@@ -364,7 +364,7 @@ public class ReportFragment extends Fragment {
         alert.show();
     }
 
-    private void showMessage(String str) {
+    private void showMessage(String str){
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
     }
 
