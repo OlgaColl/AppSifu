@@ -121,6 +121,12 @@
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp">
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@color/colorWhite" />
+
                 <Button
                     android:id="@+id/buttonEscogeImagen"
                     android:layout_width="180dp"
@@ -228,6 +234,8 @@
                     android:layout_height="match_parent"
                     android:text="@string/textCheckBox" />
             </android.support.design.widget.TextInputLayout>
+
+
 
             <!-- Button enviar -->
             <android.support.design.widget.TextInputLayout

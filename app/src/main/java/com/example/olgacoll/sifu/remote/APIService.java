@@ -23,7 +23,7 @@ public interface APIService {
     @Multipart
     @POST("incidencia")
     Call<Incidencia> sendIncidence(
-                                    @Part("file\"; filename=\"pp.png\" ") RequestBody file,
+                                    @Part("file\"; filename=\"my_image.jpg") RequestBody file,
                                     @Part("name") RequestBody name,
                                     @Part("last_name") RequestBody last_name,
                                     @Part("company") RequestBody company,

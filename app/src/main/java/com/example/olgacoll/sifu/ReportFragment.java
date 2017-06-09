@@ -60,6 +60,8 @@ public class ReportFragment extends Fragment {
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
     String nombre, apellidos, email, telefono, cliente, site, comentarios, uuid;
     File image_01, image_02, image_03, image_04;
+    ImageView imageView;
+    Bitmap bmap;
     Spinner spinner;
     String dadesSpinner[];
     String provincia;
@@ -95,7 +97,8 @@ public class ReportFragment extends Fragment {
         editTextEmail = (EditText) view.findViewById(R.id.input_email);
         editTextTelefono = (EditText) view.findViewById(R.id.input_telefono);
         editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
-        checkbox = (CheckBox)view.findViewById(R.id.checkBox);
+        checkbox = (CheckBox) view.findViewById(R.id.checkBox);
+        imageView = (ImageView) view.findViewById(R.id.imageView);
         buttonSubirImagen = (Button) view.findViewById(R.id.buttonSubirImagen);
         buttonEscogeImagen = (Button) view.findViewById(R.id.buttonEscogeImagen);
         buttonEscogeImagen2 = (Button) view.findViewById(R.id.buttonEscogeImagen2);
@@ -251,11 +254,29 @@ public class ReportFragment extends Fragment {
         if(!checkbox.isChecked()) {
             showMessage("Acepta los términos y condiciones para poder completar la incidencia");
         }else {
+            //prepare image file
+            /*File file = new File(imagePath);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part imageFileBody = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
+                    */
 
             File filesDir = getActivity().getApplicationContext().getFilesDir();
-            File imageFile = new File(filesDir, "image1" + ".jpg");
+            File imageFile = new File(filesDir, "image01" + ".jpg");
 
-            RequestBody image1 = RequestBody.create(MediaType.parse("image/*"), imageFile);
+            imageView.buildDrawingCache();
+            bmap = imageView.getDrawingCache();
+
+            OutputStream os;
+            try {
+                os = new FileOutputStream(imageFile);
+                bmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+                os.flush();
+                os.close();
+            } catch (Exception e) {
+                Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+            }
+
+            RequestBody image1 = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
             RequestBody name = RequestBody.create(MediaType.parse("text/plain"), nombre);
             RequestBody last_name = RequestBody.create(MediaType.parse("text/plain"), apellidos);
             RequestBody company = RequestBody.create(MediaType.parse("text/plain"), provincia);
@@ -268,7 +289,8 @@ public class ReportFragment extends Fragment {
             apiService.sendIncidence(image1, name, last_name, company, description, mail, phone, client, device_id).enqueue(new Callback<Incidencia>() {
                 @Override
                 public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
-                    System.out.println(response.body().toString());
+                    System.out.println(response.body());
+                    System.out.println(response.code());
                 }
 
                 @Override
@@ -289,7 +311,6 @@ public class ReportFragment extends Fragment {
     }
 
     private void initSubirImagen() {
-
         int i = 0;
         boolean flag = false;
 
@@ -313,10 +334,8 @@ public class ReportFragment extends Fragment {
                         checkButtons.set(2, true);
                         break;
                 }
-
                 flag = true;
             }
-
             i++;
         }
     }
@@ -336,23 +355,16 @@ public class ReportFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:// Take Photo
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        File photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                                Uri.fromFile(photo));
-                        imageUri = Uri.fromFile(photo);
-                        startActivityForResult(intent, TAKE_PICTURE);
+                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(takePicture, 0);
                         break;
                     case 1:// Choose Existing Photo
-                        // Do Pick Photo task here
-                        Intent intent2 = new Intent();
-                        // Show only images, no videos or anything else
-                        intent2.setType("image/*");
-                        intent2.setAction(Intent.ACTION_GET_CONTENT);
-                        // Always show the chooser (if there are multiple options available)
-                        startActivityForResult(Intent.createChooser(intent2, "Select Picture"), PICK_IMAGE_REQUEST);
-                        //Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        //startActivityForResult(galleryIntent , 0);//one can be replaced with any action code
+                        //Intent intent2 = new Intent();
+                        //intent2.setType("image/*");
+                        //intent2.setAction(Intent.ACTION_GET_CONTENT);
+                        //startActivityForResult(Intent.createChooser(intent2, "Select Picture"), PICK_IMAGE_REQUEST);
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(pickPhoto , 1);
                         break;
                     default:
                         break;
@@ -368,56 +380,22 @@ public class ReportFragment extends Fragment {
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            Uri uri = data.getData();
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), uri);
-
-                persistImage(bitmap, "image_01");
-                //String myBase64Image = encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG, 100);
-                //System.out.println(myBase64Image);
-                // Log.d(TAG, String.valueOf(bitmap));
-
-                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                //imageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                System.out.println("Message: " + e.getMessage());
-                //e.printStackTrace();
-            }
-        }
-    }
-
-    private void persistImage(Bitmap bitmap, String name) {
-        File filesDir = getActivity().getApplicationContext().getFilesDir();
-        File imageFile = new File(filesDir, name + ".jpg");
-
-        OutputStream os;
-        try {
-            os = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-            System.out.println(os.toString() + os);
-            os.flush();
-            os.close();
-
-            /*apiService.sendFiles(imageFile, imageFile, imageFile, imageFile).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    //System.out.println("SEND FILES: " + response.body());
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(requestCode) {
+            case 0:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    imageView.setImageURI(selectedImage);
                 }
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    System.out.println("Cause " + t.getCause() + " Message: " + t.getMessage());
+                break;
+            case 1:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    imageView.setImageURI(selectedImage);
                 }
-            });*/
-        } catch (Exception e) {
-            System.out.println("Error, exception: " + e.getMessage());
+                break;
         }
     }
 
