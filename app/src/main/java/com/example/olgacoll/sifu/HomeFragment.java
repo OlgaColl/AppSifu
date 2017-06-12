@@ -27,6 +27,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_home, container, false);
+        initHome();
         initComponents(view);
         onPrepareListener();
         imageViewConfig.setOnClickListener(listener);
@@ -63,10 +64,13 @@ public class HomeFragment extends Fragment {
         };
     }
 
-    public void onResume(){
-        super.onResume();
-        //((MainActivity) getActivity()).setActionBarCenterTitle("Home");
+    private void initHome(){
         ((MainActivity) getActivity()).getNavigationVisible(false);
         ((MainActivity) getActivity()).getSupportActionBar().hide();
+    }
+
+    public void onResume(){
+        super.onResume();
+        initHome();
     }
 }

@@ -121,6 +121,5 @@ public class MainActivity extends AppCompatActivity {
     //Change title depends to fragment active
     public void setActionBarCenterTitle(String title) {
         getSupportActionBar().setTitle(title);
-
     }
 }

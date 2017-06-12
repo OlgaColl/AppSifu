@@ -23,14 +23,13 @@ public class InfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_info, container, false);
         textView = (TextView)view.findViewById(R.id.textViewTextInfo);
-        textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         return view;
     }
 
     public void onResume(){
         super.onResume();
-        ((MainActivity) getActivity()).setActionBarCenterTitle("Información");
+        ((MainActivity) getActivity()).setActionBarCenterTitle("Grupo SIFU");
         ((MainActivity) getActivity()).getNavigationVisible(true);
-        ((MainActivity) getActivity()).getSupportActionBar().show();
+        //((MainActivity) getActivity()).getSupportActionBar().show();
     }
 }

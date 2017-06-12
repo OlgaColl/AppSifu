@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/action_config"
-        android:icon="@drawable/ic_action_config"
+        android:icon="@drawable/ic_action_config_white"
         android:title="@string/titleConfig"
         app:showAsAction="ifRoom"/>
 </menu>
