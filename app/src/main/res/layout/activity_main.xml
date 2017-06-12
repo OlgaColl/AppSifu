@@ -23,8 +23,8 @@
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/colorBlue"
         app:itemIconTint="@drawable/selector"
-        app:itemTextColor="@color/colorPrimary"
+        app:itemTextColor="@color/colorWhite"
         app:menu="@menu/navigation"/>
 </LinearLayout>

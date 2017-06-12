@@ -43,5 +43,6 @@ public class ConfigFragment extends Fragment{
         super.onResume();
         ((MainActivity) getActivity()).setActionBarCenterTitle("Configuración");
         ((MainActivity) getActivity()).getNavigationVisible(true);
+        ((MainActivity) getActivity()).getSupportActionBar().show();
     }
 }

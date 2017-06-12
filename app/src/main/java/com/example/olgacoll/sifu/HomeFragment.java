@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class HomeFragment extends Fragment {
 
     public static final String TAG = "HomeFragment";
     TextView textViewInfo;
+    ImageView imageViewConfig;
     Button buttonReport, buttonRequest;
     View.OnClickListener listener;
 
@@ -27,6 +29,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_home, container, false);
         initComponents(view);
         onPrepareListener();
+        imageViewConfig.setOnClickListener(listener);
         buttonReport.setOnClickListener(listener);
         buttonRequest.setOnClickListener(listener);
         return view;
@@ -34,6 +37,7 @@ public class HomeFragment extends Fragment {
 
     private void initComponents(View view) {
         textViewInfo = (TextView) view.findViewById(R.id.textViewMain);
+        imageViewConfig = (ImageView) view.findViewById(R.id.ic_action_config);
         buttonReport = (Button) view.findViewById(R.id.buttonReport);
         buttonRequest = (Button) view.findViewById(R.id.buttonRequest);
     }
@@ -50,6 +54,8 @@ public class HomeFragment extends Fragment {
                     case R.id.buttonRequest:
                         fragment = new RequestFragment();
                         break;
+                    case R.id.ic_action_config:
+                        fragment = new ConfigFragment();
                 }
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
@@ -59,7 +65,8 @@ public class HomeFragment extends Fragment {
 
     public void onResume(){
         super.onResume();
-        ((MainActivity) getActivity()).setActionBarCenterTitle("Home");
+        //((MainActivity) getActivity()).setActionBarCenterTitle("Home");
         ((MainActivity) getActivity()).getNavigationVisible(false);
+        ((MainActivity) getActivity()).getSupportActionBar().hide();
     }
 }

@@ -415,5 +415,6 @@ public class ReportFragment extends Fragment {
         // Set title bar
         ((MainActivity) getActivity()).setActionBarCenterTitle("Reportar incidencia");
         ((MainActivity) getActivity()).getNavigationVisible(true);
+        ((MainActivity) getActivity()).getSupportActionBar().show();
     }
 }

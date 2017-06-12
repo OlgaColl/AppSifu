@@ -31,5 +31,6 @@ public class InfoFragment extends Fragment {
         super.onResume();
         ((MainActivity) getActivity()).setActionBarCenterTitle("Información");
         ((MainActivity) getActivity()).getNavigationVisible(true);
+        ((MainActivity) getActivity()).getSupportActionBar().show();
     }
 }

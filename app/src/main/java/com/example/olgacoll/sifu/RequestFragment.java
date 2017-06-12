@@ -201,5 +201,6 @@ public class RequestFragment extends Fragment {
         // Set title bar
         ((MainActivity) getActivity()).setActionBarCenterTitle("Solicitud de información");
         ((MainActivity) getActivity()).getNavigationVisible(true);
+        ((MainActivity) getActivity()).getSupportActionBar().show();
     }
 }

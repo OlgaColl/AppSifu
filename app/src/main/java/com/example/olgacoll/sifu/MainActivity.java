@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         if(flag){
             navigation.setVisibility(View.VISIBLE);
         }else{
-            navigation.setVisibility(View.INVISIBLE);
+            navigation.setVisibility(View.GONE);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(flag);
     }
