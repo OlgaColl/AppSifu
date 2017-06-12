@@ -24,10 +24,12 @@
     <string name="buttonSubirImagen">Subir otra imagen</string>
     <string name="buttonBorrarImagen">Borrar imagen</string>
     <string name="buttonSend">Enviar</string>
+    <string name="buttonSendReport">Enviar</string>
 
     <!-- Request Activity -->
     <string name="titleRequest">SOLICITUD DE INFORMACIÓN</string>
     <string name="textRequest">Si deseas recibir información sobre un servicio, solicitar presupuesto o conocer más sobre nuestra empresa, puedes hacernos llegar tus comentarios a través del siguiente formulario.</string>
+    <string name="buttonSendRequest">ENVIAR</string>
 
     <!-- Config Activity -->
     <string name="titleConfig">CONFIGURACIÓN</string>

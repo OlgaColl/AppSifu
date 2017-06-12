@@ -4,134 +4,133 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo_sifu">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:baselineAligned="false">
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/textViewRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:lineSpacingExtra="2sp"
-                android:padding="25sp"
-                android:paddingBottom="15sp"
+                android:lineSpacingExtra="8sp"
+                android:layout_margin="25dp"
+                android:padding="15dp"
                 android:text="@string/textRequest"
-                android:textSize="18sp" />
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:background="@color/colorGrey"
+                android:layout_alignParentStart="true"/>
 
-            <!--  Nombre Label -->
-            <android.support.design.widget.TextInputLayout
+            <!-- Nombre label -->
+            <EditText
+                android:id="@+id/input_nombre"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_forms_edittext"
+                android:hint="Nombre"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
-                android:hint="Nombre">
+                android:textColorHint="@color/colorBlue"
+                android:textColor="@color/colorBlue"/>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_nombre"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <!-- Apellidos Label -->
-            <android.support.design.widget.TextInputLayout
+            <!-- Apellidos label -->
+            <EditText
+                android:id="@+id/input_apellidos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_forms_edittext"
+                android:hint="Apellidos"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
-                android:hint="Apellidos">
+                android:textColorHint="@color/colorBlue"
+                android:textColor="@color/colorBlue"/>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_apellidos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-            </android.support.design.widget.TextInputLayout>
-
-            <!--  Email Label -->
-            <android.support.design.widget.TextInputLayout
+            <!-- Email label -->
+            <EditText
+                android:id="@+id/input_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_forms_edittext"
+                android:hint="Email"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
-                android:hint="Email">
+                android:textColorHint="@color/colorBlue"
+                android:textColor="@color/colorBlue"/>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
-            </android.support.design.widget.TextInputLayout>
-
-            <!-- Teléfono Label -->
-            <android.support.design.widget.TextInputLayout
+            <!-- Teléfono label -->
+            <EditText
+                android:id="@+id/input_telefono"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_forms_edittext"
+                android:hint="Teléfono"
+                android:inputType="number"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
-                android:hint="Teléfono">
+                android:textColorHint="@color/colorBlue"
+                android:textColor="@color/colorBlue"/>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_telefono"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
-            </android.support.design.widget.TextInputLayout>
-
-            <!-- Provincia (Spinner) Label -->
-            <android.support.design.widget.TextInputLayout
+            <!-- Provincia label -->
+            <Spinner
+                android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
-                android:paddingLeft="25sp"
-                android:paddingRight="25sp">
-
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/textProvincia" />
-            </android.support.design.widget.TextInputLayout>
-
-            <!-- Comentarios Label -->
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_forms_edittext"
+                android:hint="Provincia"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
-                android:hint="Comentarios">
+                android:textColorHint="@color/colorBlue" />
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/input_comentarios"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top|left"
-                    android:inputType="textMultiLine"
-                    android:lines="3"
-                    android:scrollHorizontally="false" />
-            </android.support.design.widget.TextInputLayout>
+            <!-- Comentarios label -->
+            <EditText
+                android:id="@+id/input_comentarios"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_forms_edittext"
+                android:hint="Comentarios"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp"
+                android:textColorHint="@color/colorBlue"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:scrollHorizontally="false"/>
 
             <!-- Checkbox Label -->
             <android.support.design.widget.TextInputLayout
@@ -146,7 +145,8 @@
                     android:id="@+id/checkBox"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/textCheckBox"/>
+                    android:text="@string/textCheckBox"
+                    android:textColor="@color/colorBlue"/>
             </android.support.design.widget.TextInputLayout>
 
             <!-- Button enviar -->
@@ -162,7 +162,15 @@
                     android:id="@+id/buttonSendRequest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/buttonRequest" />
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/buttonReport"
+                    android:background="@drawable/shape_orange_buttons"
+                    android:text="@string/buttonSendRequest"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorWhite"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </ScrollView>

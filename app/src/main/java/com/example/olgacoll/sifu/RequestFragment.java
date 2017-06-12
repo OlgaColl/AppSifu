@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.olgacoll.sifu.remote.APIService;
@@ -74,18 +77,18 @@ public class RequestFragment extends Fragment {
 
     public void controlSpinner(View view) {
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        dadesSpinner = new String[]{"Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real", "Córdoba",
+        dadesSpinner = new String[]{"Provincia", "Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real", "Córdoba",
                 "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "León", "Lérida", "Lugo", "Madrid", "Málaga", "Murcia",
                 "Navarra", "Orense", "Palencia", "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Segovia", "Sevilla", "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
                 "Valencia", "Vizcaya", "Zamora", "Zaragona"};
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, dadesSpinner);
+        spinner.setPrompt("Select your favorite Planet!");
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_item, dadesSpinner);
         spinner.setAdapter(adaptador);
         spinner.setOnItemSelectedListener(listenerSpinner);
     }
 
     public boolean validate() {
         boolean valid = true;
-
         nombre = editTextNombre.getText().toString();
         apellidos = editTextApellidos.getText().toString();
         email = editTextEmail.getText().toString();
@@ -114,19 +117,23 @@ public class RequestFragment extends Fragment {
             editTextEmail.setError(null);
         }
 
-        /*if (telefono.isEmpty() || telefono.length() < 9) {
+        if (telefono.isEmpty() || telefono.length() < 9) {
             editTextTelefono.setError("Teléfono incorrecto");
             valid = false;
         } else {
             editTextEmail.setError(null);
-        }*/
+        }
 
-        /*if (comentarios.isEmpty()){
+        if (provincia.equals("Provincia")){
+            valid = false;
+        }
+
+        if (mensaje.isEmpty()){
             editTextComentarios.setError("Escriba un comentario para completar su solicitud");
             valid = false;
         } else {
             editTextComentarios.setError(null);
-        }*/
+        }
         return valid;
     }
 

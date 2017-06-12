@@ -71,7 +71,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textViewMain"
             android:paddingLeft="25sp"
-            android:background="@drawable/my_shape"
+            android:background="@drawable/shape_orange_buttons"
             android:text="@string/buttonReport"
             android:textSize="16sp"
             android:textColor="@color/colorWhite"/>
@@ -85,7 +85,7 @@
             android:layout_marginBottom="25dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/buttonReport"
-            android:background="@drawable/my_shape"
+            android:background="@drawable/shape_orange_buttons"
             android:text="@string/buttonRequest"
             android:textSize="16sp"
             android:textColor="@color/colorWhite"/>
