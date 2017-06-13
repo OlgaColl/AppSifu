@@ -1,5 +1,6 @@
 package com.example.olgacoll.sifu;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 public class ConfigFragment extends Fragment{
 
     public static final String TAG = "ConfigFragment";
+    TextView textViewNotifications;
     Switch onOffSwitch;
 
     public ConfigFragment(){
@@ -23,9 +25,9 @@ public class ConfigFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.activity_config, container, false);
         initComponents(view);
+        initFont();
         onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -36,7 +38,13 @@ public class ConfigFragment extends Fragment{
     }
 
     private void initComponents(View view) {
+        textViewNotifications = (TextView) view.findViewById(R.id.textViewNotifications);
         onOffSwitch = (Switch) view.findViewById(R.id.switch1);
+    }
+
+    private void initFont(){
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
+        textViewNotifications.setTypeface(face);
     }
 
     public void onResume(){

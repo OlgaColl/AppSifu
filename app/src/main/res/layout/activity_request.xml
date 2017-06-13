@@ -20,7 +20,7 @@
             android:weightSum="1">
 
             <TextView
-                android:id="@+id/textViewRequest"
+                android:id="@+id/textViewInfoRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="8sp"
@@ -129,8 +129,8 @@
                 android:textColorHint="@color/colorBlue"
                 android:gravity="top|left"
                 android:inputType="textMultiLine"
-                android:lines="3"
-                android:scrollHorizontally="false"/>
+                android:lines="4"
+                android:scrollHorizontally="true"/>
 
             <!-- Checkbox Label -->
             <android.support.design.widget.TextInputLayout

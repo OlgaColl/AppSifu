@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,6 +29,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.provider.Settings.Secure;
 import com.example.olgacoll.sifu.model.Incidencia;
@@ -53,12 +55,13 @@ import static android.app.Activity.RESULT_OK;
 
 public class ReportFragment extends Fragment {
 
-    public static final String TAG ="ReportFragment";
+    public static final String TAG = "ReportFragment";
     private static final int TAKE_PICTURE = 1;
     private Uri imageUri;
     private APIService apiService;
+    TextView textViewSubirImagen, textViewSubirOtraImagen;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
-    String nombre, apellidos, email, telefono, cliente, site, comentarios, uuid;
+    String nombre, apellidos, email, telefono, cliente, comentarios, uuid;
     File image_01, image_02, image_03, image_04;
     ImageView imageView;
     Bitmap bmap;
@@ -82,6 +85,7 @@ public class ReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_report, container, false);
         initComponents(view);
+        initFont();
         onPrepareListener();
         controlSpinner(view);
         initListeners();
@@ -92,6 +96,8 @@ public class ReportFragment extends Fragment {
         apiService = ApiUtils.getAPIService();
         cliente = "gruposifu";
         uuid = Secure.getString(this.getActivity().getContentResolver(), Secure.ANDROID_ID);
+        textViewSubirImagen = (TextView) view.findViewById(R.id.textViewSubirImagen);
+        textViewSubirOtraImagen = (TextView) view.findViewById(R.id.textViewSubirOtraImagen);
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
         editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
         editTextEmail = (EditText) view.findViewById(R.id.input_email);
@@ -108,11 +114,32 @@ public class ReportFragment extends Fragment {
         buttonBorrarImagen3 = (Button) view.findViewById(R.id.buttonBorrarImagen3);
         buttonBorrarImagen4 = (Button) view.findViewById(R.id.buttonBorrarImagen4);
         buttonEnviar = (Button) view.findViewById(R.id.buttonEnviar);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
         checkButtons = new ArrayList<>();
         checkButtons.add(false);
         checkButtons.add(false);
         checkButtons.add(false);
         indexButton = 1; //Con este índice, controlaremos las veces que hayan dado clic en Subir Imagen.
+    }
+
+    private void initFont(){
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
+        textViewSubirImagen.setTypeface(face);
+        textViewSubirOtraImagen.setTypeface(face);
+        editTextNombre.setTypeface(face);
+        editTextApellidos.setTypeface(face);
+        editTextEmail.setTypeface(face);
+        editTextTelefono.setTypeface(face);
+        editTextComentarios.setTypeface(face);
+        checkbox.setTypeface(face);
+        buttonSubirImagen.setTypeface(face);
+        buttonEscogeImagen2.setTypeface(face);
+        buttonEscogeImagen3.setTypeface(face);
+        buttonEscogeImagen4.setTypeface(face);
+        buttonBorrarImagen2.setTypeface(face);
+        buttonBorrarImagen3.setTypeface(face);
+        buttonBorrarImagen4.setTypeface(face);
+        buttonEnviar.setTypeface(face);
     }
 
     public void onPrepareListener() {
@@ -168,13 +195,11 @@ public class ReportFragment extends Fragment {
     }
 
     public void controlSpinner(View view) {
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        dadesSpinner = new String[]{"Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real", "Córdoba",
+        dadesSpinner = new String[]{"Provincia", "Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real", "Córdoba",
                                     "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "León", "Lérida", "Lugo", "Madrid", "Málaga", "Murcia",
                                     "Navarra", "Orense", "Palencia", "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Segovia", "Sevilla", "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
                                     "Valencia", "Vizcaya", "Zamora", "Zaragona"};
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, dadesSpinner);
-        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_item, dadesSpinner);
         spinner.setAdapter(adaptador);
         spinner.setOnItemSelectedListener(listenerSpinner);
     }
@@ -226,6 +251,10 @@ public class ReportFragment extends Fragment {
             valid = false;
         } else {
             editTextEmail.setError(null);
+        }
+
+        if (provincia.equals("Provincia")){
+            valid = false;
         }
 
         if (comentarios.isEmpty()){

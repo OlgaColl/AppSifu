@@ -1,5 +1,6 @@
 package com.example.olgacoll.sifu;
 
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +24,8 @@ public class InfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_info, container, false);
         textView = (TextView)view.findViewById(R.id.textViewTextInfo);
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
+        textView.setTypeface(face);
         return view;
     }
 
@@ -30,6 +33,5 @@ public class InfoFragment extends Fragment {
         super.onResume();
         ((MainActivity) getActivity()).setActionBarCenterTitle("Grupo SIFU");
         ((MainActivity) getActivity()).getNavigationVisible(true);
-        //((MainActivity) getActivity()).getSupportActionBar().show();
     }
 }

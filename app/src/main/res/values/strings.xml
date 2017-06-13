@@ -20,6 +20,8 @@
     <string name="textCheckBox">Al enviar, aceptas que tus datos sean incorporados a la base de datos de Grupo SIFU. Más información.</string>
     <string name="textProvincia">Provincia</string>
     <string name="textImagenes">Subir imágenes</string>
+    <string name="textSubirImagen">Subir imagen</string>
+    <string name="textSubirOtraImagen">Subir otra imagen</string>
     <string name="buttonEscogeImagen">Escoge una imagen +</string>
     <string name="buttonSubirImagen">Subir otra imagen</string>
     <string name="buttonBorrarImagen">Borrar imagen</string>
@@ -33,7 +35,7 @@
 
     <!-- Config Activity -->
     <string name="titleConfig">CONFIGURACIÓN</string>
-    <string name="textConfig">¿Activar notificationes?</string>
+    <string name="textConfig">¿Activar notificaciones?</string>
 
     <!-- Info Activity -->
     <string name="titleInfo">SOBRE GRUPO SIFU</string>

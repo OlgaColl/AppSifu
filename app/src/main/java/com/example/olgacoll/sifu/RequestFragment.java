@@ -1,6 +1,7 @@
 package com.example.olgacoll.sifu;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,10 +29,11 @@ import retrofit2.Response;
 
 
 public class RequestFragment extends Fragment {
-
+    
     public static final String TAG ="RequestFragment";
     private APIService apiService;
     String nombre, apellidos, email, telefono, provincia, mensaje;
+    TextView textViewInfoRequest;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
     Spinner spinner;
     String dadesSpinner[];
@@ -45,6 +47,7 @@ public class RequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_request, container, false);
         initComponents(view);
+        initFont();
         onPrepareListener();
         controlSpinner(view);
         buttonSendRequest.setOnClickListener(listener);
@@ -53,13 +56,27 @@ public class RequestFragment extends Fragment {
 
     public void initComponents(View view) {
         apiService = ApiUtils.getAPIService();
+        textViewInfoRequest = (TextView) view.findViewById(R.id.textViewInfoRequest);
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
         editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
         editTextEmail = (EditText) view.findViewById(R.id.input_email);
         editTextTelefono = (EditText) view.findViewById(R.id.input_telefono);
         editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
         checkbox = (CheckBox)view.findViewById(R.id.checkBox);
         buttonSendRequest = (Button) view.findViewById(R.id.buttonSendRequest);
+    }
+
+    private void initFont(){
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
+        textViewInfoRequest.setTypeface(face);
+        editTextNombre.setTypeface(face);
+        editTextApellidos.setTypeface(face);
+        editTextEmail.setTypeface(face);
+        editTextTelefono.setTypeface(face);
+        editTextComentarios.setTypeface(face);
+        checkbox.setTypeface(face);
+        buttonSendRequest.setTypeface(face);
     }
 
     public void onPrepareListener() {
@@ -76,12 +93,10 @@ public class RequestFragment extends Fragment {
     }
 
     public void controlSpinner(View view) {
-        spinner = (Spinner) view.findViewById(R.id.spinner);
         dadesSpinner = new String[]{"Provincia", "Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real", "Córdoba",
                 "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "León", "Lérida", "Lugo", "Madrid", "Málaga", "Murcia",
                 "Navarra", "Orense", "Palencia", "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Segovia", "Sevilla", "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
                 "Valencia", "Vizcaya", "Zamora", "Zaragona"};
-        spinner.setPrompt("Select your favorite Planet!");
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_item, dadesSpinner);
         spinner.setAdapter(adaptador);
         spinner.setOnItemSelectedListener(listenerSpinner);

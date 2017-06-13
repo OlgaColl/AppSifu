@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
             Fragment container = new Fragment();
 
-            switch (item.getItemId()) {
+            switch (item.getItemId()){
                 case R.id.navigation_info:
                     container = new InfoFragment();
                     break;
@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                     container = new RequestFragment();
                     break;
             }
-
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction.replace(R.id.container, container);
             transaction.addToBackStack(null); //Para que al pulsar back vuelva atrás el Fragment y no la Activity
