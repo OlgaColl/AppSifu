@@ -23,7 +23,7 @@
                 android:id="@+id/textViewInfoRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="8sp"
+                android:lineSpacingExtra="2sp"
                 android:layout_margin="25dp"
                 android:padding="15dp"
                 android:text="@string/textRequest"
@@ -148,15 +148,27 @@
                     android:text="@string/textCheckBox"
                     android:textColor="@color/colorBlue"/>
             </android.support.design.widget.TextInputLayout>
-
-            <!-- Button enviar -->
-            <android.support.design.widget.TextInputLayout
+            
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="25sp"
-                android:paddingRight="25sp">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/buttonEnviar2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/shape_orange_buttons"
+                    android:text="@string/buttonSendReport"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorWhite"
+                    android:visibility="invisible"/>
 
                 <Button
                     android:id="@+id/buttonSendRequest"
@@ -165,13 +177,13 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginBottom="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/buttonReport"
+                    android:layout_alignParentStart="true"
                     android:background="@drawable/shape_orange_buttons"
                     android:text="@string/buttonSendRequest"
                     android:textSize="16sp"
-                    android:textColor="@color/colorWhite"/>
-            </android.support.design.widget.TextInputLayout>
+                    android:textColor="@color/colorWhite"
+                    android:layout_toRightOf="@id/buttonEnviar2" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

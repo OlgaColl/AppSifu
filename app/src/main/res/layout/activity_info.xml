@@ -24,7 +24,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="72dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="25dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="30dp"
                 android:layout_weight="0.49"
                 android:src="@drawable/grupo_sifu"/>
 
@@ -32,7 +33,7 @@
                 android:id="@+id/textViewTextInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="8sp"
+                android:lineSpacingExtra="2sp"
                 android:layout_margin="25dp"
                 android:padding="15dp"
                 android:text="@string/textInfo"

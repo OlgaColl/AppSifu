@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -75,11 +76,27 @@ public class ReportFragment extends Fragment {
     Button buttonEscogeImagen, buttonEscogeImagen2, buttonEscogeImagen3, buttonEscogeImagen4;
     Button buttonBorrarImagen2, buttonBorrarImagen3, buttonBorrarImagen4;
     View.OnClickListener listener;
+    //View.OnTouchListener listenerDrawable;
     AdapterView.OnItemSelectedListener listenerSpinner;
-    private int PICK_IMAGE_REQUEST = 1;
     Context applicationContext = MainActivity.getContextOfApplication();
     int i = 0;
 
+    /**
+     * TextView txtview = (TextView) findViewById(R.id.txtview);
+     txtview.setOnTouchListener(new OnTouchListener() {
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+    if(event.getAction() == MotionEvent.ACTION_UP) {
+    if(if(event.getRawX() >= txtview.getRight() - txtview.getTotalPaddingRight())) {
+    // your action for drawable click event
+
+    return true;
+    }
+    }
+    return true;
+    }
+    });
+     * */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -189,6 +206,14 @@ public class ReportFragment extends Fragment {
                     case R.id.buttonEscogeImagen4:
                         escogerImagen();
                         break;
+
+                    case R.id.textViewSubirImagen:
+                        escogerImagen();
+                        break;
+
+                    case R.id.textViewSubirOtraImagen:
+                        initSubirImagen();
+                        break;
                 }
             }
         };
@@ -214,6 +239,10 @@ public class ReportFragment extends Fragment {
         buttonBorrarImagen3.setOnClickListener(listener);
         buttonBorrarImagen4.setOnClickListener(listener);
         buttonEnviar.setOnClickListener(listener);
+        textViewSubirImagen.setOnClickListener(listener);
+        textViewSubirOtraImagen.setOnClickListener(listener);
+        //textViewSubirImagen.setOnTouchListener(listenerDrawable);
+        //textViewSubirOtraImagen.setOnTouchListener(listenerDrawable);
     }
 
     public boolean validate() {

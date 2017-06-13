@@ -48,7 +48,8 @@ public class HomeFragment extends Fragment {
 
     public void initFont(){
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
-        textViewMain.setTypeface(face);
+        Typeface faceBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Bold.ttf");
+        textViewMain.setTypeface(faceBold);
         textViewMain2.setTypeface(face);
         buttonReport.setTypeface(face);
         buttonRequest.setTypeface(face);

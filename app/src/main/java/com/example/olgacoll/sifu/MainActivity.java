@@ -1,6 +1,7 @@
 package com.example.olgacoll.sifu;
 
 import android.app.ActionBar;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
@@ -56,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fm = getFragmentManager();
+        fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if(getFragmentManager().getBackStackEntryCount() == 0) initFragment();
+            }
+        });
 
         contextOfApplication = getApplicationContext();
         initFragment();
