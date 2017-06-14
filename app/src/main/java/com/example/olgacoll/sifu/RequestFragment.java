@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -146,7 +147,7 @@ public class RequestFragment extends Fragment {
         if (mensaje.isEmpty()){
             editTextComentarios.setError("Escriba un comentario para completar su solicitud");
             valid = false;
-        } else {
+        } else{
             editTextComentarios.setError(null);
         }
         return valid;
@@ -173,6 +174,7 @@ public class RequestFragment extends Fragment {
                 public void onResponse(Call<String> call, Response<String> response) {
                     showMessage("Solicitud enviada");
                     Log.i(TAG, "post submitted to API.");
+                    if(response.code() == 200) initRequestSent();
                     createMail();
                 }
 
@@ -183,6 +185,12 @@ public class RequestFragment extends Fragment {
             });
 
         }
+    }
+
+    private void initRequestSent(){
+        Fragment fragment = new RequestSentFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
     }
 
     public void createMail(){

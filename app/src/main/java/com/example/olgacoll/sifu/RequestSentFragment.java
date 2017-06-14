@@ -9,50 +9,47 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-public class HomeFragment extends Fragment {
+/**
+ * Created by olgacoll on 14/6/17.
+ */
 
-    public static final String TAG = "HomeFragment";
-    TextView textViewMain, textViewMain2;
-    ImageView imageViewConfig;
-    Button buttonReport, buttonRequest;
+public class RequestSentFragment extends Fragment {
+
+    public static final String TAG = "RequestSentFragment";
+    TextView titleRequestSent, infoRequestSent;
+    Button buttonRequestSent;
     View.OnClickListener listener;
 
-    public HomeFragment() {
+    public RequestSentFragment(){
 
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_home, container, false);
-        initHome();
+        View view = inflater.inflate(R.layout.activity_requestsent, container, false);
+        initRequestSent();
         initComponents(view);
         initFont();
         onPrepareListener();
-        imageViewConfig.setOnClickListener(listener);
-        buttonReport.setOnClickListener(listener);
-        buttonRequest.setOnClickListener(listener);
+        buttonRequestSent.setOnClickListener(listener);
         return view;
     }
 
-    private void initComponents(View view) {
-        textViewMain = (TextView) view.findViewById(R.id.textViewMain);
-        textViewMain2 = (TextView) view.findViewById(R.id.textViewMain2);
-        imageViewConfig = (ImageView) view.findViewById(R.id.ic_action_config);
-        buttonReport = (Button) view.findViewById(R.id.buttonReport);
-        buttonRequest = (Button) view.findViewById(R.id.buttonRequest);
+    private void initComponents(View view){
+        titleRequestSent = (TextView) view.findViewById(R.id.titleRequestSent);
+        infoRequestSent = (TextView) view.findViewById(R.id.textViewRequestSent);
+        buttonRequestSent = (Button) view.findViewById(R.id.buttonRequestSent);
     }
 
-    public void initFont(){
+    private void initFont(){
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
         Typeface faceBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Bold.ttf");
-        textViewMain.setTypeface(faceBold);
-        textViewMain2.setTypeface(face);
-        buttonReport.setTypeface(face);
-        buttonRequest.setTypeface(face);
+        titleRequestSent.setTypeface(faceBold);
+        infoRequestSent.setTypeface(face);
+        buttonRequestSent.setTypeface(face);
     }
 
     private void onPrepareListener(){
@@ -61,14 +58,9 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = new Fragment();
                 switch (v.getId()) {
-                    case R.id.buttonReport:
-                        fragment = new IncidenceFragment();
+                    case R.id.buttonRequestSent:
+                        fragment = new HomeFragment();
                         break;
-                    case R.id.buttonRequest:
-                        fragment = new RequestFragment();
-                        break;
-                    case R.id.ic_action_config:
-                        fragment = new ConfigFragment();
                 }
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
@@ -76,13 +68,13 @@ public class HomeFragment extends Fragment {
         };
     }
 
-    private void initHome(){
+    private void initRequestSent(){
         ((MainActivity) getActivity()).getNavigationVisible(false);
         ((MainActivity) getActivity()).getSupportActionBar().hide();
     }
 
     public void onResume(){
         super.onResume();
-        initHome();
+        initRequestSent();
     }
 }

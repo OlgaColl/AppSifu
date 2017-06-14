@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.print.PrintHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -43,6 +44,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -54,9 +58,9 @@ import retrofit2.Retrofit;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ReportFragment extends Fragment {
+public class IncidenceFragment extends Fragment {
 
-    public static final String TAG = "ReportFragment";
+    public static final String TAG = "IncidenceFragment";
     private static final int TAKE_PICTURE = 1;
     private Uri imageUri;
     private APIService apiService;
@@ -148,13 +152,13 @@ public class ReportFragment extends Fragment {
                         initSendReport();
                         break;
                     case R.id.textViewBorrarImagen2:
-                          if(textViewSubirImagen2.getVisibility() == View.VISIBLE){
-                              textViewSubirImagen2.setVisibility(View.GONE);
-                              textViewBorrarImagen2.setVisibility(View.GONE);
-                              image_02 = new File("image02");
-                              checkButtons.set(0, false);
-                          }
-                          break;
+                        if(textViewSubirImagen2.getVisibility() == View.VISIBLE){
+                            textViewSubirImagen2.setVisibility(View.GONE);
+                            textViewBorrarImagen2.setVisibility(View.GONE);
+                            image_02 = new File("image02");
+                            checkButtons.set(0, false);
+                        }
+                        break;
                     case R.id.textViewBorrarImagen3:
                         if(textViewSubirImagen3.getVisibility() == View.VISIBLE){
                             textViewSubirImagen3.setVisibility(View.GONE);
@@ -193,9 +197,9 @@ public class ReportFragment extends Fragment {
 
     public void controlSpinner(View view) {
         dadesSpinner = new String[]{"Provincia", "Álava", "Albacete", "Alicante", "Almería", "Asturias", "Ávila", "Badajoz", "Barcelona", "Burgos", "Cáceres", "Cádiz", "Cantabria", "Castellón", "Ciudad Real", "Córdoba",
-                                    "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "León", "Lérida", "Lugo", "Madrid", "Málaga", "Murcia",
-                                    "Navarra", "Orense", "Palencia", "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Segovia", "Sevilla", "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
-                                    "Valencia", "Vizcaya", "Zamora", "Zaragona"};
+                "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaén", "León", "Lérida", "Lugo", "Madrid", "Málaga", "Murcia",
+                "Navarra", "Orense", "Palencia", "Las Palmas", "Pontevedra", "La Rioja", "Salamanca", "Segovia", "Sevilla", "Soria", "Tarragona", "Santa Cruz de Tenerife", "Teruel", "Toledo",
+                "Valencia", "Vizcaya", "Zamora", "Zaragona"};
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_item, dadesSpinner);
         spinner.setAdapter(adaptador);
         spinner.setOnItemSelectedListener(listenerSpinner);
@@ -266,17 +270,35 @@ public class ReportFragment extends Fragment {
 
     public void initSendReport() {
         if (!validate()) {
-            sendReportFailed();
+            //callPhone();
+            sendIncidenceFailed();
         } else {
-            sendMailSuccess();
+            sendIncidenceSuccess();
         }
     }
 
-    public void sendReportFailed(){
+    /*private void callPhone(){
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "680296461"));
+        startActivity(intent);
+    }*/
+
+    private boolean checkHours(){
+        boolean flag = false;
+        Date date = new Date();   // given date
+        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+        calendar.setTime(date);   // assigns calendar to given date s
+        int h = calendar.get(Calendar.HOUR_OF_DAY);
+        if(h >= 00 && h < 8){
+            flag = true;
+        }
+        return flag;
+    }
+
+    public void sendIncidenceFailed(){
         //showMessage("Error creando la incidencia.");
     }
 
-    public void sendMailSuccess(){
+    public void sendIncidenceSuccess(){
         if(!checkbox.isChecked()) {
             showMessage("Acepta los términos y condiciones para poder completar la incidencia");
         }else {
@@ -309,8 +331,13 @@ public class ReportFragment extends Fragment {
             apiService.sendIncidence(image1, name, last_name, company, description, mail, phone, client, device_id).enqueue(new Callback<Incidencia>() {
                 @Override
                 public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
-                    System.out.println(response.body());
-                    System.out.println(response.code());
+                    if(response.code() == 200){
+                        if(checkHours()){
+                            initUrgentIncidence();
+                        }else{
+                            initIncidenceSent();
+                        }
+                    }
                 }
 
                 @Override
@@ -321,13 +348,16 @@ public class ReportFragment extends Fragment {
         }
     }
 
-    private void showCallAlert(){
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setIcon(R.drawable.ic_stat_name);
-        alert.setTitle("Aviso");
-        alert.setMessage("Si la incidencia es muy urgente, llame al siguiente numero de teléfono: ");
-        alert.setPositiveButton("OK",null);
-        alert.show();
+    private void initUrgentIncidence(){
+        Fragment fragment = new UrgentIncidenceFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+    }
+
+    private void initIncidenceSent(){
+        Fragment fragment = new IncidenceSentFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
     }
 
     private void initSubirImagen() {
@@ -359,9 +389,6 @@ public class ReportFragment extends Fragment {
             i++;
         }
     }
-    private static final int PHOTO_REQUEST_CAMERA = 0;//camera
-    private static final int PHOTO_REQUEST_GALLERY = 1;//gallery
-    private static final int PHOTO_REQUEST_CUT = 2;//image crop
 
     private void escogerImagen(){
         String title = "Escoger una imagen";

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     container = new InfoFragment();
                     break;
                 case R.id.navigation_report:
-                    container = new ReportFragment();
+                    container = new IncidenceFragment();
                     break;
                 case R.id.navigation_request:
                     container = new RequestFragment();
