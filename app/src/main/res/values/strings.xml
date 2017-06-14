@@ -24,7 +24,7 @@
     <string name="textSubirOtraImagen">Subir otra imagen</string>
     <string name="buttonEscogeImagen">Escoge una imagen +</string>
     <string name="buttonSubirImagen">Subir otra imagen</string>
-    <string name="buttonBorrarImagen">Borrar imagen</string>
+    <string name="textViewBorrarImagen">Borrar imagen</string>
     <string name="buttonSend">Enviar</string>
     <string name="buttonSendReport">Enviar</string>
 

@@ -38,7 +38,7 @@
                 android:padding="15dp"
                 android:text="@string/textInfo"
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:background="@color/colorGrey"/>
         </LinearLayout>
     </ScrollView>

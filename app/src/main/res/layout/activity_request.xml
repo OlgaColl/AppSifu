@@ -28,7 +28,7 @@
                 android:padding="15dp"
                 android:text="@string/textRequest"
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:background="@color/colorGrey"
                 android:layout_alignParentStart="true"/>
 
@@ -43,6 +43,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_forms_edittext"
                 android:hint="Nombre"
+                android:textSize="16sp"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
                 android:textColorHint="@color/colorBlue"
@@ -59,6 +60,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_forms_edittext"
                 android:hint="Apellidos"
+                android:textSize="16sp"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
                 android:textColorHint="@color/colorBlue"
@@ -75,6 +77,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_forms_edittext"
                 android:hint="Email"
+                android:textSize="16sp"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
                 android:textColorHint="@color/colorBlue"
@@ -91,6 +94,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_forms_edittext"
                 android:hint="Teléfono"
+                android:textSize="16sp"
                 android:inputType="number"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
@@ -109,6 +113,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_forms_edittext"
                 android:hint="Provincia"
+                android:textSize="16sp"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
                 android:textColorHint="@color/colorBlue" />
@@ -124,6 +129,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_forms_edittext"
                 android:hint="Comentarios"
+                android:textSize="16sp"
+                android:paddingTop="15dp"
                 android:paddingLeft="25sp"
                 android:paddingRight="25sp"
                 android:textColorHint="@color/colorBlue"
@@ -146,7 +153,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/textCheckBox"
-                    android:textColor="@color/colorBlue"/>
+                    android:textColor="@color/colorBlue"
+                    android:textSize="12sp"/>
             </android.support.design.widget.TextInputLayout>
             
             <LinearLayout
@@ -180,7 +188,7 @@
                     android:layout_alignParentStart="true"
                     android:background="@drawable/shape_orange_buttons"
                     android:text="@string/buttonSendRequest"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@color/colorWhite"
                     android:layout_toRightOf="@id/buttonEnviar2" />
             </LinearLayout>

@@ -60,7 +60,8 @@ public class ReportFragment extends Fragment {
     private static final int TAKE_PICTURE = 1;
     private Uri imageUri;
     private APIService apiService;
-    TextView textViewSubirImagen, textViewSubirOtraImagen;
+    TextView textViewSubirImagen, textViewSubirImagen2, textViewSubirImagen3, textViewSubirImagen4, textViewSubirOtraImagen;
+    TextView textViewBorrarImagen2, textViewBorrarImagen3, textViewBorrarImagen4;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
     String nombre, apellidos, email, telefono, cliente, comentarios, uuid;
     File image_01, image_02, image_03, image_04;
@@ -72,31 +73,13 @@ public class ReportFragment extends Fragment {
     List<Boolean> checkButtons;
     int indexButton;
     CheckBox checkbox;
-    Button buttonSubirImagen, buttonEnviar;
-    Button buttonEscogeImagen, buttonEscogeImagen2, buttonEscogeImagen3, buttonEscogeImagen4;
-    Button buttonBorrarImagen2, buttonBorrarImagen3, buttonBorrarImagen4;
+    Button buttonEnviar;
     View.OnClickListener listener;
     //View.OnTouchListener listenerDrawable;
     AdapterView.OnItemSelectedListener listenerSpinner;
     Context applicationContext = MainActivity.getContextOfApplication();
     int i = 0;
 
-    /**
-     * TextView txtview = (TextView) findViewById(R.id.txtview);
-     txtview.setOnTouchListener(new OnTouchListener() {
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-    if(event.getAction() == MotionEvent.ACTION_UP) {
-    if(if(event.getRawX() >= txtview.getRight() - txtview.getTotalPaddingRight())) {
-    // your action for drawable click event
-
-    return true;
-    }
-    }
-    return true;
-    }
-    });
-     * */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -114,6 +97,12 @@ public class ReportFragment extends Fragment {
         cliente = "gruposifu";
         uuid = Secure.getString(this.getActivity().getContentResolver(), Secure.ANDROID_ID);
         textViewSubirImagen = (TextView) view.findViewById(R.id.textViewSubirImagen);
+        textViewSubirImagen2 = (TextView) view.findViewById(R.id.textViewSubirImagen2);
+        textViewSubirImagen3 = (TextView) view.findViewById(R.id.textViewSubirImagen3);
+        textViewSubirImagen4 = (TextView) view.findViewById(R.id.textViewSubirImagen4);
+        textViewBorrarImagen2 = (TextView) view.findViewById(R.id.textViewBorrarImagen2);
+        textViewBorrarImagen3 = (TextView) view.findViewById(R.id.textViewBorrarImagen3);
+        textViewBorrarImagen4 = (TextView) view.findViewById(R.id.textViewBorrarImagen4);
         textViewSubirOtraImagen = (TextView) view.findViewById(R.id.textViewSubirOtraImagen);
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
         editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
@@ -122,14 +111,6 @@ public class ReportFragment extends Fragment {
         editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
         checkbox = (CheckBox) view.findViewById(R.id.checkBox);
         imageView = (ImageView) view.findViewById(R.id.imageView);
-        buttonSubirImagen = (Button) view.findViewById(R.id.buttonSubirImagen);
-        buttonEscogeImagen = (Button) view.findViewById(R.id.buttonEscogeImagen);
-        buttonEscogeImagen2 = (Button) view.findViewById(R.id.buttonEscogeImagen2);
-        buttonEscogeImagen3 = (Button) view.findViewById(R.id.buttonEscogeImagen3);
-        buttonEscogeImagen4 = (Button) view.findViewById(R.id.buttonEscogeImagen4);
-        buttonBorrarImagen2 = (Button) view.findViewById(R.id.buttonBorrarImagen2);
-        buttonBorrarImagen3 = (Button) view.findViewById(R.id.buttonBorrarImagen3);
-        buttonBorrarImagen4 = (Button) view.findViewById(R.id.buttonBorrarImagen4);
         buttonEnviar = (Button) view.findViewById(R.id.buttonEnviar);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         checkButtons = new ArrayList<>();
@@ -142,20 +123,19 @@ public class ReportFragment extends Fragment {
     private void initFont(){
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
         textViewSubirImagen.setTypeface(face);
+        textViewSubirImagen2.setTypeface(face);
+        textViewSubirImagen3.setTypeface(face);
+        textViewSubirImagen4.setTypeface(face);
         textViewSubirOtraImagen.setTypeface(face);
+        textViewBorrarImagen2.setTypeface(face);
+        textViewBorrarImagen3.setTypeface(face);
+        textViewBorrarImagen4.setTypeface(face);
         editTextNombre.setTypeface(face);
         editTextApellidos.setTypeface(face);
         editTextEmail.setTypeface(face);
         editTextTelefono.setTypeface(face);
         editTextComentarios.setTypeface(face);
         checkbox.setTypeface(face);
-        buttonSubirImagen.setTypeface(face);
-        buttonEscogeImagen2.setTypeface(face);
-        buttonEscogeImagen3.setTypeface(face);
-        buttonEscogeImagen4.setTypeface(face);
-        buttonBorrarImagen2.setTypeface(face);
-        buttonBorrarImagen3.setTypeface(face);
-        buttonBorrarImagen4.setTypeface(face);
         buttonEnviar.setTypeface(face);
     }
 
@@ -167,50 +147,42 @@ public class ReportFragment extends Fragment {
                     case R.id.buttonEnviar:
                         initSendReport();
                         break;
-                    case R.id.buttonSubirImagen:
-                        initSubirImagen();
-                        break;
-                    case R.id.buttonBorrarImagen2:
-                          if(buttonEscogeImagen2.getVisibility() == View.VISIBLE){
-                              buttonEscogeImagen2.setVisibility(View.GONE);
-                              buttonBorrarImagen2.setVisibility(View.GONE);
+                    case R.id.textViewBorrarImagen2:
+                          if(textViewSubirImagen2.getVisibility() == View.VISIBLE){
+                              textViewSubirImagen2.setVisibility(View.GONE);
+                              textViewBorrarImagen2.setVisibility(View.GONE);
                               image_02 = new File("image02");
                               checkButtons.set(0, false);
                           }
                           break;
-                    case R.id.buttonBorrarImagen3:
-                        if(buttonEscogeImagen3.getVisibility() == View.VISIBLE){
-                            buttonEscogeImagen3.setVisibility(View.GONE);
-                            buttonBorrarImagen3.setVisibility(View.GONE);
+                    case R.id.textViewBorrarImagen3:
+                        if(textViewSubirImagen3.getVisibility() == View.VISIBLE){
+                            textViewSubirImagen3.setVisibility(View.GONE);
+                            textViewBorrarImagen3.setVisibility(View.GONE);
                             image_03 = new File("image03");
                             checkButtons.set(1, false);
                         }
                         break;
-                    case R.id.buttonBorrarImagen4:
-                        if(buttonEscogeImagen4.getVisibility() == View.VISIBLE){
-                            buttonEscogeImagen4.setVisibility(View.GONE);
-                            buttonBorrarImagen4.setVisibility(View.GONE);
+                    case R.id.textViewBorrarImagen4:
+                        if(textViewSubirImagen4.getVisibility() == View.VISIBLE){
+                            textViewSubirImagen4.setVisibility(View.GONE);
+                            textViewBorrarImagen4.setVisibility(View.GONE);
                             image_04 = new File("image04");
                             checkButtons.set(2, false);
                         }
                         break;
-                    case R.id.buttonEscogeImagen:
-                        escogerImagen();
-                        break;
-                    case R.id.buttonEscogeImagen2:
-                        escogerImagen();
-                        break;
-                    case R.id.buttonEscogeImagen3:
-                        escogerImagen();
-                        break;
-                    case R.id.buttonEscogeImagen4:
-                        escogerImagen();
-                        break;
-
                     case R.id.textViewSubirImagen:
                         escogerImagen();
                         break;
-
+                    case R.id.textViewSubirImagen2:
+                        escogerImagen();
+                        break;
+                    case R.id.textViewSubirImagen3:
+                        escogerImagen();
+                        break;
+                    case R.id.textViewSubirImagen4:
+                        escogerImagen();
+                        break;
                     case R.id.textViewSubirOtraImagen:
                         initSubirImagen();
                         break;
@@ -230,19 +202,15 @@ public class ReportFragment extends Fragment {
     }
 
     public void initListeners(){
-        buttonSubirImagen.setOnClickListener(listener);
-        buttonEscogeImagen.setOnClickListener(listener);
-        buttonEscogeImagen2.setOnClickListener(listener);
-        buttonEscogeImagen3.setOnClickListener(listener);
-        buttonEscogeImagen4.setOnClickListener(listener);
-        buttonBorrarImagen2.setOnClickListener(listener);
-        buttonBorrarImagen3.setOnClickListener(listener);
-        buttonBorrarImagen4.setOnClickListener(listener);
+        textViewBorrarImagen2.setOnClickListener(listener);
+        textViewBorrarImagen3.setOnClickListener(listener);
+        textViewBorrarImagen4.setOnClickListener(listener);
         buttonEnviar.setOnClickListener(listener);
         textViewSubirImagen.setOnClickListener(listener);
+        textViewSubirImagen2.setOnClickListener(listener);
+        textViewSubirImagen3.setOnClickListener(listener);
+        textViewSubirImagen4.setOnClickListener(listener);
         textViewSubirOtraImagen.setOnClickListener(listener);
-        //textViewSubirImagen.setOnTouchListener(listenerDrawable);
-        //textViewSubirOtraImagen.setOnTouchListener(listenerDrawable);
     }
 
     public boolean validate() {
@@ -312,12 +280,6 @@ public class ReportFragment extends Fragment {
         if(!checkbox.isChecked()) {
             showMessage("Acepta los términos y condiciones para poder completar la incidencia");
         }else {
-            //prepare image file
-            /*File file = new File(imagePath);
-            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            MultipartBody.Part imageFileBody = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
-                    */
-
             File filesDir = getActivity().getApplicationContext().getFilesDir();
             File imageFile = new File(filesDir, "image01" + ".jpg");
 
@@ -377,18 +339,18 @@ public class ReportFragment extends Fragment {
             if(checkButtons.get(i).equals(false)){
                 switch(i){
                     case 0:
-                        buttonEscogeImagen2.setVisibility(View.VISIBLE);
-                        buttonBorrarImagen2.setVisibility(View.VISIBLE);
+                        textViewSubirImagen2.setVisibility(View.VISIBLE);
+                        textViewBorrarImagen2.setVisibility(View.VISIBLE);
                         checkButtons.set(0, true);
                         break;
                     case 1:
-                        buttonEscogeImagen3.setVisibility(View.VISIBLE);
-                        buttonBorrarImagen3.setVisibility(View.VISIBLE);
+                        textViewSubirImagen3.setVisibility(View.VISIBLE);
+                        textViewBorrarImagen3.setVisibility(View.VISIBLE);
                         checkButtons.set(1, true);
                         break;
                     case 2:
-                        buttonEscogeImagen4.setVisibility(View.VISIBLE);
-                        buttonBorrarImagen4.setVisibility(View.VISIBLE);
+                        textViewSubirImagen4.setVisibility(View.VISIBLE);
+                        textViewBorrarImagen4.setVisibility(View.VISIBLE);
                         checkButtons.set(2, true);
                         break;
                 }
@@ -444,14 +406,14 @@ public class ReportFragment extends Fragment {
             case 0:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    imageView.setImageURI(selectedImage);
+                    //imageView.setImageURI(selectedImage);
                 }
 
                 break;
             case 1:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    imageView.setImageURI(selectedImage);
+                    //imageView.setImageURI(selectedImage);
                 }
                 break;
         }
