@@ -4,33 +4,31 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.print.PrintHelper;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.provider.Settings.Secure;
@@ -41,7 +39,6 @@ import com.example.olgacoll.sifu.remote.ApiUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,7 +51,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -64,19 +60,22 @@ public class IncidenceFragment extends Fragment {
     private static final int TAKE_PICTURE = 1;
     private Uri imageUri;
     private APIService apiService;
+    TextView textSwitch;
     TextView textViewSubirImagen, textViewSubirImagen2, textViewSubirImagen3, textViewSubirImagen4, textViewSubirOtraImagen;
     TextView textViewBorrarImagen2, textViewBorrarImagen3, textViewBorrarImagen4;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
     String nombre, apellidos, email, telefono, cliente, comentarios, uuid;
     File image_01, image_02, image_03, image_04;
-    ImageView imageView;
+    ImageView imageView, imageView2, imageView3, imageView4;
+    ImageView imageDelete, imageDelete2, imageDelete3, imageDelete4;
     Bitmap bmap;
     Spinner spinner;
     String dadesSpinner[];
     String provincia;
     List<Boolean> checkButtons;
     int indexButton;
-    CheckBox checkbox;
+    Switch onOffSwitch;
+    boolean isCheckedSwitch;
     Button buttonEnviar;
     View.OnClickListener listener;
     //View.OnTouchListener listenerDrawable;
@@ -87,11 +86,25 @@ public class IncidenceFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_report, container, false);
+        View view = inflater.inflate(R.layout.activity_incidence, container, false);
         initComponents(view);
         initFont();
         onPrepareListener();
         controlSpinner(view);
+        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    isCheckedSwitch = true;
+                    onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
+                    buttonEnviar.setBackgroundResource(R.drawable.shape_orange_buttons);
+                }else{
+                    isCheckedSwitch = false;
+                    onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(229, 229, 229), PorterDuff.Mode.MULTIPLY);
+                    buttonEnviar.setBackgroundResource(R.drawable.shape_grey_buttons);
+                }
+            }
+        });
         initListeners();
         return view;
     }
@@ -108,13 +121,20 @@ public class IncidenceFragment extends Fragment {
         textViewBorrarImagen3 = (TextView) view.findViewById(R.id.textViewBorrarImagen3);
         textViewBorrarImagen4 = (TextView) view.findViewById(R.id.textViewBorrarImagen4);
         textViewSubirOtraImagen = (TextView) view.findViewById(R.id.textViewSubirOtraImagen);
+        textSwitch = (TextView) view.findViewById(R.id.textSwitch);
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
         editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
         editTextEmail = (EditText) view.findViewById(R.id.input_email);
         editTextTelefono = (EditText) view.findViewById(R.id.input_telefono);
         editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
-        checkbox = (CheckBox) view.findViewById(R.id.checkBox);
         imageView = (ImageView) view.findViewById(R.id.imageView);
+        imageView = (ImageView) view.findViewById(R.id.imageView);
+        imageView = (ImageView) view.findViewById(R.id.imageView);
+        imageView = (ImageView) view.findViewById(R.id.imageView);
+        imageDelete = (ImageView) view.findViewById(R.id.imageDelete);
+        imageDelete2 = (ImageView) view.findViewById(R.id.imageDelete2);
+        imageDelete3 = (ImageView) view.findViewById(R.id.imageDelete3);
+        imageDelete4 = (ImageView) view.findViewById(R.id.imageDelete4);
         buttonEnviar = (Button) view.findViewById(R.id.buttonEnviar);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         checkButtons = new ArrayList<>();
@@ -122,6 +142,9 @@ public class IncidenceFragment extends Fragment {
         checkButtons.add(false);
         checkButtons.add(false);
         indexButton = 1; //Con este índice, controlaremos las veces que hayan dado clic en Subir Imagen.
+        isCheckedSwitch = true;
+        onOffSwitch = (Switch) view.findViewById(R.id.switch1);
+        onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
     }
 
     private void initFont(){
@@ -139,7 +162,7 @@ public class IncidenceFragment extends Fragment {
         editTextEmail.setTypeface(face);
         editTextTelefono.setTypeface(face);
         editTextComentarios.setTypeface(face);
-        checkbox.setTypeface(face);
+        textSwitch.setTypeface(face);
         buttonEnviar.setTypeface(face);
     }
 
@@ -177,6 +200,10 @@ public class IncidenceFragment extends Fragment {
                         break;
                     case R.id.textViewSubirImagen:
                         escogerImagen();
+                        imageView.setVisibility(View.VISIBLE);
+                        imageDelete.setVisibility(View.VISIBLE);
+                        textViewSubirImagen.setVisibility(View.GONE);
+                        initSubirImagen();
                         break;
                     case R.id.textViewSubirImagen2:
                         escogerImagen();
@@ -186,6 +213,13 @@ public class IncidenceFragment extends Fragment {
                         break;
                     case R.id.textViewSubirImagen4:
                         escogerImagen();
+                        break;
+                    case R.id.imageDelete:
+                        if(textViewSubirImagen.getVisibility() == View.INVISIBLE){
+                            textViewSubirImagen.setVisibility(View.VISIBLE);
+                            imageView.setVisibility(View.INVISIBLE);
+                            imageDelete.setVisibility(View.INVISIBLE);
+                        }
                         break;
                     case R.id.textViewSubirOtraImagen:
                         initSubirImagen();
@@ -299,7 +333,7 @@ public class IncidenceFragment extends Fragment {
     }
 
     public void sendIncidenceSuccess(){
-        if(!checkbox.isChecked()) {
+        if(!isCheckedSwitch) {
             showMessage("Acepta los términos y condiciones para poder completar la incidencia");
         }else {
             File filesDir = getActivity().getApplicationContext().getFilesDir();
@@ -328,15 +362,21 @@ public class IncidenceFragment extends Fragment {
             RequestBody client = RequestBody.create(MediaType.parse("text/plain"), cliente);
             RequestBody device_id = RequestBody.create(MediaType.parse("text/plain"), uuid);
 
+            if(checkHours()){
+                initUrgentIncidence();
+            }else{
+                initIncidenceSent();
+            }
+
             apiService.sendIncidence(image1, name, last_name, company, description, mail, phone, client, device_id).enqueue(new Callback<Incidencia>() {
                 @Override
                 public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
                     if(response.code() == 200){
-                        if(checkHours()){
+                        /*if(checkHours()){
                             initUrgentIncidence();
                         }else{
                             initIncidenceSent();
-                        }
+                        }*/
                     }
                 }
 
@@ -363,9 +403,7 @@ public class IncidenceFragment extends Fragment {
     private void initSubirImagen() {
         int i = 0;
         boolean flag = false;
-
         while(!flag && i < checkButtons.size()){
-
             if(checkButtons.get(i).equals(false)){
                 switch(i){
                     case 0:
@@ -391,6 +429,12 @@ public class IncidenceFragment extends Fragment {
     }
 
     private void escogerImagen(){
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto , 1);
+
+    }
+
+    /*private void escogerImagen(){
         String title = "Escoger una imagen";
         CharSequence[] itemlist ={"Cámara", "Elegir foto de galería"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -406,10 +450,6 @@ public class IncidenceFragment extends Fragment {
                         startActivityForResult(takePicture, 0);
                         break;
                     case 1:// Choose Existing Photo
-                        //Intent intent2 = new Intent();
-                        //intent2.setType("image/*");
-                        //intent2.setAction(Intent.ACTION_GET_CONTENT);
-                        //startActivityForResult(Intent.createChooser(intent2, "Select Picture"), PICK_IMAGE_REQUEST);
                         Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(pickPhoto , 1);
                         break;
@@ -421,7 +461,7 @@ public class IncidenceFragment extends Fragment {
         AlertDialog alert = builder.create();
         alert.setCancelable(true);
         alert.show();
-    }
+    }*/
 
     private void showMessage(String str){
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
@@ -433,14 +473,14 @@ public class IncidenceFragment extends Fragment {
             case 0:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    //imageView.setImageURI(selectedImage);
+                    imageView.setImageURI(selectedImage);
                 }
 
                 break;
             case 1:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    //imageView.setImageURI(selectedImage);
+                    imageView.setImageURI(selectedImage);
                 }
                 break;
         }

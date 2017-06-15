@@ -1,9 +1,12 @@
 package com.example.olgacoll.sifu;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +34,11 @@ public class ConfigFragment extends Fragment{
         onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //Log.v("Switch State=", ""+isChecked);
+                if(isChecked){
+                    onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
+                }else{
+                    onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(229, 229, 229), PorterDuff.Mode.MULTIPLY);
+                }
             }
         });
         return view;
@@ -40,6 +47,7 @@ public class ConfigFragment extends Fragment{
     private void initComponents(View view) {
         textViewNotifications = (TextView) view.findViewById(R.id.textViewNotifications);
         onOffSwitch = (Switch) view.findViewById(R.id.switch1);
+        onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
     }
 
     private void initFont(){

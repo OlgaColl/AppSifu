@@ -42,6 +42,7 @@ public class HomeFragment extends Fragment {
         textViewMain = (TextView) view.findViewById(R.id.textViewMain);
         textViewMain2 = (TextView) view.findViewById(R.id.textViewMain2);
         imageViewConfig = (ImageView) view.findViewById(R.id.ic_action_config);
+        
         buttonReport = (Button) view.findViewById(R.id.buttonReport);
         buttonRequest = (Button) view.findViewById(R.id.buttonRequest);
     }

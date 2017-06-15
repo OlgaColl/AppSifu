@@ -57,11 +57,11 @@
                 android:layout_width="60dp"
                 android:layout_height="51dp"
                 android:checked="true"
-                android:textColor="@color/colorBlue"
                 android:gravity="center"
                 android:scaleX="1.5"
                 android:scaleY="1.5"
-                android:switchTextAppearance="@style/TextAppearance.AppCompat.Button" />
+                android:switchTextAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textColor="@color/colorBlue" />
         </LinearLayout>
     </LinearLayout>
     </ScrollView>

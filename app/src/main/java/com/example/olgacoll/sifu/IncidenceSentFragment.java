@@ -58,8 +58,9 @@ public class IncidenceSentFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = new Fragment();
                 switch (v.getId()) {
-                    case R.id.buttonRequestSent:
+                    case R.id.buttonIncidenceSent:
                         fragment = new HomeFragment();
+
                         break;
                 }
                 FragmentManager fragmentManager = getFragmentManager();

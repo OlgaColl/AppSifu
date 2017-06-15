@@ -18,6 +18,99 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp"
+                android:gravity="bottom|center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/subirImagen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:lineSpacingExtra="2sp"
+                    android:paddingTop="15sp"
+                    android:text="@string/textSubirImagen"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlue"
+                    android:drawableRight="@drawable/ic_action_add_image"
+                    android:layout_alignParentStart="true" />
+
+                <ImageView
+                    android:id="@+id/imagen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@color/colorWhite"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/subirImagen2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:lineSpacingExtra="2sp"
+                    android:paddingTop="15sp"
+                    android:text="@string/textSubirImagen"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlue"
+                    android:drawableRight="@drawable/ic_action_add_image"
+                    android:layout_alignParentStart="true" />
+
+                <ImageView
+                    android:id="@+id/imagen2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@color/colorWhite"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="25sp"
+                android:paddingRight="25sp">
+
+                <!--TextView
+                    android:id="@+id/subirImagen3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="2sp"
+                    android:text="@string/textSubirImagen"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlue"
+                    android:drawableRight="@drawable/ic_action_add_image"
+                    android:drawablePadding="20dp"
+                    android:visibility="visible"
+                    android:layout_alignParentStart="true"/>
+
+                <ImageView
+                    android:id="@+id/imagen3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@color/colorWhite" />
+
+                <TextView
+                    android:id="@+id/subirImagen4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="2sp"
+                    android:text="@string/textSubirImagen"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlue"
+                    android:drawableRight="@drawable/ic_action_add_image"
+                    android:drawablePadding="20dp"
+                    android:visibility="visible"
+                    android:layout_alignParentStart="true"/>
+
+                <ImageView
+                    android:id="@+id/imagen4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@color/colorWhite" /-->
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/textViewReport"
                 android:layout_width="match_parent"
@@ -140,7 +233,15 @@
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@color/colorWhite" />
+                    app:srcCompat="@color/colorWhite"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/imageDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_action_delete"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/textViewSubirImagen2"
@@ -167,6 +268,20 @@
                     android:visibility="gone"
                     android:layout_alignParentStart="true" />
 
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@color/colorWhite"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/imageDelete2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_action_delete"
+                    android:visibility="gone"/>
+
                 <TextView
                     android:id="@+id/textViewSubirImagen3"
                     android:layout_width="match_parent"
@@ -191,6 +306,20 @@
                     android:textColor="@color/colorRed"
                     android:visibility="gone"
                     android:layout_alignParentStart="true" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@color/colorWhite"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/imageDelete3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_action_delete"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/textViewSubirImagen4"
@@ -217,6 +346,20 @@
                     android:textColor="@color/colorRed"
                     android:visibility="gone"
                     android:layout_alignParentStart="true" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@color/colorWhite"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/imageDelete4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_action_delete"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/textViewSubirOtraImagen"
@@ -254,23 +397,37 @@
                 android:lines="3"
                 android:scrollHorizontally="false"/>
 
-            <!-- Checkbox Label -->
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
-                android:paddingLeft="25sp"
-                android:paddingRight="25sp">
+                android:gravity="center"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/checkBox"
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:checked="true"
+                    android:gravity="center_horizontal"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5"/>
+
+                <TextView
+                    android:id="@+id/textSwitch"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="25dp"
+                    android:lineSpacingExtra="2sp"
+                    android:padding="15dp"
+                    android:layout_gravity="center"
                     android:text="@string/textCheckBox"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorBlue"/>
-            </android.support.design.widget.TextInputLayout>
+                    android:textColor="@color/colorBlue"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

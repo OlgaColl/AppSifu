@@ -42,16 +42,16 @@ public class UrgentIncidenceFragment extends Fragment {
     }
 
     private void initComponents(View view){
-        titleUrgentIncidenceSent = (TextView) view.findViewById(R.id.titleIncidenceSent);
-        infoUrgentIncidenceSent = (TextView) view.findViewById(R.id.textViewIncidenceSent);
-        buttonCallUrgenceIncidence = (Button) view.findViewById(R.id.buttonIncidenceSent);
-        buttonHomeUrgentIncidenceSent = (Button) view.findViewById(R.id.buttonIncidenceSent);
+        titleUrgentIncidenceSent = (TextView) view.findViewById(R.id.titleUrgenceIncidence);
+        infoUrgentIncidenceSent = (TextView) view.findViewById(R.id.infoUrgenceIncidence);
+        buttonCallUrgenceIncidence = (Button) view.findViewById(R.id.buttonCallUrgenceIncidence);
+        buttonHomeUrgentIncidenceSent = (Button) view.findViewById(R.id.buttonHomeUrgenceIncidence);
     }
 
     private void initFont(){
-        Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
         Typeface faceBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Bold.ttf");
         titleUrgentIncidenceSent.setTypeface(faceBold);
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
         infoUrgentIncidenceSent.setTypeface(face);
         buttonCallUrgenceIncidence.setTypeface(face);
         buttonHomeUrgentIncidenceSent.setTypeface(face);

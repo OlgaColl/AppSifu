@@ -1,6 +1,8 @@
 package com.example.olgacoll.sifu;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,8 +18,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +38,12 @@ public class RequestFragment extends Fragment {
     public static final String TAG ="RequestFragment";
     private APIService apiService;
     String nombre, apellidos, email, telefono, provincia, mensaje;
-    TextView textViewInfoRequest;
+    TextView textViewInfoRequest, textSwitch;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
     Spinner spinner;
+    Switch onOffSwitch;
+    boolean isCheckedSwitch;
     String dadesSpinner[];
-    CheckBox checkbox;
     Button buttonSendRequest;
     View.OnClickListener listener;
     AdapterView.OnItemSelectedListener listenerSpinner;
@@ -50,6 +55,20 @@ public class RequestFragment extends Fragment {
         initComponents(view);
         initFont();
         onPrepareListener();
+        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    isCheckedSwitch = true;
+                    onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
+                    buttonSendRequest.setBackgroundResource(R.drawable.shape_orange_buttons);
+                }else{
+                    isCheckedSwitch = false;
+                    onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(229, 229, 229), PorterDuff.Mode.MULTIPLY);
+                    buttonSendRequest.setBackgroundResource(R.drawable.shape_grey_buttons);
+                }
+            }
+        });
         controlSpinner(view);
         buttonSendRequest.setOnClickListener(listener);
         return view;
@@ -58,25 +77,28 @@ public class RequestFragment extends Fragment {
     public void initComponents(View view) {
         apiService = ApiUtils.getAPIService();
         textViewInfoRequest = (TextView) view.findViewById(R.id.textViewInfoRequest);
+        textSwitch = (TextView) view.findViewById(R.id.textSwitch);
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
         editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
         editTextEmail = (EditText) view.findViewById(R.id.input_email);
         editTextTelefono = (EditText) view.findViewById(R.id.input_telefono);
         editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        checkbox = (CheckBox)view.findViewById(R.id.checkBox);
         buttonSendRequest = (Button) view.findViewById(R.id.buttonSendRequest);
+        isCheckedSwitch = true;
+        onOffSwitch = (Switch) view.findViewById(R.id.switch1);
+        onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
     }
 
     private void initFont(){
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
         textViewInfoRequest.setTypeface(face);
+        textSwitch.setTypeface(face);
         editTextNombre.setTypeface(face);
         editTextApellidos.setTypeface(face);
         editTextEmail.setTypeface(face);
         editTextTelefono.setTypeface(face);
         editTextComentarios.setTypeface(face);
-        checkbox.setTypeface(face);
         buttonSendRequest.setTypeface(face);
     }
 
@@ -166,16 +188,14 @@ public class RequestFragment extends Fragment {
     }
 
     public void sendMailSuccess(){
-        if(!checkbox.isChecked()){
+        if(!isCheckedSwitch){
             showMessage("Acepta los términos y condiciones para poder completar la solicitud");
         }else{
+            createMail();
+            initRequestSent();
             apiService.sendMail(nombre, apellidos, email, telefono, provincia, mensaje).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    showMessage("Solicitud enviada");
-                    Log.i(TAG, "post submitted to API.");
-                    if(response.code() == 200) initRequestSent();
-                    createMail();
                 }
 
                 @Override
@@ -202,10 +222,8 @@ public class RequestFragment extends Fragment {
         i.putExtra(Intent.EXTRA_TEXT, "Nombre: " + nombre + "\nApellidos: " + apellidos + "\nEmail: " + email + "\nProvincia: " + provincia + "\nTelefono: " + telefono + "\nComentarios: " + mensaje);
         try {
             startActivity(Intent.createChooser(i, "Enviando mail..."));
-            showMessage("Solicitud enviada");
             cleanFields();
         } catch (android.content.ActivityNotFoundException ex) {
-            showMessage("No hay ninguna aplicación de correo instalada");
         }
     }
 
@@ -216,10 +234,6 @@ public class RequestFragment extends Fragment {
         editTextTelefono.setText("");
         spinner.setSelection(0);
         editTextComentarios.setText("");
-        if(checkbox.isChecked()){
-            checkbox.setChecked(false);
-            checkbox.setSelected(false);
-        }
     }
 
     private void showMessage(String str) {

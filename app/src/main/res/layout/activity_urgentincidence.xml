@@ -46,6 +46,7 @@
                 android:layout_height="fill_parent"
                 android:lineSpacingExtra="2sp"
                 android:layout_margin="25dp"
+                android:gravity="center"
                 android:padding="15dp"
                 android:text="@string/infoUrgenceIncidence"
                 android:textColor="@color/colorWhite"
@@ -54,18 +55,17 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:layout_height="wrap_content"
+                android:gravity="bottom|center"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/buttonCallUrgenceIncidence"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_gravity="center"
+                    android:layout_weight="0.1"
                     android:background="@drawable/shape_orange_buttons"
                     android:text="@string/buttonCallUrgenceIncidence"
                     android:textSize="16sp"
@@ -73,18 +73,14 @@
 
                 <Button
                     android:id="@+id/buttonHomeUrgenceIncidence"
-                    android:layout_width="169dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_toRightOf="@id/buttonCallUrgenceIncidence"
-                    android:background="@drawable/shape_orange_buttons"
+                    android:layout_weight="0.1"
                     android:text="@string/buttonHomeUrgenceIncidence"
+                    android:background="@drawable/shape_orange_buttons"
                     android:textColor="@color/colorWhite"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>
-
     </ScrollView>
 </RelativeLayout>
