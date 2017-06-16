@@ -61,8 +61,7 @@ public class IncidenceFragment extends Fragment {
     private Uri imageUri;
     private APIService apiService;
     TextView textSwitch;
-    TextView textViewSubirImagen, textViewSubirImagen2, textViewSubirImagen3, textViewSubirImagen4, textViewSubirOtraImagen;
-    TextView textViewBorrarImagen2, textViewBorrarImagen3, textViewBorrarImagen4;
+    TextView textViewSubirImagen, textViewSubirImagen2, textViewSubirImagen3, textViewSubirImagen4;
     EditText editTextNombre, editTextApellidos, editTextEmail, editTextTelefono, editTextComentarios;
     String nombre, apellidos, email, telefono, cliente, comentarios, uuid;
     File image_01, image_02, image_03, image_04;
@@ -117,10 +116,6 @@ public class IncidenceFragment extends Fragment {
         textViewSubirImagen2 = (TextView) view.findViewById(R.id.textViewSubirImagen2);
         textViewSubirImagen3 = (TextView) view.findViewById(R.id.textViewSubirImagen3);
         textViewSubirImagen4 = (TextView) view.findViewById(R.id.textViewSubirImagen4);
-        textViewBorrarImagen2 = (TextView) view.findViewById(R.id.textViewBorrarImagen2);
-        textViewBorrarImagen3 = (TextView) view.findViewById(R.id.textViewBorrarImagen3);
-        textViewBorrarImagen4 = (TextView) view.findViewById(R.id.textViewBorrarImagen4);
-        textViewSubirOtraImagen = (TextView) view.findViewById(R.id.textViewSubirOtraImagen);
         textSwitch = (TextView) view.findViewById(R.id.textSwitch);
         editTextNombre = (EditText) view.findViewById(R.id.input_nombre);
         editTextApellidos = (EditText) view.findViewById(R.id.input_apellidos);
@@ -153,10 +148,6 @@ public class IncidenceFragment extends Fragment {
         textViewSubirImagen2.setTypeface(face);
         textViewSubirImagen3.setTypeface(face);
         textViewSubirImagen4.setTypeface(face);
-        textViewSubirOtraImagen.setTypeface(face);
-        textViewBorrarImagen2.setTypeface(face);
-        textViewBorrarImagen3.setTypeface(face);
-        textViewBorrarImagen4.setTypeface(face);
         editTextNombre.setTypeface(face);
         editTextApellidos.setTypeface(face);
         editTextEmail.setTypeface(face);
@@ -174,30 +165,14 @@ public class IncidenceFragment extends Fragment {
                     case R.id.buttonEnviar:
                         initSendReport();
                         break;
-                    case R.id.textViewBorrarImagen2:
+                    /*case R.id.textViewBorrarImagen2:
                         if(textViewSubirImagen2.getVisibility() == View.VISIBLE){
                             textViewSubirImagen2.setVisibility(View.GONE);
                             textViewBorrarImagen2.setVisibility(View.GONE);
                             image_02 = new File("image02");
                             checkButtons.set(0, false);
                         }
-                        break;
-                    case R.id.textViewBorrarImagen3:
-                        if(textViewSubirImagen3.getVisibility() == View.VISIBLE){
-                            textViewSubirImagen3.setVisibility(View.GONE);
-                            textViewBorrarImagen3.setVisibility(View.GONE);
-                            image_03 = new File("image03");
-                            checkButtons.set(1, false);
-                        }
-                        break;
-                    case R.id.textViewBorrarImagen4:
-                        if(textViewSubirImagen4.getVisibility() == View.VISIBLE){
-                            textViewSubirImagen4.setVisibility(View.GONE);
-                            textViewBorrarImagen4.setVisibility(View.GONE);
-                            image_04 = new File("image04");
-                            checkButtons.set(2, false);
-                        }
-                        break;
+                        break;*/
                     case R.id.textViewSubirImagen:
                         escogerImagen();
                         initSubirImagen();
@@ -262,9 +237,6 @@ public class IncidenceFragment extends Fragment {
                             checkButtons.set(3, false);
                         }
                         break;
-                    case R.id.textViewSubirOtraImagen:
-                        initSubirImagen();
-                        break;
                 }
             }
         };
@@ -285,15 +257,11 @@ public class IncidenceFragment extends Fragment {
         imageDelete2.setOnClickListener(listener);
         imageDelete3.setOnClickListener(listener);
         imageDelete4.setOnClickListener(listener);
-        textViewBorrarImagen2.setOnClickListener(listener);
-        textViewBorrarImagen3.setOnClickListener(listener);
-        textViewBorrarImagen4.setOnClickListener(listener);
         buttonEnviar.setOnClickListener(listener);
         textViewSubirImagen.setOnClickListener(listener);
         textViewSubirImagen2.setOnClickListener(listener);
         textViewSubirImagen3.setOnClickListener(listener);
         textViewSubirImagen4.setOnClickListener(listener);
-        textViewSubirOtraImagen.setOnClickListener(listener);
     }
 
     public boolean validate() {
@@ -453,17 +421,14 @@ public class IncidenceFragment extends Fragment {
                 switch(i){
                     case 0:
                         textViewSubirImagen2.setVisibility(View.VISIBLE);
-                        textViewBorrarImagen2.setVisibility(View.VISIBLE);
                         checkButtons.set(0, true);
                         break;
                     case 1:
                         textViewSubirImagen3.setVisibility(View.VISIBLE);
-                        textViewBorrarImagen3.setVisibility(View.VISIBLE);
                         checkButtons.set(1, true);
                         break;
                     case 2:
                         textViewSubirImagen4.setVisibility(View.VISIBLE);
-                        textViewBorrarImagen4.setVisibility(View.VISIBLE);
                         checkButtons.set(2, true);
                         break;
                 }
@@ -530,20 +495,8 @@ public class IncidenceFragment extends Fragment {
         }
     }
 
-    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
-        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
-        image.compress(compressFormat, quality, byteArrayOS);
-        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
-    }
-
-    public static Bitmap decodeBase64(String input){
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
-
     public void onResume(){
         super.onResume();
-        // Set title bar
         ((MainActivity) getActivity()).setActionBarCenterTitle("Reportar incidencia");
         ((MainActivity) getActivity()).getNavigationVisible(true);
         ((MainActivity) getActivity()).getSupportActionBar().show();
