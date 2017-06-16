@@ -182,18 +182,17 @@
 
                     <TextView
                         android:id="@+id/textViewSubirImagen2"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="2sp"
                         android:paddingTop="10sp"
                         android:text="@string/textSubirImagen"
                         android:textSize="16sp"
                         android:textColor="@color/colorBlue"
-                        android:paddingLeft="20dp"
                         android:drawableRight="@drawable/ic_action_add_image"
                         android:drawablePadding="20dp"
-                        android:gravity="center_vertical"
                         android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
                         android:visibility="gone"
                         android:layout_alignParentStart="true" />
 
@@ -208,6 +207,7 @@
                         android:id="@+id/imageDelete2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:background="@drawable/ic_action_delete"
                         android:visibility="gone"/>
                 </LinearLayout>
@@ -220,7 +220,7 @@
 
                     <TextView
                         android:id="@+id/textViewSubirImagen3"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="2sp"
                         android:paddingTop="10sp"
@@ -229,14 +229,15 @@
                         android:textColor="@color/colorBlue"
                         android:drawableRight="@drawable/ic_action_add_image"
                         android:drawablePadding="20dp"
-                        android:gravity="center_vertical"
                         android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:visibility="gone"
                         android:layout_alignParentStart="true" />
 
                     <ImageView
                         android:id="@+id/imageView3"
                         android:layout_width="120dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="120dp"
                         app:srcCompat="@color/colorWhite"
                         android:visibility="gone"/>
 
@@ -250,19 +251,18 @@
 
                     <TextView
                         android:id="@+id/textViewSubirImagen4"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="2sp"
                         android:paddingTop="10sp"
                         android:text="@string/textSubirImagen"
                         android:textSize="16sp"
                         android:textColor="@color/colorBlue"
-                        android:paddingLeft="20dp"
                         android:drawableRight="@drawable/ic_action_add_image"
                         android:drawablePadding="20dp"
-                        android:gravity="center_vertical"
                         android:layout_gravity="center_vertical"
-                        android:visibility="visible"
+                        android:gravity="center_vertical"
+                        android:visibility="gone"
                         android:layout_alignParentStart="true" />
 
                     <ImageView
@@ -276,6 +276,7 @@
                         android:id="@+id/imageDelete4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:background="@drawable/ic_action_delete"
                         android:visibility="gone"/>
                 </LinearLayout>
@@ -285,6 +286,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:paddingTop="10dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:orientation="horizontal">

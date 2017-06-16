@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompatBase;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,7 +82,10 @@ public class IncidenceFragment extends Fragment {
     AdapterView.OnItemSelectedListener listenerSpinner;
     Context applicationContext = MainActivity.getContextOfApplication();
     int i = 0;
-
+    private static final int PHOTO_REQUEST_CODE1 = 1;
+    private static final int PHOTO_REQUEST_CODE2 = 2;
+    private static final int PHOTO_REQUEST_CODE3 = 3;
+    private static final int PHOTO_REQUEST_CODE4 = 4;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -123,9 +127,9 @@ public class IncidenceFragment extends Fragment {
         editTextTelefono = (EditText) view.findViewById(R.id.input_telefono);
         editTextComentarios = (EditText) view.findViewById(R.id.input_comentarios);
         imageView = (ImageView) view.findViewById(R.id.imageView);
-        imageView = (ImageView) view.findViewById(R.id.imageView);
-        imageView = (ImageView) view.findViewById(R.id.imageView);
-        imageView = (ImageView) view.findViewById(R.id.imageView);
+        imageView2 = (ImageView) view.findViewById(R.id.imageView2);
+        imageView3 = (ImageView) view.findViewById(R.id.imageView3);
+        imageView4 = (ImageView) view.findViewById(R.id.imageView4);
         imageDelete = (ImageView) view.findViewById(R.id.imageDelete);
         imageDelete2 = (ImageView) view.findViewById(R.id.imageDelete2);
         imageDelete3 = (ImageView) view.findViewById(R.id.imageDelete3);
@@ -133,6 +137,7 @@ public class IncidenceFragment extends Fragment {
         buttonEnviar = (Button) view.findViewById(R.id.buttonEnviar);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         checkButtons = new ArrayList<>();
+        checkButtons.add(false);
         checkButtons.add(false);
         checkButtons.add(false);
         checkButtons.add(false);
@@ -165,77 +170,44 @@ public class IncidenceFragment extends Fragment {
                     case R.id.buttonEnviar:
                         initSendReport();
                         break;
-                    /*case R.id.textViewBorrarImagen2:
-                        if(textViewSubirImagen2.getVisibility() == View.VISIBLE){
-                            textViewSubirImagen2.setVisibility(View.GONE);
-                            textViewBorrarImagen2.setVisibility(View.GONE);
-                            image_02 = new File("image02");
-                            checkButtons.set(0, false);
-                        }
-                        break;*/
                     case R.id.textViewSubirImagen:
-                        escogerImagen();
-                        initSubirImagen();
-                        imageView.setVisibility(View.VISIBLE);
-                        imageDelete.setVisibility(View.VISIBLE);
-                        textViewSubirImagen.setVisibility(View.GONE);
+                        escogerImagen(1);
                         break;
                     case R.id.textViewSubirImagen2:
-                        escogerImagen();
-                        imageView2.setVisibility(View.VISIBLE);
-                        imageDelete2.setVisibility(View.VISIBLE);
-                        textViewSubirImagen2.setVisibility(View.GONE);
-                        initSubirImagen();
+                        escogerImagen(2);
                         break;
                     case R.id.textViewSubirImagen3:
-                        escogerImagen();
-                        imageView3.setVisibility(View.VISIBLE);
-                        imageDelete3.setVisibility(View.VISIBLE);
-                        textViewSubirImagen3.setVisibility(View.GONE);
-                        initSubirImagen();
+                        escogerImagen(3);
                         break;
                     case R.id.textViewSubirImagen4:
-                        escogerImagen();
-                        imageView4.setVisibility(View.VISIBLE);
-                        imageDelete4.setVisibility(View.VISIBLE);
-                        textViewSubirImagen4.setVisibility(View.GONE);
-                        initSubirImagen();
+                        escogerImagen(4);
                         break;
                     case R.id.imageDelete:
-                        if(textViewSubirImagen.getVisibility() == View.GONE){
-                            textViewSubirImagen.setVisibility(View.VISIBLE);
-                            imageView.setVisibility(View.GONE);
-                            imageDelete.setVisibility(View.GONE);
-                            image_01 = new File("image01");
-                            checkButtons.set(0, false);
-                        }
+                        imageView.setVisibility(View.GONE);
+                        imageDelete.setVisibility(View.GONE);
+                        textViewSubirImagen.setVisibility(View.VISIBLE);
+                        image_01 = new File("image01");
+                        if(imageView.getVisibility() == View.INVISIBLE) textViewSubirImagen2.setVisibility(View.VISIBLE);
                         break;
                     case R.id.imageDelete2:
-                        if(textViewSubirImagen2.getVisibility() == View.GONE){
-                            textViewSubirImagen2.setVisibility(View.VISIBLE);
-                            imageView2.setVisibility(View.GONE);
-                            imageDelete2.setVisibility(View.GONE);
-                            image_02 = new File("image02");
-                            checkButtons.set(1, false);
-                        }
+                        imageView2.setVisibility(View.GONE);
+                        imageDelete2.setVisibility(View.GONE);
+                        textViewSubirImagen2.setVisibility(View.VISIBLE);
+                        image_02 = new File("image02");
+                        if(imageView2.getVisibility() == View.INVISIBLE) textViewSubirImagen3.setVisibility(View.VISIBLE);
                         break;
                     case R.id.imageDelete3:
-                        if(textViewSubirImagen3.getVisibility() == View.GONE){
-                            textViewSubirImagen3.setVisibility(View.VISIBLE);
-                            imageView3.setVisibility(View.GONE);
-                            imageDelete3.setVisibility(View.GONE);
-                            image_03 = new File("image03");
-                            checkButtons.set(2, false);
-                        }
+                        imageView3.setVisibility(View.GONE);
+                        imageDelete3.setVisibility(View.GONE);
+                        textViewSubirImagen3.setVisibility(View.VISIBLE);
+                        image_03 = new File("image03");
+                        if(imageView3.getVisibility() == View.INVISIBLE) textViewSubirImagen4.setVisibility(View.VISIBLE);
                         break;
                     case R.id.imageDelete4:
-                        if(textViewSubirImagen4.getVisibility() == View.GONE){
-                            textViewSubirImagen4.setVisibility(View.VISIBLE);
-                            imageView4.setVisibility(View.GONE);
-                            imageDelete4.setVisibility(View.GONE);
-                            image_04 = new File("image04");
-                            checkButtons.set(3, false);
-                        }
+                        imageView4.setVisibility(View.GONE);
+                        imageDelete4.setVisibility(View.GONE);
+                        textViewSubirImagen4.setVisibility(View.VISIBLE);
+                        image_04 = new File("image04");
                         break;
                 }
             }
@@ -438,39 +410,38 @@ public class IncidenceFragment extends Fragment {
         }
     }
 
-    private void escogerImagen(){
+    private void escogerImagen(int i){
         Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto , 1);
+        switch(i){
+            case 1:
+                startActivityForResult(pickPhoto, PHOTO_REQUEST_CODE1);
+                imageView.setVisibility(View.VISIBLE);
+                imageDelete.setVisibility(View.VISIBLE);
+                textViewSubirImagen.setVisibility(View.GONE);
+                textViewSubirImagen2.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                startActivityForResult(pickPhoto, PHOTO_REQUEST_CODE2);
+                imageView2.setVisibility(View.VISIBLE);
+                imageDelete2.setVisibility(View.VISIBLE);
+                textViewSubirImagen2.setVisibility(View.GONE);
+                textViewSubirImagen3.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                startActivityForResult(pickPhoto, PHOTO_REQUEST_CODE3);
+                imageView3.setVisibility(View.VISIBLE);
+                imageDelete3.setVisibility(View.VISIBLE);
+                textViewSubirImagen3.setVisibility(View.GONE);
+                textViewSubirImagen4.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                startActivityForResult(pickPhoto, PHOTO_REQUEST_CODE4);
+                imageView4.setVisibility(View.VISIBLE);
+                imageDelete4.setVisibility(View.VISIBLE);
+                textViewSubirImagen4.setVisibility(View.GONE);
+                break;
+        }
     }
-
-    /*private void escogerImagen(){
-        String title = "Escoger una imagen";
-        CharSequence[] itemlist ={"Cámara", "Elegir foto de galería"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setIcon(R.drawable.ic_home_black_24dp);
-        builder.setTitle(title);
-        builder.setItems(itemlist, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:// Take Photo
-                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(takePicture, 0);
-                        break;
-                    case 1:// Choose Existing Photo
-                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(pickPhoto , 1);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.setCancelable(true);
-        alert.show();
-    }*/
 
     private void showMessage(String str){
         Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
@@ -479,17 +450,32 @@ public class IncidenceFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         switch(requestCode) {
-            case 0:
-                if(resultCode == RESULT_OK){
+
+            case PHOTO_REQUEST_CODE1:
+                if(resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
                     imageView.setImageURI(selectedImage);
                 }
-
                 break;
-            case 1:
-                if(resultCode == RESULT_OK){
+
+            case PHOTO_REQUEST_CODE2:
+                if(resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
-                    imageView.setImageURI(selectedImage);
+                    imageView2.setImageURI(selectedImage);
+                }
+                break;
+
+            case PHOTO_REQUEST_CODE3:
+                if(resultCode == RESULT_OK) {
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    imageView3.setImageURI(selectedImage);
+                }
+                break;
+
+            case PHOTO_REQUEST_CODE4:
+                if(resultCode == RESULT_OK) {
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    imageView4.setImageURI(selectedImage);
                 }
                 break;
         }
