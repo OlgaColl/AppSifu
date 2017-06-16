@@ -200,25 +200,66 @@ public class IncidenceFragment extends Fragment {
                         break;
                     case R.id.textViewSubirImagen:
                         escogerImagen();
+                        initSubirImagen();
                         imageView.setVisibility(View.VISIBLE);
                         imageDelete.setVisibility(View.VISIBLE);
                         textViewSubirImagen.setVisibility(View.GONE);
-                        initSubirImagen();
                         break;
                     case R.id.textViewSubirImagen2:
                         escogerImagen();
+                        imageView2.setVisibility(View.VISIBLE);
+                        imageDelete2.setVisibility(View.VISIBLE);
+                        textViewSubirImagen2.setVisibility(View.GONE);
+                        initSubirImagen();
                         break;
                     case R.id.textViewSubirImagen3:
                         escogerImagen();
+                        imageView3.setVisibility(View.VISIBLE);
+                        imageDelete3.setVisibility(View.VISIBLE);
+                        textViewSubirImagen3.setVisibility(View.GONE);
+                        initSubirImagen();
                         break;
                     case R.id.textViewSubirImagen4:
                         escogerImagen();
+                        imageView4.setVisibility(View.VISIBLE);
+                        imageDelete4.setVisibility(View.VISIBLE);
+                        textViewSubirImagen4.setVisibility(View.GONE);
+                        initSubirImagen();
                         break;
                     case R.id.imageDelete:
-                        if(textViewSubirImagen.getVisibility() == View.INVISIBLE){
+                        if(textViewSubirImagen.getVisibility() == View.GONE){
                             textViewSubirImagen.setVisibility(View.VISIBLE);
-                            imageView.setVisibility(View.INVISIBLE);
-                            imageDelete.setVisibility(View.INVISIBLE);
+                            imageView.setVisibility(View.GONE);
+                            imageDelete.setVisibility(View.GONE);
+                            image_01 = new File("image01");
+                            checkButtons.set(0, false);
+                        }
+                        break;
+                    case R.id.imageDelete2:
+                        if(textViewSubirImagen2.getVisibility() == View.GONE){
+                            textViewSubirImagen2.setVisibility(View.VISIBLE);
+                            imageView2.setVisibility(View.GONE);
+                            imageDelete2.setVisibility(View.GONE);
+                            image_02 = new File("image02");
+                            checkButtons.set(1, false);
+                        }
+                        break;
+                    case R.id.imageDelete3:
+                        if(textViewSubirImagen3.getVisibility() == View.GONE){
+                            textViewSubirImagen3.setVisibility(View.VISIBLE);
+                            imageView3.setVisibility(View.GONE);
+                            imageDelete3.setVisibility(View.GONE);
+                            image_03 = new File("image03");
+                            checkButtons.set(2, false);
+                        }
+                        break;
+                    case R.id.imageDelete4:
+                        if(textViewSubirImagen4.getVisibility() == View.GONE){
+                            textViewSubirImagen4.setVisibility(View.VISIBLE);
+                            imageView4.setVisibility(View.GONE);
+                            imageDelete4.setVisibility(View.GONE);
+                            image_04 = new File("image04");
+                            checkButtons.set(3, false);
                         }
                         break;
                     case R.id.textViewSubirOtraImagen:
@@ -240,6 +281,10 @@ public class IncidenceFragment extends Fragment {
     }
 
     public void initListeners(){
+        imageDelete.setOnClickListener(listener);
+        imageDelete2.setOnClickListener(listener);
+        imageDelete3.setOnClickListener(listener);
+        imageDelete4.setOnClickListener(listener);
         textViewBorrarImagen2.setOnClickListener(listener);
         textViewBorrarImagen3.setOnClickListener(listener);
         textViewBorrarImagen4.setOnClickListener(listener);
@@ -431,7 +476,6 @@ public class IncidenceFragment extends Fragment {
     private void escogerImagen(){
         Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(pickPhoto , 1);
-
     }
 
     /*private void escogerImagen(){
