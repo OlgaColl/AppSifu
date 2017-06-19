@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ConfigFragment extends Fragment{
 
@@ -36,12 +37,22 @@ public class ConfigFragment extends Fragment{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
+                    checkNotifications(true);
                 }else{
                     onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(229, 229, 229), PorterDuff.Mode.MULTIPLY);
+                    checkNotifications(false);
                 }
             }
         });
         return view;
+    }
+
+    private void checkNotifications(boolean flag) {
+        if(flag){
+            showMessage("Notificaciones activadas.");
+        }else{
+            showMessage("Las notificaciones han sido desactivadas.");
+        }
     }
 
     private void initComponents(View view) {
@@ -53,6 +64,10 @@ public class ConfigFragment extends Fragment{
     private void initFont(){
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
         textViewNotifications.setTypeface(face);
+    }
+
+    private void showMessage(String str){
+        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
     }
 
     public void onResume(){
