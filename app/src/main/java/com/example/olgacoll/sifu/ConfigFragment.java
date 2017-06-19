@@ -1,5 +1,7 @@
 package com.example.olgacoll.sifu;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -21,6 +23,9 @@ public class ConfigFragment extends Fragment{
     public static final String TAG = "ConfigFragment";
     TextView textViewNotifications;
     Switch onOffSwitch;
+    int check;
+    DBConfig dbConfig;
+    SQLiteDatabase sqlConfig;
 
     public ConfigFragment(){
 
@@ -32,26 +37,52 @@ public class ConfigFragment extends Fragment{
         View view = inflater.inflate(R.layout.activity_config, container, false);
         initComponents(view);
         initFont();
+        this.dbConfig = new DBConfig(this.getActivity().getApplicationContext(), "settings", null, 1);
         onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
-                    checkNotifications(true);
+                    check = 1;
+                    checkNotifications(check);
                 }else{
                     onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(229, 229, 229), PorterDuff.Mode.MULTIPLY);
-                    checkNotifications(false);
+                    check = 0;
+                    checkNotifications(check);
                 }
             }
         });
         return view;
     }
 
-    private void checkNotifications(boolean flag) {
-        if(flag){
+    private void checkNotifications(int check) {
+        if(check == 1){
             showMessage("Notificaciones activadas.");
         }else{
             showMessage("Las notificaciones han sido desactivadas.");
+        }
+        saveData();
+    }
+
+    public void saveData(){
+        this.sqlConfig = this.dbConfig.getWritableDatabase();
+        if (this.sqlConfig != null) {
+            this.sqlConfig.execSQL("UPDATE settings SET active = ('" + check + "')");
+        }
+        this.sqlConfig.close();
+        showData();
+    }
+
+    public void showData(){
+        Cursor c;
+        sqlConfig = dbConfig.getReadableDatabase();
+        c = sqlConfig.rawQuery("SELECT * FROM settings", null);
+        if(c.moveToFirst()) {
+            do{
+                int active = c.getInt(0);
+                System.out.println("Active: " + active);
+            }while(c.moveToNext());
+            c.close();
         }
     }
 
