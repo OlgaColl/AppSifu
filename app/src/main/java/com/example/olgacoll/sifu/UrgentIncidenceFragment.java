@@ -77,7 +77,7 @@ public class UrgentIncidenceFragment extends Fragment {
     }
 
     private void callPhone(){
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "680296461"));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "902880014"));
         startActivity(intent);
     }
 

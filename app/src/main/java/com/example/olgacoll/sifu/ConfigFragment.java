@@ -18,6 +18,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 public class ConfigFragment extends Fragment{
 
     public static final String TAG = "ConfigFragment";
@@ -26,6 +28,7 @@ public class ConfigFragment extends Fragment{
     int check;
     DBConfig dbConfig;
     SQLiteDatabase sqlConfig;
+    FirebaseAnalytics firebaseAnalytics;
 
     public ConfigFragment(){
 
@@ -37,31 +40,24 @@ public class ConfigFragment extends Fragment{
         View view = inflater.inflate(R.layout.activity_config, container, false);
         initComponents(view);
         initFont();
-        this.dbConfig = new DBConfig(this.getActivity().getApplicationContext(), "settings", null, 1);
         onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
+                    showMessage("Notificaciones activadas.");
+                    firebaseAnalytics.setAnalyticsCollectionEnabled(true);
                     check = 1;
-                    checkNotifications(check);
                 }else{
                     onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(229, 229, 229), PorterDuff.Mode.MULTIPLY);
+                    showMessage("Las notificaciones han sido desactivadas.");
                     check = 0;
-                    checkNotifications(check);
+                    firebaseAnalytics.setAnalyticsCollectionEnabled(false);
                 }
+                saveData();
             }
         });
         return view;
-    }
-
-    private void checkNotifications(int check) {
-        if(check == 1){
-            showMessage("Notificaciones activadas.");
-        }else{
-            showMessage("Las notificaciones han sido desactivadas.");
-        }
-        saveData();
     }
 
     public void saveData(){
@@ -86,15 +82,50 @@ public class ConfigFragment extends Fragment{
         }
     }
 
+    public void initialSwitch() {
+        Cursor c;
+        sqlConfig = dbConfig.getReadableDatabase();
+        c = sqlConfig.rawQuery("SELECT * FROM settings", null);
+        if (c.moveToFirst()) {
+            check = c.getInt(0);
+            System.out.println("Initial active: " + check);
+            c.close();
+        }
+
+        if (check == 1) {
+            onOffSwitch.setChecked(true);
+            onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
+        } else {
+            onOffSwitch.setChecked(false);
+            onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(229, 229, 229), PorterDuff.Mode.MULTIPLY);
+        }
+    }
+
     private void initComponents(View view) {
         textViewNotifications = (TextView) view.findViewById(R.id.textViewNotifications);
         onOffSwitch = (Switch) view.findViewById(R.id.switch1);
+        this.dbConfig = new DBConfig(this.getActivity().getApplicationContext(), "settings", null, 1);
         onOffSwitch.getThumbDrawable().setColorFilter(Color.rgb(241, 139, 35), PorterDuff.Mode.MULTIPLY);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity().getApplicationContext());
+
+        initialSwitch();
     }
 
     private void initFont(){
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
         textViewNotifications.setTypeface(face);
+    }
+
+    //Check true/false
+    public boolean checkConfig() {
+        boolean flag;
+        if(check == 1){
+            flag = true;
+        }else{
+            flag = false;
+        }
+        System.out.println("Flag: " + flag);
+        return flag;
     }
 
     private void showMessage(String str){

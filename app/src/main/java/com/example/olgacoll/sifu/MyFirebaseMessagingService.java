@@ -11,8 +11,17 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService{
 
+    public MyFirebaseMessagingService(){
+
+    }
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.e("FIREBASE", remoteMessage.getNotification().getBody());
+            Log.e("FIREBASE", remoteMessage.getNotification().getBody());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

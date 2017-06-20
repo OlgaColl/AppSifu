@@ -187,21 +187,21 @@ public class IncidenceFragment extends Fragment {
                         imageDelete.setVisibility(View.GONE);
                         textViewSubirImagen.setVisibility(View.VISIBLE);
                         image_01 = new File("image01");
-                        if(imageView.getVisibility() == View.INVISIBLE) textViewSubirImagen2.setVisibility(View.VISIBLE);
+                        if(imageView2.getVisibility() == View.GONE) textViewSubirImagen2.setVisibility(View.VISIBLE);
                         break;
                     case R.id.imageDelete2:
                         imageView2.setVisibility(View.GONE);
                         imageDelete2.setVisibility(View.GONE);
                         textViewSubirImagen2.setVisibility(View.VISIBLE);
                         image_02 = new File("image02");
-                        if(imageView2.getVisibility() == View.INVISIBLE) textViewSubirImagen3.setVisibility(View.VISIBLE);
+                        if(imageView3.getVisibility() == View.GONE) textViewSubirImagen3.setVisibility(View.VISIBLE);
                         break;
                     case R.id.imageDelete3:
                         imageView3.setVisibility(View.GONE);
                         imageDelete3.setVisibility(View.GONE);
                         textViewSubirImagen3.setVisibility(View.VISIBLE);
                         image_03 = new File("image03");
-                        if(imageView3.getVisibility() == View.INVISIBLE) textViewSubirImagen4.setVisibility(View.VISIBLE);
+                        if(imageView4.getVisibility() == View.GONE) textViewSubirImagen4.setVisibility(View.VISIBLE);
                         break;
                     case R.id.imageDelete4:
                         imageView4.setVisibility(View.GONE);
@@ -347,21 +347,18 @@ public class IncidenceFragment extends Fragment {
             RequestBody client = RequestBody.create(MediaType.parse("text/plain"), cliente);
             RequestBody device_id = RequestBody.create(MediaType.parse("text/plain"), uuid);
 
-            if(checkHours()){
+            initUrgentIncidence();
+            /*if(checkHours()){
                 initUrgentIncidence();
             }else{
                 initIncidenceSent();
-            }
+            }*/
 
             apiService.sendIncidence(image1, name, last_name, company, description, mail, phone, client, device_id).enqueue(new Callback<Incidencia>() {
                 @Override
                 public void onResponse(Call<Incidencia> call, Response<Incidencia> response) {
                     if(response.code() == 200){
-                        /*if(checkHours()){
-                            initUrgentIncidence();
-                        }else{
-                            initIncidenceSent();
-                        }*/
+
                     }
                 }
 
@@ -418,21 +415,21 @@ public class IncidenceFragment extends Fragment {
                 imageView.setVisibility(View.VISIBLE);
                 imageDelete.setVisibility(View.VISIBLE);
                 textViewSubirImagen.setVisibility(View.GONE);
-                textViewSubirImagen2.setVisibility(View.VISIBLE);
+                if(imageView2.getVisibility() == View.GONE) textViewSubirImagen2.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 startActivityForResult(pickPhoto, PHOTO_REQUEST_CODE2);
                 imageView2.setVisibility(View.VISIBLE);
                 imageDelete2.setVisibility(View.VISIBLE);
                 textViewSubirImagen2.setVisibility(View.GONE);
-                textViewSubirImagen3.setVisibility(View.VISIBLE);
+                if(imageView3.getVisibility() == View.GONE) textViewSubirImagen3.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 startActivityForResult(pickPhoto, PHOTO_REQUEST_CODE3);
                 imageView3.setVisibility(View.VISIBLE);
                 imageDelete3.setVisibility(View.VISIBLE);
                 textViewSubirImagen3.setVisibility(View.GONE);
-                textViewSubirImagen4.setVisibility(View.VISIBLE);
+                if(imageView4.getVisibility() == View.GONE) textViewSubirImagen4.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 startActivityForResult(pickPhoto, PHOTO_REQUEST_CODE4);

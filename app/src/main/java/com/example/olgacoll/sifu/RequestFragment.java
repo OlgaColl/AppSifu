@@ -191,11 +191,11 @@ public class RequestFragment extends Fragment {
         if(!isCheckedSwitch){
             showMessage("Acepta los términos y condiciones para poder completar la solicitud");
         }else{
-            createMail();
             initRequestSent();
             apiService.sendMail(nombre, apellidos, email, telefono, provincia, mensaje).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
+                    System.out.println(response.code());
                 }
 
                 @Override
@@ -211,20 +211,6 @@ public class RequestFragment extends Fragment {
         Fragment fragment = new RequestSentFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
-    }
-
-    public void createMail(){
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL, new String[]{"ocoll@deideasmarketing.com"});
-        i.putExtra(Intent.EXTRA_SUBJECT, nombre + "" + apellidos);
-        i.putExtra(Intent.EXTRA_TEXT, mensaje);
-        i.putExtra(Intent.EXTRA_TEXT, "Nombre: " + nombre + "\nApellidos: " + apellidos + "\nEmail: " + email + "\nProvincia: " + provincia + "\nTelefono: " + telefono + "\nComentarios: " + mensaje);
-        try {
-            startActivity(Intent.createChooser(i, "Enviando mail..."));
-            cleanFields();
-        } catch (android.content.ActivityNotFoundException ex) {
-        }
     }
 
     public void cleanFields(){

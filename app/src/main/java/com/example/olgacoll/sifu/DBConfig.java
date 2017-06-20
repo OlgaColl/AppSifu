@@ -12,6 +12,7 @@ public class DBConfig extends SQLiteOpenHelper {
 
     String createSQL = "CREATE TABLE settings (active BOOL)";
     String insertSQL = "INSERT INTO settings (active) VALUES (1)";
+
     public DBConfig(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }

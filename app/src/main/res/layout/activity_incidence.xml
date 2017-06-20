@@ -167,9 +167,10 @@
 
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         app:srcCompat="@color/colorWhite"
+                        android:scaleType="centerCrop"
                         android:visibility="gone"/>
 
                     <ImageView
@@ -198,9 +199,10 @@
 
                     <ImageView
                         android:id="@+id/imageView2"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         app:srcCompat="@color/colorWhite"
+                        android:scaleType="centerCrop"
                         android:visibility="gone"/>
 
                     <ImageView
@@ -216,7 +218,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="10sp">
 
                     <TextView
                         android:id="@+id/textViewSubirImagen3"
@@ -236,9 +239,10 @@
 
                     <ImageView
                         android:id="@+id/imageView3"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         app:srcCompat="@color/colorWhite"
+                        android:scaleType="centerCrop"
                         android:visibility="gone"/>
 
                     <ImageView
@@ -267,9 +271,10 @@
 
                     <ImageView
                         android:id="@+id/imageView4"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         app:srcCompat="@color/colorWhite"
+                        android:scaleType="centerCrop"
                         android:visibility="gone"/>
 
                     <ImageView
